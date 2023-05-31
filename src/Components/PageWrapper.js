@@ -7,7 +7,7 @@ function PageWrapper({title, children}) {
     window.scrollTo(0, 0);
   }, [title]);
 
-  return <Container>{children}</Container>;
+  return <Container fluid>{children}</Container>;
 }
 
 export default PageWrapper;

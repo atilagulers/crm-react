@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bs-dark) !important;
+  color: var(--bs-light) !important;
 }
 
 code {
@@ -14,4 +16,8 @@ code {
 
 body > #root > div {
   height: 100vh;
+}
+
+.btn-primary {
+  color: var(--bs-light) !important;
 }

@@ -1,0 +1,12 @@
+.sidebar-item {
+  padding: 16px 0px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.sidebar-item:hover {
+  background-color: red !important;
+}
