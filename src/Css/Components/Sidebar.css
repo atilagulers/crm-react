@@ -1,12 +1,38 @@
+.sidebar {
+  transition: width 0.2s ease-out;
+}
+
 .sidebar-item {
   padding: 16px 0px;
   display: flex;
-  gap: 12px;
+  gap: 8px;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid black;
+  cursor: pointer;
+}
+
+.sidebar-collapsed {
+  padding: 0;
+}
+
+.sidebar-collapsed span {
+  display: none;
 }
 
 .sidebar-item:hover {
-  background-color: red !important;
+  background-color: var(--bs-primary) !important;
+}
+
+@media (max-width: 576px) {
+  .sidebar-item span {
+    display: none;
+  }
+}
+
+/* Ekran boyutu xs olmadığında ikon gizlenir */
+@media (min-width: 577px) {
+  .sidebar-item .icon {
+    display: none;
+  }
 }
