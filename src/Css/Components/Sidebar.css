@@ -1,15 +1,28 @@
 .sidebar {
-  transition: width 0.2s ease-out;
+  padding: 0px !important;
+
+  transition: width 0.2s ease-out !important;
 }
 
 .sidebar-item {
-  padding: 16px 0px;
+  position: relative;
+  padding: 16px 0px 16px 0px;
+  margin: 0 0 0 0;
   display: flex;
-  gap: 8px;
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid black;
   cursor: pointer;
+}
+
+.sidebar-item-icon {
+  padding-left: 8px;
+  flex: 30%;
+}
+
+.sidebar-item span {
+  text-align: start !important;
+  flex: 70%;
 }
 
 .sidebar-collapsed {
@@ -24,15 +37,55 @@
   background-color: var(--bs-primary) !important;
 }
 
-@media (max-width: 576px) {
+.sidebar .sub-menu {
+  display: none;
+  position: absolute;
+  padding: 0;
+  margin-top: 0;
+  top: 0;
+  left: 105%;
+
+  list-style: none;
+}
+
+/*.sidebar .sub-menu::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: -12px;
+  transform: translateY(-50%);
+
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  border-right: 12px solid var(--bs-light-dark);
+}*/
+
+.sidebar .sub-menu li:hover {
+  background-color: var(--bs-primary);
+}
+
+.sidebar .sub-menu li {
+  padding: 12px 24px;
+  white-space: nowrap;
+  border-bottom: 1px solid black;
+}
+
+.hidden {
+  display: none;
+}
+
+.active {
+  display: block !important;
+}
+
+/*@media (max-width: 576px) {
   .sidebar-item span {
     display: none;
   }
-}
-
-/* Ekran boyutu xs olmadığında ikon gizlenir */
+}*/
+/*
 @media (min-width: 577px) {
   .sidebar-item .icon {
     display: none;
   }
-}
+}*/
