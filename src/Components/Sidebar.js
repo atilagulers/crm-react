@@ -55,6 +55,7 @@ function Sidebar(props) {
           size="xl"
           className="sidebar-item-icon"
         />
+        <span className={`text-center`}>Menu</span>
       </div>
 
       <SidebarItem
@@ -77,7 +78,7 @@ function Sidebar(props) {
           {label: 'Kullanıcılar', path: '/management/users'},
           {label: 'Oteller', path: '/management/hotels'},
           {label: 'Oyunlar', path: '/management/games'},
-          {label: 'Hava Yolları', path: '/management/airlanes'},
+          {label: 'Hava Yolları', path: '/management/airlines'},
         ]}
       />
 

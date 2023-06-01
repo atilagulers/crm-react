@@ -11,7 +11,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid black;
+  /*border-bottom: 1px solid black;*/
+  border-width: 1px solid black;
   cursor: pointer;
 }
 
@@ -43,9 +44,10 @@
   padding: 0;
   margin-top: 0;
   top: 0;
-  left: 105%;
-
+  left: 100%;
   list-style: none;
+  border: 1px solid black;
+  /*border-radius: 6px;*/
 }
 
 /*.sidebar .sub-menu::before {
@@ -67,7 +69,7 @@
 .sidebar .sub-menu li {
   padding: 12px 24px;
   white-space: nowrap;
-  border-bottom: 1px solid black;
+  /*border-bottom: 1px solid black;*/
 }
 
 .hidden {
