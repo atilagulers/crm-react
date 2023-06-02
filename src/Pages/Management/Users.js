@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
 import {Form, Button, Container, Row, Col, Table} from 'react-bootstrap';
+import '../../Css/Pages/Management/Users/Users.css';
 
 function Users() {
   return (
     <PageWrapper title={'Users | Management'}>
       <Container
-        className="rounded-2 p-0 bg-light-dark "
-        style={{margin: '2% auto', width: '90%'}}
+        className=" p-0 bg-light-dark mb-5"
+        style={{margin: '0% auto'}}
       >
-        <Container className="rounded-top-2 p-3 bg-primary p-0 m-0">
+        <Container className="p-3 bg-primary">
           <h3>Kullanıcı ekle</h3>
         </Container>
         <Form className="p-5">
@@ -19,7 +20,7 @@ function Users() {
                 className="mb-3 ms"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Ad:</Form.Label>
+                <Form.Label>Adı:</Form.Label>
                 <Form.Control type="text" placeholder="Atila" />
               </Form.Group>
             </Col>
@@ -28,7 +29,7 @@ function Users() {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Soyad:</Form.Label>
+                <Form.Label>Soyadı:</Form.Label>
                 <Form.Control type="text" placeholder="Güler" />
               </Form.Group>
             </Col>
@@ -39,8 +40,8 @@ function Users() {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Kullanıcı Ad:</Form.Label>
-                <Form.Control type="text" placeholder="atila@example.com" />
+                <Form.Label>Kullanıcı Adı:</Form.Label>
+                <Form.Control type="text" placeholder="atilaguler" />
               </Form.Group>
             </Col>
             <Col>
@@ -60,11 +61,16 @@ function Users() {
           </Container>
         </Form>
       </Container>
-      <Container>
-        {' '}
-        <Table striped bordered hover variant="dark">
+      <Container className="p-0">
+        <Table
+          className="table table-striped table-dark table-hover"
+          striped
+          bordered
+          hover
+          variant="dark"
+        >
           <thead>
-            <tr>
+            <tr className="table-dark">
               <th>#</th>
               <th>First Name</th>
               <th>Last Name</th>
@@ -85,9 +91,16 @@ function Users() {
               <td>@fat</td>
             </tr>
             <tr>
-              <td>3</td>
-              <td colSpan={2}>Larry the Bird</td>
-              <td>@twitter</td>
+              <td>2</td>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
             </tr>
           </tbody>
         </Table>
