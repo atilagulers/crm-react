@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
-import PageWrapper from '../../Components/PageWrapper';
-import {Form, Button, Container, Row, Col, Table} from 'react-bootstrap';
-import '../../Css/Pages/Management/Users/Users.css';
+import PageWrapper from '../../../Components/PageWrapper';
+import {Form, Button, Container, Row, Col, Table, Nav} from 'react-bootstrap';
+import {Routes, Route} from 'react-router-dom';
 
-function Users() {
+function Hotels() {
   return (
-    <PageWrapper title={'Users | Management'}>
+    <PageWrapper title={'Hotels | Management'}>
       <Container
         className=" p-0 bg-light-dark mb-5"
         style={{margin: '0% auto'}}
       >
         <Container className="p-3 bg-primary">
-          <h3>Kullanıcı ekle</h3>
+          <h3>Otel ekle</h3>
         </Container>
         <Form className="p-5">
           <Row className="d-flex justify-content-between">
@@ -20,8 +20,8 @@ function Users() {
                 className="mb-3 ms"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Adı:</Form.Label>
-                <Form.Control type="text" placeholder="Atila" />
+                <Form.Label>Otel Adı:</Form.Label>
+                <Form.Control type="text" placeholder="Cratos" />
               </Form.Group>
             </Col>
             <Col>
@@ -29,8 +29,8 @@ function Users() {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Soyadı:</Form.Label>
-                <Form.Control type="text" placeholder="Güler" />
+                <Form.Label>Yetkili Kişi:</Form.Label>
+                <Form.Control type="text" placeholder="Atila Güler" />
               </Form.Group>
             </Col>
           </Row>
@@ -40,8 +40,8 @@ function Users() {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Kullanıcı Adı:</Form.Label>
-                <Form.Control type="text" placeholder="atilaguler" />
+                <Form.Label>Telefon:</Form.Label>
+                <Form.Control type="text" placeholder="532xxxxxxx" />
               </Form.Group>
             </Col>
             <Col>
@@ -49,8 +49,8 @@ function Users() {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Kullanıcı Şifre:</Form.Label>
-                <Form.Control type="password" placeholder="Şifre" />
+                <Form.Label>Email:</Form.Label>
+                <Form.Control type="password" placeholder="atila@example.com" />
               </Form.Group>
             </Col>
           </Row>
@@ -109,4 +109,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Hotels;

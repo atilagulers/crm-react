@@ -13,12 +13,7 @@ import CallLists from './Pages/CallLists';
 import Reservations from './Pages/Reservations';
 import Credits from './Pages/Credits';
 import LogIn from './Pages/LogIn';
-
-//Management Pages
-import Users from './Pages/Management/Users';
-import Hotels from './Pages/Management/Hotels';
-import Games from './Pages/Management/Games';
-import Airlines from './Pages/Management/Airlines';
+import Management from './Pages/Management/Management';
 
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -49,11 +44,8 @@ function App() {
           <Col>
             <Routes>
               <Route path="/" element={<Home />} />
-              {/*Management Routes*/}
-              <Route path="/management/users" element={<Users />} />
-              <Route path="/management/hotels" element={<Hotels />} />
-              <Route path="/management/games" element={<Games />} />
-              <Route path="/management/airlines" element={<Airlines />} />
+
+              <Route path="/management/*" element={<Management />} />
 
               <Route path="/customers" element={<Customers />} />
               <Route path="/call-lists" element={<CallLists />} />
