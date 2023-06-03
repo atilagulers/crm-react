@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom';
 function HotelTable({hotels}) {
   const navigate = useNavigate();
 
-  const handleClickHotel = (hotelId) => {
+  const handleClickRow = (hotelId) => {
     navigate(`${hotelId}`);
   };
 
@@ -29,7 +29,7 @@ function HotelTable({hotels}) {
         {hotels &&
           hotels.map((hotel, i) => {
             return (
-              <tr onClick={() => handleClickHotel(hotel.id)} key={i}>
+              <tr onClick={() => handleClickRow(hotel.id)} key={i}>
                 <td>{hotel.name}</td>
                 <td>{hotel.contact}</td>
                 <td>{hotel.phone}</td>

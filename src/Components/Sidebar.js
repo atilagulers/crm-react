@@ -78,7 +78,7 @@ function Sidebar(props) {
           {label: 'Kullanıcılar', path: '/management/users'},
           {label: 'Oteller', path: '/management/hotels'},
           {label: 'Oyunlar', path: '/management/games'},
-          {label: 'Hava Yolları', path: '/management/airlines'},
+          {label: 'Havayolları', path: '/management/airlines'},
         ]}
       />
 

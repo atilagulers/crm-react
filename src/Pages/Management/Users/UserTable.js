@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom';
 function UserTable({users}) {
   const navigate = useNavigate();
 
-  const handleClickUser = (userId) => {
+  const handleClickRow = (userId) => {
     navigate(`${userId}`);
   };
 
@@ -28,7 +28,7 @@ function UserTable({users}) {
         {users &&
           users.map((user, i) => {
             return (
-              <tr onClick={() => handleClickUser(user.id)} key={i}>
+              <tr onClick={() => handleClickRow(user.id)} key={i}>
                 <td>{user.name}</td>
                 <td>{user.lastName}</td>
                 <td>{user.username}</td>

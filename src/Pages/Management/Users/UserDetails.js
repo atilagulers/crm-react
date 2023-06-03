@@ -1,9 +1,11 @@
 import React, {useEffect} from 'react';
 import PageWrapper from '../../../Components/PageWrapper';
+import UserForm from './UserForm';
+
 function UserDetails() {
   return (
     <PageWrapper title="User Details | Management">
-      <h1>User Details</h1>
+      <UserForm title={'Yeni Kullanıcı'} />
     </PageWrapper>
   );
 }
