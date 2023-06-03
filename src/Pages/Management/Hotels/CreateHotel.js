@@ -1,9 +1,18 @@
 import React, {useEffect} from 'react';
 import {Form, Button, Container, Row, Col} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
-function HotelsCreate() {
+function CreateHotel() {
+  const navigate = useNavigate();
   return (
     <Container className=" p-0 bg-light-dark mb-5" style={{margin: '0% auto'}}>
+      <Button
+        onClick={() => navigate(-1)}
+        variant="link"
+        className="text-light"
+      >
+        {'\u003C'} Geri
+      </Button>
       <Container className="p-3 bg-primary">
         <h3>Otel ekle</h3>
       </Container>
@@ -49,4 +58,4 @@ function HotelsCreate() {
   );
 }
 
-export default HotelsCreate;
+export default CreateHotel;

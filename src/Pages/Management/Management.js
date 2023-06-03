@@ -4,12 +4,13 @@ import Users from './Users/Users';
 import Hotels from './Hotels/Hotels';
 import Games from './Games';
 import Airlines from './Airlines';
+import CreateUser from './Users/CreateUser';
 
 function Management() {
   return (
     <Routes>
-      <Route path="/users" element={<Users />} />
-      <Route path="/hotels" element={<Hotels />} />
+      <Route path="/users/*" element={<Users />} />
+      <Route path="/hotels/*" element={<Hotels />} />
       <Route path="/games" element={<Games />} />
       <Route path="/airlines" element={<Airlines />} />
     </Routes>

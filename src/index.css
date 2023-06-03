@@ -39,3 +39,19 @@ body > #root > div {
 .btn-primary {
   color: var(--bs-light) !important;
 }
+
+.table > tbody > tr:nth-child(even) > td,
+.table > tbody > tr:nth-child(even) > th {
+  background-color: var(--bs-dark) !important;
+  color: var(--bs-light);
+}
+
+.table > tbody > tr:nth-child(odd) > td,
+.table > tbody > tr:nth-child(odd) > th {
+  background-color: var(--bs-light-dark) !important;
+  color: var(--bs-light);
+}
+
+.table tbody tr {
+  cursor: pointer;
+}
