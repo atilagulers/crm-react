@@ -5,8 +5,8 @@ import {useNavigate} from 'react-router-dom';
 function AirlineTable({airlines}) {
   const navigate = useNavigate();
 
-  const handleClickRow = (gameId) => {
-    navigate(`${gameId}`);
+  const handleClickRow = (airlineId) => {
+    navigate(`${airlineId}`);
   };
 
   return (

@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
-import {Form, Button, Container, Row, Col} from 'react-bootstrap';
+import {Container, Button, Form, Row, Col} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 
-function AirlineForm() {
+function CreateCustomerGroup({title}) {
   const navigate = useNavigate();
+
   return (
-    <Container className=" p-0 bg-light-dark mb-5" style={{margin: '0% auto'}}>
+    <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
       <Button
         onClick={() => navigate(-1)}
         variant="link"
@@ -14,7 +15,7 @@ function AirlineForm() {
         {'\u003C'} Geri
       </Button>
       <Container className="p-3 bg-primary">
-        <h3>Yeni Havayolu</h3>
+        <h3>{title}</h3>
       </Container>
       <Form className="p-5">
         <Row className="d-flex justify-content-between">
@@ -23,8 +24,14 @@ function AirlineForm() {
               className="mb-3 ms"
               controlId="exampleForm.ControlInput1"
             >
-              <Form.Label>Havayolu Adı:</Form.Label>
-              <Form.Control type="text" placeholder="Turkish Airlines" />
+              <Form.Label>Müşteri Grubu Adı:</Form.Label>
+              <Form.Control type="text" placeholder="Yetişkin" />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>Açıklama:</Form.Label>
+              <Form.Control type="text" placeholder="Bu grup 18 yaş üstü" />
             </Form.Group>
           </Col>
         </Row>
@@ -39,4 +46,4 @@ function AirlineForm() {
   );
 }
 
-export default AirlineForm;
+export default CreateCustomerGroup;

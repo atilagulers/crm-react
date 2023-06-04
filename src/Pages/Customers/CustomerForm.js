@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
-import {Form, Button, Container, Row, Col} from 'react-bootstrap';
+import {Container, Form, Row, Col, Button} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 
-function HotelForm() {
+function CustomerForm({title, user}) {
   const navigate = useNavigate();
+
   return (
-    <Container className=" p-0 bg-light-dark mb-5" style={{margin: '0% auto'}}>
+    <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
       <Button
         onClick={() => navigate(-1)}
         variant="link"
@@ -14,7 +14,7 @@ function HotelForm() {
         {'\u003C'} Geri
       </Button>
       <Container className="p-3 bg-primary">
-        <h3>Yeni Otel</h3>
+        <h3>{title}</h3>
       </Container>
       <Form className="p-5">
         <Row className="d-flex justify-content-between">
@@ -23,14 +23,14 @@ function HotelForm() {
               className="mb-3 ms"
               controlId="exampleForm.ControlInput1"
             >
-              <Form.Label>Otel Adı:</Form.Label>
-              <Form.Control type="text" placeholder="Cratos" />
+              <Form.Label>Adı:</Form.Label>
+              <Form.Control type="text" placeholder="Atila" />
             </Form.Group>
           </Col>
           <Col>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Yetkili Kişi:</Form.Label>
-              <Form.Control type="text" placeholder="Atila Güler" />
+              <Form.Label>Soyadı:</Form.Label>
+              <Form.Control type="text" placeholder="Güler" />
             </Form.Group>
           </Col>
         </Row>
@@ -58,4 +58,4 @@ function HotelForm() {
   );
 }
 
-export default HotelForm;
+export default CustomerForm;

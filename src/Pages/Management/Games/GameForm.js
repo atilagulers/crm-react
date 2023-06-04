@@ -29,7 +29,7 @@ function GameForm() {
           </Col>
         </Row>
 
-        <Container className="d-flex justify-content-end">
+        <Container className="d-flex justify-content-end px-0">
           <Button type="submit" size="lg">
             Kaydet
           </Button>

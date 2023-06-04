@@ -10,7 +10,7 @@ function Airlines() {
       <Routes>
         <Route path="/" element={<ListAirlines />} />
         <Route path="/create" element={<CreateAirline />} />
-        {/*<Route path="/:id" element={<GameDetails />} />*/}
+        {/*<Route path="/:id" element={<AirlineDetails />} />*/}
       </Routes>
     </PageWrapper>
   );

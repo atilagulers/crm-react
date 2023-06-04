@@ -5,7 +5,7 @@ import UserForm from './UserForm';
 function UserDetails() {
   return (
     <PageWrapper title="User Details | Management">
-      <UserForm title={'Yeni Kullanıcı'} />
+      <UserForm />
     </PageWrapper>
   );
 }
