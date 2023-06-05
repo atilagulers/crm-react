@@ -32,7 +32,7 @@ function Sidebar(props) {
   };
   const handleClickCallLists = (e) => {
     e.preventDefault();
-    navigate('/call-lists');
+    navigate('/call-lists/planned-for-today');
   };
   const handleClickReservations = (e) => {
     e.preventDefault();
