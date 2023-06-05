@@ -3,16 +3,16 @@ import {Form, Button, Container, Row, Col} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 
 function HotelForm() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   return (
     <Container className=" p-0 bg-light-dark mb-5" style={{margin: '0% auto'}}>
-      <Button
+      {/*<Button
         onClick={() => navigate(-1)}
         variant="link"
         className="text-light"
       >
         {'\u003C'} Geri
-      </Button>
+      </Button>*/}
       <Container className="p-3 bg-primary">
         <h3>Yeni Otel</h3>
       </Container>

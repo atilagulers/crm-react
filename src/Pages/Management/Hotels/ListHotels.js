@@ -36,15 +36,8 @@ function ListHotels() {
     },
   ];
 
-  const handleClickCreate = () => {
-    navigate('create');
-  };
   return (
     <Container className="p-0">
-      <Container className="p-3 px-0">
-        <Button onClick={handleClickCreate}>Otel Oluştur</Button>
-      </Container>
-
       <HotelTable hotels={hotels} />
     </Container>
   );

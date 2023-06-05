@@ -11,13 +11,13 @@ function CustomerGroupTable({customerGroups}) {
 
   return (
     <div>
-      <Button
+      {/*<Button
         onClick={() => navigate(-1)}
         variant="link"
         className="text-light"
       >
         {'\u003C'} Geri
-      </Button>
+      </Button>*/}
       <Table
         className="table customer-table table-striped table-dark table-hover"
         striped

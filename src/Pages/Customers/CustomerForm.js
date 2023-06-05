@@ -1,18 +1,18 @@
 import {Container, Form, Row, Col, Button} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+//import {useNavigate} from 'react-router-dom';
 
 function CustomerForm({title, user}) {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   return (
     <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
-      <Button
+      {/*<Button
         onClick={() => navigate(-1)}
         variant="link"
         className="text-light"
       >
         {'\u003C'} Geri
-      </Button>
+      </Button>*/}
       <Container className="p-3 bg-primary">
         <h3>{title}</h3>
       </Container>
