@@ -10,7 +10,7 @@ import Sidebar from './Components/Sidebar';
 
 import Home from './Pages/Home';
 import Customers from './Pages/Customers/Customers';
-import CallLists from './Pages/CallLists';
+import CallLists from './Pages/CallLists/CallLists';
 import Reservations from './Pages/Reservations';
 import Credits from './Pages/Credits';
 import LogIn from './Pages/LogIn';
@@ -50,7 +50,7 @@ function App() {
                 <Route path="/management/*" element={<Management />} />
 
                 <Route path="/customers/*" element={<Customers />} />
-                <Route path="/call-lists" element={<CallLists />} />
+                <Route path="/call-lists/*" element={<CallLists />} />
                 <Route path="/reservations" element={<Reservations />} />
                 <Route path="/credits" element={<Credits />} />
                 <Route path="/login" element={<LogIn />} />

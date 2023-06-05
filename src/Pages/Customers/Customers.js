@@ -7,7 +7,7 @@ import ListCustomerGroups from './ListCustomerGroups';
 import CreateCustomer from './CreateCustomer';
 import CreateCustomerGroup from './CreateCustomerGroup';
 
-function Airlines() {
+function Customers() {
   const navigate = useNavigate();
 
   const handleClickCreateCustomer = () => {
@@ -54,4 +54,4 @@ function Airlines() {
   );
 }
 
-export default Airlines;
+export default Customers;
