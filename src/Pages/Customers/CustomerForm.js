@@ -5,7 +5,7 @@ function CustomerForm({title, user}) {
   //const navigate = useNavigate();
 
   return (
-    <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
+    <Container className="p-0 bg-light-dark " style={{margin: '0% auto'}}>
       {/*<Button
         onClick={() => navigate(-1)}
         variant="link"

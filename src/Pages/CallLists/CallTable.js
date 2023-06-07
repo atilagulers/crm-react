@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Table, Dropdown, Container} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import CallEntryModal from './CallEntryModal';
 
-function CustomerTable({customers}) {
+function CallTable({customers}) {
   const navigate = useNavigate();
-  const [selectedHotels, setSelectedHotels] = useState([]);
+  const [showEntryModal, setShowEntryModal] = useState(false);
 
   const handleClickRow = (e, customerId) => {
     if (e.target.tagName !== 'TD') return;
@@ -14,8 +15,14 @@ function CustomerTable({customers}) {
     )
       return;
 
-    navigate(`/customers/${customerId}`);
+    //navigate(`/customers/${customerId}`);
   };
+
+  const handleClickCallEntry = (e, customerId) => {
+    console.log(customerId);
+    setShowEntryModal(true);
+  };
+
   const handleChangeAgent = (e, customerId) => {};
 
   const handleChangeHotels = (e, hotelId) => {};
@@ -23,14 +30,18 @@ function CustomerTable({customers}) {
   return (
     <Container className="px-0">
       <Table
-        className="table customer-table table-striped table-dark table-hover"
+        className="table call-table table-striped table-dark table-hover"
         striped
         bordered
         hover
         variant="dark"
       >
+        {/*Modal of entity form*/}
+        <CallEntryModal show={showEntryModal} setShow={setShowEntryModal} />
+
         <thead>
           <tr className="table-dark">
+            <th>+</th>
             <th>Adı</th>
             <th>Soyadı</th>
             <th>Telefon</th>
@@ -40,11 +51,15 @@ function CustomerTable({customers}) {
             <th>Grup</th>
           </tr>
         </thead>
+
         <tbody>
           {customers &&
             customers.map((customer, i) => {
               return (
                 <tr onClick={(e) => handleClickRow(e, customer.id)} key={i}>
+                  <td onClick={(e) => handleClickCallEntry(e, customer.id)}>
+                    +
+                  </td>
                   <td>{customer.name}</td>
                   <td>{customer.surname}</td>
                   <td>{customer.phone}</td>
@@ -108,4 +123,4 @@ function CustomerTable({customers}) {
   );
 }
 
-export default CustomerTable;
+export default CallTable;

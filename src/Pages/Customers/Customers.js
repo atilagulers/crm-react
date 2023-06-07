@@ -3,6 +3,7 @@ import PageWrapper from '../../Components/PageWrapper';
 import {Container, Button} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import ListCustomers from './ListCustomers';
+import CustomerDetails from './CustomerDetails';
 import ListCustomerGroups from './ListCustomerGroups';
 import CreateCustomer from './CreateCustomer';
 import CreateCustomerGroup from './CreateCustomerGroup';
@@ -48,7 +49,7 @@ function Customers() {
         />
         <Route path="/customer-groups" element={<ListCustomerGroups />} />
 
-        {/*<Route path="/:id" element={<AirlineDetails />} />*/}
+        <Route path="/:id" element={<CustomerDetails />} />
       </Routes>
     </PageWrapper>
   );
