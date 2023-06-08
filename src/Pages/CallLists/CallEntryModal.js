@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, Button, Form, FormGroup} from 'react-bootstrap';
+import {
+  Modal,
+  Button,
+  Form,
+  FormGroup,
+  Container,
+  Table,
+} from 'react-bootstrap';
 
 function CallEntryModal(props) {
   const [isComing, setIsComing] = useState(false);
@@ -49,14 +56,40 @@ function CallEntryModal(props) {
               label="Geliyor"
             />
           </FormGroup>
-          <Button onClick={() => props.setShow(false)}>Close</Button>
+          <Container className="d-flex justify-content-end gap-4 px-0">
+            <Button variant="secondary" onClick={() => props.setShow(false)}>
+              İptal
+            </Button>
+            <Button>Kaydet</Button>
+          </Container>
         </Form>
       </Modal.Body>
       <Modal.Footer
-        className="bg-light-dark"
+        className="bg-light-dark justify-content-start"
         style={{border: '1px solid black'}}
       >
-        <Button onClick={() => props.setShow(false)}>Close</Button>
+        <h3 className="p-2">Arama Geçmişi</h3>
+        <Table striped bordered hover variant="dark">
+          <thead>
+            <tr>
+              <th>Tarih</th>
+              <th>Açıklama</th>
+              <th>Arayan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Mark</td>
+              <td>Otto</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Jacob</td>
+              <td>Thornton</td>
+            </tr>
+          </tbody>
+        </Table>
       </Modal.Footer>
     </Modal>
   );
