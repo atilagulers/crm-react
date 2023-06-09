@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Col} from 'react-bootstrap';
 import '../Css/Components/Sidebar.css';
@@ -13,8 +13,10 @@ import {
   faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import SidebarItem from './SidebarItem';
+import {AppContext} from '../Contexts/AppContext';
 
 function Sidebar(props) {
+  const {state, dispatch} = useContext(AppContext);
   const navigate = useNavigate();
   const [activeSubMenu, setActiveSubMenu] = useState(null);
 
@@ -41,6 +43,11 @@ function Sidebar(props) {
   const handleClickCredits = (e) => {
     e.preventDefault();
     navigate('/credits');
+  };
+
+  const handleClickLogOut = (e) => {
+    e.preventDefault();
+    dispatch({type: 'LOG_OUT'});
   };
 
   const handleHoverItem = (id) => {
@@ -113,6 +120,14 @@ function Sidebar(props) {
           className="sidebar-item-icon"
         />
         <span className={`text-center`}>Krediler</span>
+      </div>
+      <div className="sidebar-item" onClick={handleClickLogOut}>
+        <FontAwesomeIcon
+          icon={faMoneyBill1Wave}
+          size="xl"
+          className="sidebar-item-icon"
+        />
+        <span className={`text-center`}>Log out</span>
       </div>
     </Col>
   );

@@ -3,6 +3,9 @@ import {useImmerReducer} from 'use-immer';
 
 // Başlangıç durumu
 const initialState = {
+  user: {
+    loggedIn: true,
+  },
   management: {
     users: {
       list: [],
@@ -19,6 +22,10 @@ const reducer = (draft, action) => {
   switch (action.type) {
     case 'UPDATE_USERS':
       draft.management.users.list = action.data.users;
+      return;
+
+    case 'LOG_OUT':
+      draft.user.loggedIn = false;
       return;
     default:
       return draft;

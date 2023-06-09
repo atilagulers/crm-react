@@ -7,7 +7,6 @@ import {AppProvider} from './Contexts/AppContext';
 import Sidebar from './Components/Sidebar';
 
 // Pages
-
 import Home from './Pages/Home';
 import Customers from './Pages/Customers/Customers';
 import CallLists from './Pages/CallLists/CallLists';
@@ -15,6 +14,9 @@ import Reservations from './Pages/Reservations';
 import Credits from './Pages/Credits';
 import LogIn from './Pages/LogIn';
 import Management from './Pages/Management/Management';
+
+//Auth
+import {ProtectedRoute} from './Auth/Auth';
 
 function App() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -28,26 +30,42 @@ function App() {
       <div className="App">
         <BrowserRouter>
           <Row>
-            <Col
-              lg={2}
-              md={4}
-              sm={4}
-              className={`sidebar bg-light-dark ${
-                isSidebarCollapsed ? 'sidebar-collapsed' : ''
-              }`}
-              style={{
-                height: '100vh',
-                width: `${isSidebarCollapsed ? '80px' : ''}`,
-              }}
-            >
-              <Sidebar handleClickSidebarToggle={handleClickSidebarToggle} />
-            </Col>
+            <ProtectedRoute>
+              <Col
+                lg={2}
+                md={4}
+                sm={4}
+                className={`sidebar bg-light-dark ${
+                  isSidebarCollapsed ? 'sidebar-collapsed' : ''
+                }`}
+                style={{
+                  height: '100vh',
+                  width: `${isSidebarCollapsed ? '80px' : ''}`,
+                }}
+              >
+                <Sidebar handleClickSidebarToggle={handleClickSidebarToggle} />
+              </Col>
+            </ProtectedRoute>
 
             <Col>
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute>
+                      <Home />
+                    </ProtectedRoute>
+                  }
+                />
 
-                <Route path="/management/*" element={<Management />} />
+                <Route
+                  path="/management/*"
+                  element={
+                    <ProtectedRoute>
+                      <Management />
+                    </ProtectedRoute>
+                  }
+                />
 
                 <Route path="/customers/*" element={<Customers />} />
                 <Route path="/call-lists/*" element={<CallLists />} />
