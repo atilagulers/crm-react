@@ -1,22 +1,19 @@
 import {Container, Form, Row, Col, Button} from 'react-bootstrap';
-//import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 function UserForm({title, user}) {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const handleSubmitCreate = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
-      {/*<Button
-        onClick={() => navigate(-1)}
-        variant="link"
-        className="text-light"
-      >
-        {'\u003C'} Geri
-      </Button>*/}
       <Container className="p-3 bg-primary">
         <h3>{title}</h3>
       </Container>
-      <Form className="p-5">
+      <Form className="p-5" onSubmit={handleSubmitCreate}>
         <Row className="d-flex justify-content-between">
           <Col>
             <Form.Group

@@ -1,14 +1,37 @@
-import React from 'react';
+import {useState, useContext} from 'react';
 import PageWrapper from '../Components/PageWrapper';
 import {Form, Button, Col, Image, Container} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import {AppContext} from '../Contexts/AppContext';
 
 function LogIn() {
+  const {state, dispatch} = useContext(AppContext);
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmitLogin = (e) => {
+  if (state.loggedIn) {
+    window.location.href = '/';
+  }
+
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    navigate('/');
+
+    try {
+      const {data} = await axios.post(
+        `${process.env.REACT_APP_API}/auth/login`,
+        {
+          username,
+          password,
+        }
+      );
+
+      dispatch({type: 'LOG_IN', data});
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -33,7 +56,7 @@ function LogIn() {
             <Form.Control
               type="text"
               placeholder="Enter username"
-              //onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
 
@@ -42,7 +65,7 @@ function LogIn() {
             <Form.Control
               type="password"
               placeholder="Password"
-              //onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
 

@@ -1,16 +1,17 @@
 import React, {createContext} from 'react';
 import {useImmerReducer} from 'use-immer';
 
-// Başlangıç durumu
 const initialState = {
+  loggedIn: Boolean(localStorage.getItem('token')),
+  token: localStorage.getItem('token'),
   user: {
-    loggedIn: true,
+    username: localStorage.getItem('username'),
+    firstName: localStorage.getItem('firstName'),
+    lastName: localStorage.getItem('lastName'),
+    role: localStorage.getItem('role'),
   },
   management: {
-    users: {
-      list: [],
-      isFetching: true,
-    },
+    users: [],
     hotels: [],
     airlines: [],
     games: [],
@@ -20,12 +21,18 @@ const initialState = {
 
 const reducer = (draft, action) => {
   switch (action.type) {
-    case 'UPDATE_USERS':
-      draft.management.users.list = action.data.users;
-      return;
+    case 'LOG_IN':
+      draft.loggedIn = true;
+      draft.token = action.data.token;
+      draft.user = action.data.user;
 
+      return;
     case 'LOG_OUT':
-      draft.user.loggedIn = false;
+      draft.loggedIn = false;
+      window.location.href = '/login';
+      return;
+    case 'UPDATE_USERS':
+      draft.management.users = action.data.users;
       return;
     default:
       return draft;

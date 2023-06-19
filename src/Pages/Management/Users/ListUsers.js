@@ -1,38 +1,40 @@
-import React from 'react';
+import {useEffect, useContext, useState} from 'react';
 import {Container} from 'react-bootstrap';
 import UserTable from './UserTable';
+import {AppContext} from '../../../Contexts/AppContext';
+import axios from 'axios';
+import LoadingSpinner from '../../../Components/LoadingSpinner';
 
 function ListUsers() {
-  const users = [
-    {
-      id: 0,
-      name: 'Atila',
-      lastName: 'Güler',
-      username: 'atilaguler',
-    },
-    {
-      id: 1,
-      name: 'Can',
-      lastName: 'Koçoğlu',
-      username: 'cankoc',
-    },
-    {
-      id: 2,
-      name: 'Hakan',
-      lastName: 'Yılmaz',
-      username: 'hakanylmz',
-    },
-    {
-      id: 3,
-      name: 'Ahmet',
-      lastName: 'Tosun',
-      username: 'ahmetsn',
-    },
-  ];
+  const {state, dispatch} = useContext(AppContext);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      setIsLoading(true);
+      try {
+        const {data} = await axios.get(`${process.env.REACT_APP_API}/user`, {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        });
+        dispatch({type: 'UPDATE_USERS', data});
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUsers();
+  }, []);
 
   return (
     <Container className="p-0">
-      <UserTable users={users} />
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <UserTable users={state.management.users} />
+      )}
     </Container>
   );
 }

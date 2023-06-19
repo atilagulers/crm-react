@@ -29,7 +29,7 @@ function UserTable({users}) {
           users.map((user, i) => {
             return (
               <tr onClick={() => handleClickRow(user.id)} key={i}>
-                <td>{user.name}</td>
+                <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.username}</td>
               </tr>
