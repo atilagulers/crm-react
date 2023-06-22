@@ -10,13 +10,18 @@ function ListUsers() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+
     const fetchUsers = async () => {
+      if (state.management.users.length > 0) return setIsLoading(false);
+
       setIsLoading(true);
       try {
         const {data} = await axios.get(`${process.env.REACT_APP_API}/user`, {
           headers: {
             Authorization: `Bearer ${state.token}`,
           },
+          cancelToken: source.token,
         });
         dispatch({type: 'UPDATE_USERS', data});
       } catch (error) {
@@ -26,15 +31,17 @@ function ListUsers() {
       }
     };
     fetchUsers();
+
+    return () => {
+      source.cancel();
+    };
   }, []);
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Container className="p-0">
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <UserTable users={state.management.users} />
-      )}
+      <UserTable users={state.management.users} />
     </Container>
   );
 }

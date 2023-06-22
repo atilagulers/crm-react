@@ -93,7 +93,7 @@ function UserForm({title, user}) {
   const createUser = async () => {
     try {
       setIsCreating(true);
-      console.log(state.token);
+
       const body = {
         firstName: formValues.firstName.value,
         lastName: formValues.lastName.value,
@@ -101,7 +101,7 @@ function UserForm({title, user}) {
         password: formValues.password.value,
         role: formValues.role.value,
       };
-      console.log(body);
+
       const config = {
         headers: {
           Authorization: `Bearer ${state.token}`,
@@ -113,7 +113,7 @@ function UserForm({title, user}) {
         body,
         config
       );
-      console.log(newUser);
+
       toast.success(`${newUser.firstName} Kullanıcısı başarıyla oluşturuldu.`);
     } catch (error) {
       if (error.response.status === 409) {

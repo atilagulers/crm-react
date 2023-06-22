@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 
@@ -28,7 +27,7 @@ function UserTable({users}) {
         {users &&
           users.map((user, i) => {
             return (
-              <tr onClick={() => handleClickRow(user.id)} key={i}>
+              <tr onClick={() => handleClickRow(user._id)} key={i}>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.username}</td>
