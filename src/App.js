@@ -4,6 +4,8 @@ import {useState} from 'react';
 import {Col, Row} from 'react-bootstrap';
 import './Css/Components/Sidebar.css';
 import {AppContext} from './Contexts/AppContext';
+import {ToastContainer, Slide} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // Components
 import Sidebar from './Components/Sidebar';
@@ -94,6 +96,19 @@ function App() {
           </Col>
         </Row>
       </BrowserRouter>
+      <ToastContainer
+        position="top-center"
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme="light"
+        autoClose={1500}
+        transition={Slide}
+      />
     </div>
   );
 }
