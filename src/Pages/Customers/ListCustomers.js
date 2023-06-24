@@ -1,52 +1,51 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {Container} from 'react-bootstrap';
 import CustomerTable from './CustomerTable';
+import {AppContext} from '../../Contexts/AppContext';
+import axios from 'axios';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 
 function ListCustomers() {
-  const customers = [
-    {
-      id: 0,
-      name: 'John',
-      surname: 'Doe',
-      phone: '1234567890',
-      email: 'john.doe@example.com',
-      agent: 'Burak Kaya',
-      hotels: ['Cratos', 'Elexus'],
-      group: 'Yetişkin',
-    },
-    {
-      id: 1,
-      name: 'Jane',
-      surname: 'Smith',
-      phone: '9876543210',
-      email: 'jane.smith@example.com',
-      agent: 'Burak Kaya',
-      hotels: ['Cratos', 'Elexus'],
-      group: 'Yetişkin',
-    },
-    {
-      id: 2,
-      name: 'Michael',
-      surname: 'Johnson',
-      phone: '5555555555',
-      email: 'michael.johnson@example.com',
-      agent: 'Ferdi Caner',
-      hotels: ['Artemis', 'Elexus'],
-      group: 'Yetişkin',
-    },
-    {
-      id: 3,
-      name: 'Emily',
-      surname: 'Williams',
-      phone: '1111111111',
-      email: 'emily.williams@example.com',
-      agent: 'Ferdi Caner',
-      hotels: ['Merit', 'Elexus'],
-      group: 'Yetişkin',
-    },
-  ];
+  const {state, dispatch} = useContext(AppContext);
+  const customers = state.customers;
 
-  return <CustomerTable customers={customers} />;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    const fetchCustomers = async () => {
+      if (customers.list.length > 0) return setIsLoading(false);
+
+      setIsLoading(true);
+      try {
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/customer?page=1&limit=30`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+            cancelToken: source.token,
+          }
+        );
+
+        dispatch({type: 'UPDATE_CUSTOMERS', data});
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCustomers();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  if (isLoading) return <LoadingSpinner />;
+
+  return <CustomerTable customers={customers.list} />;
 }
 
 export default ListCustomers;

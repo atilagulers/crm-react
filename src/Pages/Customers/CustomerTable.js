@@ -1,22 +1,60 @@
-import React, {useState} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {Table, Dropdown, Container} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import {AppContext} from '../../Contexts/AppContext';
+import axios from 'axios';
 
 function CustomerTable({customers}) {
+  const {state} = useContext(AppContext);
+
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const [selectedHotels, setSelectedHotels] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    const fetchUsers = async () => {
+      //if (customers.length > 0) return setIsLoading(false);
+
+      setIsLoading(true);
+      try {
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/user/?page=1&limit=9999`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+            cancelToken: source.token,
+          }
+        );
+
+        setUsers(data.users);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUsers();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
 
   const handleClickRow = (e, customerId) => {
     if (e.target.tagName !== 'TD') return;
     if (
-      e.target.getAttribute('data-field') === 'agent' ||
+      e.target.getAttribute('data-field') === 'user' ||
       e.target.getAttribute('data-field') === 'hotel'
     )
       return;
 
     navigate(`/customers/${customerId}`);
   };
-  const handleChangeAgent = (e, customerId) => {};
+  const handleChangeUser = (e, customerId) => {};
 
   const handleChangeHotels = (e, hotelId) => {};
 
@@ -35,7 +73,7 @@ function CustomerTable({customers}) {
             <th>Soyadı</th>
             <th>Telefon</th>
             <th>Email</th>
-            <th>Agent</th>
+            <th>user</th>
             {/*<th>Otel</th>*/}
             <th>Grup</th>
           </tr>
@@ -45,32 +83,31 @@ function CustomerTable({customers}) {
             customers.map((customer, i) => {
               return (
                 <tr onClick={(e) => handleClickRow(e, customer.id)} key={i}>
-                  <td>{customer.name}</td>
-                  <td>{customer.surname}</td>
-                  <td>{customer.phone}</td>
+                  <td>{customer.firstName}</td>
+                  <td>{customer.lastName}</td>
+                  <td>{customer.phone1}</td>
                   <td>{customer.email}</td>
-                  <td data-field="agent">
+                  <td data-field="user">
                     <Dropdown>
                       <Dropdown.Toggle
                         variant="secondary"
-                        id={`agent-dropdown-${customer.id}`}
+                        id={`user-dropdown-${customer.id}`}
                         style={{width: '100%'}}
                       >
-                        {customer.agent}
+                        {customer.user[0]?.firstName}
                       </Dropdown.Toggle>
                       <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={(e) => handleChangeAgent(e, customer.id)}
-                          active={customer.agent === 'Burak Kaya'}
-                        >
-                          Burak Kaya
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={(e) => handleChangeAgent(e, customer.id)}
-                          active={customer.agent === 'Ferdi Caner'}
-                        >
-                          Ferdi Caner
-                        </Dropdown.Item>
+                        {users?.map((agent) => {
+                          return (
+                            <Dropdown.Item
+                              key={agent._id}
+                              onClick={(e) => handleChangeUser(e, customer.id)}
+                              active={customer.user === 'Burak Kaya'}
+                            >
+                              {`${agent.firstName} ${agent.lastName}`}
+                            </Dropdown.Item>
+                          );
+                        })}
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>

@@ -24,7 +24,9 @@ const initialState = {
       list: [],
     },
   },
-  customers: {},
+  customers: {
+    list: [],
+  },
 };
 
 const reducer = (draft, action) => {
@@ -50,6 +52,9 @@ const reducer = (draft, action) => {
       return;
     case 'UPDATE_AIRLINES':
       draft.management.airlines.list = action.data.airlines;
+      return;
+    case 'UPDATE_CUSTOMERS':
+      draft.customers.list = action.data.customers;
       return;
     default:
       return draft;
