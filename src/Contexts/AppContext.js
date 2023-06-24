@@ -11,10 +11,18 @@ const initialState = {
     role: localStorage.getItem('role'),
   },
   management: {
-    users: [],
-    hotels: [],
-    airlines: [],
-    games: [],
+    users: {
+      list: [],
+    },
+    hotels: {
+      list: [],
+    },
+    games: {
+      list: [],
+    },
+    airlines: {
+      list: [],
+    },
   },
   customers: {},
 };
@@ -32,7 +40,16 @@ const reducer = (draft, action) => {
       window.location.href = '/login';
       return;
     case 'UPDATE_USERS':
-      draft.management.users = action.data.users;
+      draft.management.users.list = action.data.users;
+      return;
+    case 'UPDATE_HOTELS':
+      draft.management.hotels.list = action.data.hotels;
+      return;
+    case 'UPDATE_GAMES':
+      draft.management.games.list = action.data.games;
+      return;
+    case 'UPDATE_AIRLINES':
+      draft.management.airlines.list = action.data.airlines;
       return;
     default:
       return draft;

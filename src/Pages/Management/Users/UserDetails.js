@@ -30,6 +30,10 @@ function UserDetails() {
       setUser(data);
     };
     fetchUser();
+
+    return () => {
+      source.cancel();
+    };
   }, []);
 
   if (!user) return <LoadingSpinner />;

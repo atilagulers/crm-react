@@ -1,10 +1,148 @@
+import {useState, useContext} from 'react';
 import PageWrapper from '../../../Components/PageWrapper';
 import UserForm from './UserForm';
+import axios from 'axios';
+import {AppContext} from '../../../Contexts/AppContext';
+import {toast} from 'react-toastify';
 
 function CreateUser() {
+  const {state} = useContext(AppContext);
+
+  const [isCreating, setIsCreating] = useState(false);
+  const validationMessages = {
+    firstName: 'Ad 3 ile 20 karakter arasında olmalıdır.',
+    lastName: 'Soyad 3 ile 20 karakter arasında olmalıdır.',
+    username: 'Kullanıcı Adı 3 ile 20 karakter arasında olmalıdır.',
+    password: 'Şifre en az 8 karakter arasında olmalıdır.',
+  };
+
+  const initialFormValues = {
+    firstName: {
+      value: '',
+      isValid: false,
+      validationMessage: validationMessages.firstName,
+    },
+    lastName: {
+      value: '',
+      isValid: false,
+      validationMessage: validationMessages.lastName,
+    },
+    username: {
+      value: '',
+      isValid: false,
+      validationMessage: validationMessages.username,
+    },
+    password: {
+      value: '',
+      isValid: false,
+      validationMessage: validationMessages.password,
+    },
+    role: {
+      value: 'agent',
+      isValid: true,
+      validationMessage: '',
+    },
+  };
+
+  const [formValues, setFormValues] = useState(initialFormValues);
+
+  const handleChangeInput = (e) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [e.target.name]: {
+        value: e.target.value,
+        isValid: getIsValid(e.target.name, e.target.value),
+        validationMessage: getValidationMessage(e.target.name, e.target.value),
+      },
+    }));
+  };
+
+  const getIsValid = (field, value) => {
+    if (field === 'firstName' || field === 'lastName' || field === 'username')
+      return value.length >= 3 && value.length <= 20;
+
+    if (field === 'password') return value.length >= 8;
+
+    if (field === 'role') return true;
+  };
+
+  const getValidationMessage = (field, value = '') => {
+    if (field === 'firstName' && !formValues[field].isValid) {
+      return validationMessages.firstName;
+    }
+    if (field === 'lastName' && !formValues[field].isValid) {
+      return validationMessages.lastName;
+    }
+    if (field === 'username' && !formValues[field].isValid) {
+      return validationMessages.username;
+    }
+    if (field === 'password' && !formValues[field].isValid) {
+      return validationMessages.password;
+    }
+
+    return '';
+  };
+
+  const isFormValid = () => {
+    return Object.values(formValues).every((field) => field.isValid);
+  };
+
+  const createUser = async () => {
+    try {
+      setIsCreating(true);
+
+      const body = {
+        firstName: formValues.firstName.value,
+        lastName: formValues.lastName.value,
+        username: formValues.username.value,
+        password: formValues.password.value,
+        role: formValues.role.value,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      };
+
+      const {data} = await axios.post(
+        `${process.env.REACT_APP_API}/user`,
+        body,
+        config
+      );
+
+      toast.success(`${data.username} kullanıcısı başarıyla oluşturuldu.`);
+    } catch (error) {
+      if (error.response.status === 409) {
+        toast.error('Bu kullanıcı adı zaten kullanılıyor.');
+      } else {
+        toast.error('Kullanıcı oluşturulamadı. ' + error);
+      }
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  const handleSubmitCreate = async (e) => {
+    e.preventDefault();
+
+    if (!isFormValid()) return;
+
+    await createUser();
+
+    setFormValues(initialFormValues);
+  };
+
   return (
     <PageWrapper title="Create User | Management">
-      <UserForm title={'Yeni Kullanıcı'} />
+      <UserForm
+        title={'Yeni Kullanıcı'}
+        handleSubmitCreate={handleSubmitCreate}
+        handleChange={handleChangeInput}
+        formValues={formValues}
+        isFormValid={isFormValid}
+        isCreating={isCreating}
+      />
     </PageWrapper>
   );
 }

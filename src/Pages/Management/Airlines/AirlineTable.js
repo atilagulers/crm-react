@@ -26,7 +26,7 @@ function AirlineTable({airlines}) {
         {airlines &&
           airlines.map((airline, i) => {
             return (
-              <tr onClick={() => handleClickRow(airline.id)} key={i}>
+              <tr onClick={() => handleClickRow(airline._id)} key={i}>
                 <td>{airline.name}</td>
               </tr>
             );

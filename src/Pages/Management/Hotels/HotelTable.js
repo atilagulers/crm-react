@@ -29,9 +29,9 @@ function HotelTable({hotels}) {
         {hotels &&
           hotels.map((hotel, i) => {
             return (
-              <tr onClick={() => handleClickRow(hotel.id)} key={i}>
+              <tr onClick={() => handleClickRow(hotel._id)} key={i}>
                 <td>{hotel.name}</td>
-                <td>{hotel.contact}</td>
+                <td>{hotel.responsible}</td>
                 <td>{hotel.phone}</td>
                 <td>{hotel.email}</td>
               </tr>

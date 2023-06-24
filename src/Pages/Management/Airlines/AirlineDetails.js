@@ -6,15 +6,15 @@ import axios from 'axios';
 import {AppContext} from '../../../Contexts/AppContext';
 import LoadingSpinner from '../../../Components/LoadingSpinner';
 
-function GameDetails() {
+function AirlineDetails() {
   const {state} = useContext(AppContext);
-  const {id: gameId} = useParams();
-  const [game, setGame] = useState();
+  const {id: airlineId} = useParams();
+  const [airline, setAirline] = useState();
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
-    const fetchGame = async () => {
+    const fetchHotel = async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${state.token}`,
@@ -22,30 +22,30 @@ function GameDetails() {
       };
 
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/game/${gameId}`,
+        `${process.env.REACT_APP_API}/airline/${airlineId}`,
         config
       );
 
-      setGame(data);
+      setAirline(data);
     };
-    fetchGame();
+    fetchHotel();
 
     return () => {
       source.cancel();
     };
   }, []);
 
-  if (!game) return <LoadingSpinner />;
+  if (!airline) return <LoadingSpinner />;
   return (
     <PageWrapper title="User Details | Management">
       <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
         <Container className="p-3 bg-primary">
-          <h3>{'Oyun Detayları'}</h3>
+          <h3>{'Havayolu Detayları'}</h3>
         </Container>
 
         <Table striped hover borderless>
           <tbody>
-            {[{label: 'Oyun Adı', value: game.name}].map((item) => (
+            {[{label: 'Havayolu Adı', value: airline.name}].map((item) => (
               <tr key={item.label}>
                 <td className="col-md-2"> {item.label}:</td>
                 <td>{item.value}</td>
@@ -58,4 +58,4 @@ function GameDetails() {
   );
 }
 
-export default GameDetails;
+export default AirlineDetails;

@@ -7,22 +7,27 @@ import LoadingSpinner from '../../../Components/LoadingSpinner';
 
 function ListUsers() {
   const {state, dispatch} = useContext(AppContext);
+  const {users} = state.management;
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchUsers = async () => {
-      if (state.management.users.length > 0) return setIsLoading(false);
+      if (users.list.length > 0) return setIsLoading(false);
 
       setIsLoading(true);
       try {
-        const {data} = await axios.get(`${process.env.REACT_APP_API}/user`, {
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-          cancelToken: source.token,
-        });
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/user?page=1&limit=30`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+            cancelToken: source.token,
+          }
+        );
         dispatch({type: 'UPDATE_USERS', data});
       } catch (error) {
         console.log(error);
@@ -41,7 +46,7 @@ function ListUsers() {
 
   return (
     <Container className="p-0">
-      <UserTable users={state.management.users} />
+      <UserTable users={users.list} />
     </Container>
   );
 }

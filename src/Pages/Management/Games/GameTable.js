@@ -26,7 +26,7 @@ function GameTable({games}) {
         {games &&
           games.map((game, i) => {
             return (
-              <tr onClick={() => handleClickRow(game.id)} key={i}>
+              <tr onClick={() => handleClickRow(game._id)} key={i}>
                 <td>{game.name}</td>
               </tr>
             );

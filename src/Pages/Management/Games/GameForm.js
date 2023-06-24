@@ -1,22 +1,24 @@
-import React, {useEffect} from 'react';
 import {Form, Button, Container, Row, Col} from 'react-bootstrap';
-//import {useNavigate} from 'react-router-dom';
 
-function GameForm() {
-  //const navigate = useNavigate();
+function GameForm({
+  title,
+  handleSubmitCreate,
+  handleChange,
+  formValues,
+  isFormValid,
+  isCreating,
+}) {
   return (
     <Container className=" p-0 bg-light-dark mb-5" style={{margin: '0% auto'}}>
-      {/*<Button
-        onClick={() => navigate(-1)}
-        variant="link"
-        className="text-light"
-      >
-        {'\u003C'} Geri
-      </Button>*/}
       <Container className="p-3 bg-primary">
-        <h3>Yeni Oyun</h3>
+        <h3>{title}</h3>
       </Container>
-      <Form className="p-5">
+      <Form
+        className="p-5"
+        noValidate
+        //validated={validated}
+        onSubmit={handleSubmitCreate}
+      >
         <Row className="d-flex justify-content-between">
           <Col>
             <Form.Group
@@ -24,13 +26,29 @@ function GameForm() {
               controlId="exampleForm.ControlInput1"
             >
               <Form.Label>Oyun Adı:</Form.Label>
-              <Form.Control type="text" placeholder="Poker" />
+              <Form.Control
+                onChange={(e) => handleChange(e)}
+                name="name"
+                required
+                type="text"
+                placeholder="Poker"
+                isValid={formValues.name.isValid}
+                isInvalid={!formValues.name.isValid}
+                value={formValues.name.value}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formValues.name.validationMessage}
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
         </Row>
 
         <Container className="d-flex justify-content-end px-0">
-          <Button type="submit" size="lg">
+          <Button
+            type="submit"
+            size="lg"
+            disabled={!isFormValid() || isCreating}
+          >
             Kaydet
           </Button>
         </Container>

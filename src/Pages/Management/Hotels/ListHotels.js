@@ -1,44 +1,52 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Container, Table, Button} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import HotelTable from './HotelTable';
+import {AppContext} from '../../../Contexts/AppContext';
+import axios from 'axios';
+import LoadingSpinner from '../../../Components/LoadingSpinner';
 
 function ListHotels() {
-  const navigate = useNavigate();
-  const hotels = [
-    {
-      id: 0,
-      name: 'Hotel A',
-      contact: 'John Doe',
-      phone: '123-456-7890',
-      email: 'john@example.com',
-    },
-    {
-      id: 1,
-      name: 'Hotel B',
-      contact: 'Jane Smith',
-      phone: '987-654-3210',
-      email: 'jane@example.com',
-    },
-    {
-      id: 2,
-      name: 'Hotel C',
-      contact: 'Mike Johnson',
-      phone: '555-555-5555',
-      email: 'mike@example.com',
-    },
-    {
-      id: 3,
-      name: 'Hotel D',
-      contact: 'Emily Brown',
-      phone: '111-222-3333',
-      email: 'emily@example.com',
-    },
-  ];
+  const {state, dispatch} = useContext(AppContext);
+  const {hotels} = state.management;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    const fetchHotels = async () => {
+      if (hotels.list.length > 0) return setIsLoading(false);
+
+      setIsLoading(true);
+      try {
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/hotel?page=1&limit=30`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+            cancelToken: source.token,
+          }
+        );
+        dispatch({type: 'UPDATE_HOTELS', data});
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchHotels();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <Container className="p-0">
-      <HotelTable hotels={hotels} />
+      <HotelTable hotels={hotels.list} />
     </Container>
   );
 }

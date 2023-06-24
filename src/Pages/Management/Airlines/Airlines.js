@@ -4,6 +4,7 @@ import {Route, Routes, useNavigate} from 'react-router-dom';
 import {Container, Button} from 'react-bootstrap';
 import ListAirlines from './ListAirlines';
 import CreateAirline from './CreateAirline';
+import AirlineDetails from './AirlineDetails';
 
 function Airlines() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function Airlines() {
       <Routes>
         <Route path="/" element={<ListAirlines />} />
         <Route path="/create" element={<CreateAirline />} />
-        {/*<Route path="/:id" element={<AirlineDetails />} />*/}
+        <Route path="/:id" element={<AirlineDetails />} />
       </Routes>
     </PageWrapper>
   );
