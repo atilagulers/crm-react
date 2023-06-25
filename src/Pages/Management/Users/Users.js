@@ -7,6 +7,7 @@ import './Style/Users.css';
 import ListUsers from './ListUsers';
 import CreateUser from './CreateUser';
 import UserDetails from './UserDetails';
+import EditUser from './EditUser';
 
 function Users() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ function Users() {
         <Route path="/" element={<ListUsers />} />
         <Route path="/create" element={<CreateUser />} />
         <Route path="/:id" element={<UserDetails />} />
+        <Route path="/:id/edit" element={<EditUser />} />
       </Routes>
     </PageWrapper>
   );

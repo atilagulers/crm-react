@@ -1,76 +1,76 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
-import {Row, Col, Container} from 'react-bootstrap';
+import {Row, Table, Container} from 'react-bootstrap';
+import {useParams} from 'react-router-dom';
+import LoadingSpinner from '../../Components/LoadingSpinner';
+import axios from 'axios';
+import {AppContext} from '../../Contexts/AppContext';
 
 function CustomerDetails() {
-  return (
-    <PageWrapper title={'Müşteri Detayları'}>
-      <Container className="border p-0">
-        <h1 className="bg-primary">User Detail</h1>
-        <Row>
-          <Col xs={4} sm={4} md={4} lg={4} xl={4}>
-            <img
-              src="/images/logo.png"
-              alt=""
-              style={{width: '100%', height: '100%'}}
-            />
-          </Col>
+  const {state} = useContext(AppContext);
+  const {id: userId} = useParams();
+  const [customer, setCustomer] = useState();
 
-          <Col xs={8} sm={8} md={8} lg={8} xl={8}>
-            <Row>
-              <Col>
-                <h6>Adı</h6>
-              </Col>
-              <Col>
-                <p>Atila</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <h6>Soyadı</h6>
-              </Col>
-              <Col>
-                <p>Atila</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <h6>Telefon</h6>
-              </Col>
-              <Col>
-                <p>Atila</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <h6>Email</h6>
-              </Col>
-              <Col>
-                <p>Atila</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <h6>Otel</h6>
-              </Col>
-              <Col>
-                <p>Atila</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <h6>Grup</h6>
-              </Col>
-              <Col>
-                <p>Atila</p>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row>
-          <Col>Col 1</Col>
-          <Col>Col 2</Col>
-        </Row>
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    const fetchHotel = async () => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      };
+
+      const {data} = await axios.get(
+        `${process.env.REACT_APP_API}/customer/${userId}`,
+        config
+      );
+
+      setCustomer(data);
+    };
+    fetchHotel();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  if (!customer) return <LoadingSpinner />;
+
+  return (
+    <PageWrapper title={'Details | Customer'}>
+      <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
+        <Container className="p-3 bg-primary">
+          <h3>{'Müşteri Detayları'}</h3>
+        </Container>
+
+        <Table striped hover borderless>
+          <tbody>
+            {[
+              {label: 'TC', value: customer.tc},
+              {label: 'Adı', value: customer.firstName},
+              {label: 'Soyadı', value: customer.lastName},
+              {label: 'Telefon 1', value: customer.phone1},
+              {label: 'Telefon 2', value: customer.phone2},
+              {label: 'Telefon 3', value: customer.phone3},
+              {label: 'Email', value: customer.email},
+              {label: 'Doğum Tarihi', value: customer.birthday},
+              {label: 'Adres', value: customer.address},
+              {label: 'İş Adresi', value: customer.workAddress},
+              {label: 'Şehir', value: customer.city},
+              {label: 'Cinsiyet', value: customer.gender},
+              {
+                label: 'Agent',
+                value: `${customer.user.firstName} ${customer.user.lastName}`,
+              },
+            ].map((item, i) => (
+              <tr key={i}>
+                <td className="col-md-2"> {item.label}:</td>
+                <td>{item.value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </Container>
     </PageWrapper>
   );

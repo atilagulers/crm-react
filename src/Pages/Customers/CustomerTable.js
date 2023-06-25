@@ -9,7 +9,6 @@ function CustomerTable({customers}) {
 
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const [selectedHotels, setSelectedHotels] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -44,19 +43,9 @@ function CustomerTable({customers}) {
     };
   }, []);
 
-  const handleClickRow = (e, customerId) => {
-    if (e.target.tagName !== 'TD') return;
-    if (
-      e.target.getAttribute('data-field') === 'user' ||
-      e.target.getAttribute('data-field') === 'hotel'
-    )
-      return;
-
+  const handleClickCustomer = (e, customerId) => {
     navigate(`/customers/${customerId}`);
   };
-  const handleChangeUser = (e, customerId) => {};
-
-  const handleChangeHotels = (e, hotelId) => {};
 
   return (
     <Container className="px-0">
@@ -69,6 +58,7 @@ function CustomerTable({customers}) {
       >
         <thead>
           <tr className="table-dark">
+            <th>+</th>
             <th>Adı</th>
             <th>Soyadı</th>
             <th>Telefon</th>
@@ -82,12 +72,15 @@ function CustomerTable({customers}) {
           {customers &&
             customers.map((customer, i) => {
               return (
-                <tr onClick={(e) => handleClickRow(e, customer.id)} key={i}>
+                <tr key={customer._id}>
+                  <td onClick={(e) => handleClickCustomer(e, customer._id)}>
+                    +
+                  </td>
                   <td>{customer.firstName}</td>
                   <td>{customer.lastName}</td>
                   <td>{customer.phone1}</td>
                   <td>{customer.email}</td>
-                  <td data-field="user">
+                  <td>
                     <Dropdown>
                       <Dropdown.Toggle
                         variant="secondary"
@@ -101,7 +94,6 @@ function CustomerTable({customers}) {
                           return (
                             <Dropdown.Item
                               key={agent._id}
-                              onClick={(e) => handleChangeUser(e, customer.id)}
                               active={customer.user === 'Burak Kaya'}
                             >
                               {`${agent.firstName} ${agent.lastName}`}
