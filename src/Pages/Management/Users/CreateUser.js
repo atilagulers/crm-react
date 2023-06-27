@@ -4,10 +4,12 @@ import UserForm from './UserForm';
 import axios from 'axios';
 import {AppContext} from '../../../Contexts/AppContext';
 import {toast} from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
+import BackButton from '../../../Components/BackButton';
 
 function CreateUser() {
   const {state} = useContext(AppContext);
-
+  const navigate = useNavigate();
   const [isCreating, setIsCreating] = useState(false);
   const validationMessages = {
     firstName: 'Ad 3 ile 20 karakter arasında olmalıdır.',
@@ -110,6 +112,7 @@ function CreateUser() {
         body,
         config
       );
+      navigate(`/management/users/${data.id}`);
 
       toast.success(`${data.username} kullanıcısı başarıyla oluşturuldu.`);
     } catch (error) {
@@ -135,9 +138,10 @@ function CreateUser() {
 
   return (
     <PageWrapper title="Create User | Management">
+      <BackButton />
       <UserForm
         title={'Yeni Kullanıcı'}
-        handleSubmitCreate={handleSubmitCreate}
+        handleSubmit={handleSubmitCreate}
         handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}

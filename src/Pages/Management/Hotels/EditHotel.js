@@ -1,11 +1,11 @@
 import React, {useEffect, useContext, useState} from 'react';
 import PageWrapper from '../../../Components/PageWrapper';
-import UserForm from './UserForm';
 import {useNavigate, useParams} from 'react-router-dom';
 import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 import LoadingSpinner from '../../../Components/LoadingSpinner';
+import HotelForm from './HotelForm';
 import BackButton from '../../../Components/BackButton';
 
 import {
@@ -13,48 +13,43 @@ import {
   getIsValid,
   getValidationMessage,
   isFormValid,
-} from './UserValidation';
+} from './HotelValidation';
 
-function EditUser() {
+function EditHotel() {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
-  const {id: userId} = useParams();
-  const [user, setUser] = useState();
+  const {id: hotelId} = useParams();
+  const [hotel, setHotel] = useState();
 
   const [isUpdating, setIsUpdating] = useState(false);
 
   const initialFormValues = {
-    firstName: {
-      value: user ? user.firstName : '',
+    name: {
+      value: hotel ? hotel.name : '',
       isValid: false,
-      validationMessage: validationMessages.firstName,
+      validationMessage: validationMessages.name,
     },
-    lastName: {
-      value: user ? user.lastName : '',
+    responsible: {
+      value: hotel ? hotel.responsible : '',
       isValid: false,
-      validationMessage: validationMessages.lastName,
+      validationMessage: validationMessages.responsible,
     },
-    username: {
-      value: user ? user.username : '',
+    phone: {
+      value: hotel ? hotel.phone : '',
       isValid: false,
-      validationMessage: validationMessages.username,
+      validationMessage: validationMessages.phone,
     },
-    password: {
-      value: user ? user.password : '',
+    email: {
+      value: hotel ? hotel.email : '',
       isValid: false,
-      validationMessage: validationMessages.password,
-    },
-    role: {
-      value: user ? user.role : '',
-      isValid: true,
-      validationMessage: '',
+      validationMessage: validationMessages.email,
     },
   };
   const [formValues, setFormValues] = useState(initialFormValues);
   useEffect(() => {
     const source = axios.CancelToken.source();
 
-    const fetchUser = async () => {
+    const fetchHotel = async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${state.token}`,
@@ -62,37 +57,37 @@ function EditUser() {
       };
 
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/user/${userId}`,
+        `${process.env.REACT_APP_API}/hotel/${hotelId}`,
         config
       );
 
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
-        firstName: {
-          ...prevFormValues.firstName,
-          value: data.firstName || '',
+        name: {
+          ...prevFormValues.name,
+          value: data.name || '',
           isValid: true,
         },
-        lastName: {
-          ...prevFormValues.lastName,
-          value: data.lastName || '',
+        responsible: {
+          ...prevFormValues.responsible,
+          value: data.responsible || '',
           isValid: true,
         },
-        username: {
-          ...prevFormValues.username,
-          value: data.username || '',
+        phone: {
+          ...prevFormValues.phone,
+          value: data.phone || '',
           isValid: true,
         },
-        role: {
-          ...prevFormValues.role,
-          value: data.role || '',
+        email: {
+          ...prevFormValues.email,
+          value: data.email || '',
           isValid: true,
         },
       }));
 
-      setUser(data);
+      setHotel(data);
     };
-    fetchUser();
+    fetchHotel();
 
     return () => {
       source.cancel();
@@ -130,40 +125,41 @@ function EditUser() {
       };
 
       const body = {
-        firstName: formValues.firstName.value,
-        lastName: formValues.lastName.value,
-        username: formValues.username.value,
-        role: formValues.role.value,
+        name: formValues.name.value,
+        responsible: formValues.responsible.value,
+        phone: formValues.phone.value,
+        email: formValues.email.value,
       };
-      console.log(body);
+
       await axios.patch(
-        `${process.env.REACT_APP_API}/user/${userId}`,
+        `${process.env.REACT_APP_API}/hotel/${hotelId}`,
         body,
         config
       );
 
-      navigate(`/management/users/${userId}`);
-      toast.success(`Kullanıcı güncellendi.`);
+      navigate(`/management/hotels/${hotelId}`);
+      toast.success(`Otel güncellendi.`);
 
       return () => {
         source.cancel();
       };
     } catch (error) {
       if (error.response.status === 409) {
-        toast.error('Bu kullanıcı adı zaten kullanılıyor.');
+        toast.error('Bu otel adı zaten kullanılıyor.');
       } else {
-        toast.error('Kullanıcı oluşturulamadı. ' + error);
+        toast.error('Otel oluşturulamadı. ' + error);
       }
     } finally {
       setIsUpdating(false);
     }
   };
-  if (!user) return <LoadingSpinner />;
+  if (!hotel) return <LoadingSpinner />;
+
   return (
     <PageWrapper title="User Details | Management">
       <BackButton />
-      <UserForm
-        title={'Kullanıcı Güncelle'}
+      <HotelForm
+        title={'Otel Güncelle'}
         handleSubmit={handleSubmitUpdate}
         handleChange={handleChangeInput}
         formValues={formValues}
@@ -178,4 +174,4 @@ function EditUser() {
   );
 }
 
-export default EditUser;
+export default EditHotel;

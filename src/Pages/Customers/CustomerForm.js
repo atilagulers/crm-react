@@ -1,18 +1,23 @@
 import {Container, Form, Row, Col, Button} from 'react-bootstrap';
 //import {useNavigate} from 'react-router-dom';
 
-function CustomerForm({title, user}) {
+function CustomerForm({
+  title,
+  handleSubmit,
+  handleChange,
+  formValues,
+  isFormValid,
+  isSaving,
+  disabled = false,
+  showSubmitButton = true,
+  handleClickEdit,
+  showEditButton = false,
+  submitButtonText = 'Kaydet',
+}) {
   //const navigate = useNavigate();
 
   return (
     <Container className="p-0 bg-light-dark " style={{margin: '0% auto'}}>
-      {/*<Button
-        onClick={() => navigate(-1)}
-        variant="link"
-        className="text-light"
-      >
-        {'\u003C'} Geri
-      </Button>*/}
       <Container className="p-3 bg-primary">
         <h3>{title}</h3>
       </Container>
@@ -23,14 +28,60 @@ function CustomerForm({title, user}) {
               className="mb-3 ms"
               controlId="exampleForm.ControlInput1"
             >
+              <Form.Label>TC:</Form.Label>
+              <Form.Control
+                onChange={(e) => handleChange(e)}
+                name="tc"
+                required
+                type="text"
+                placeholder="Cratos"
+                isValid={formValues.tc.isValid}
+                isInvalid={!formValues.tc.isValid}
+                value={formValues.tc.value}
+                disabled={disabled}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formValues.tc.validationMessage}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Adı:</Form.Label>
-              <Form.Control type="text" placeholder="Atila" />
+              <Form.Control
+                onChange={(e) => handleChange(e)}
+                name="firstName"
+                required
+                type="text"
+                placeholder="Atila"
+                isValid={formValues.firstName.isValid}
+                isInvalid={!formValues.firstName.isValid}
+                value={formValues.firstName.value}
+                disabled={disabled}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formValues.firstName.validationMessage}
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
           <Col>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Soyadı:</Form.Label>
-              <Form.Control type="text" placeholder="Güler" />
+
+              <Form.Control
+                onChange={(e) => handleChange(e)}
+                name="lastName"
+                required
+                type="text"
+                placeholder="Güler"
+                isValid={formValues.lastName.isValid}
+                isInvalid={!formValues.lastName.isValid}
+                value={formValues.lastName.value}
+                disabled={disabled}
+              />
+              <Form.Control.Feedback type="invalid">
+                {formValues.lastName.validationMessage}
+              </Form.Control.Feedback>
             </Form.Group>
           </Col>
         </Row>

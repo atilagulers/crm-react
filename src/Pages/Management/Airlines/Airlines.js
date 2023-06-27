@@ -5,6 +5,7 @@ import {Container, Button} from 'react-bootstrap';
 import ListAirlines from './ListAirlines';
 import CreateAirline from './CreateAirline';
 import AirlineDetails from './AirlineDetails';
+import EditAirline from './EditAirline';
 
 function Airlines() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function Airlines() {
         <Route path="/" element={<ListAirlines />} />
         <Route path="/create" element={<CreateAirline />} />
         <Route path="/:id" element={<AirlineDetails />} />
+        <Route path="/:id/edit" element={<EditAirline />} />
       </Routes>
     </PageWrapper>
   );

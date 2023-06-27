@@ -6,17 +6,18 @@ import PageWrapper from '../../../Components/PageWrapper';
 import {AppContext} from '../../../Contexts/AppContext';
 import {toast} from 'react-toastify';
 import axios from 'axios';
+import {
+  validationMessages,
+  getIsValid,
+  getValidationMessage,
+  isFormValid,
+} from './HotelValidation';
+import BackButton from '../../../Components/BackButton';
 
 function CreateHotel() {
   const {state} = useContext(AppContext);
-
+  const navigate = useNavigate();
   const [isCreating, setIsCreating] = useState(false);
-  const validationMessages = {
-    name: 'Otel adı 3 ile 30 karakter arasında olmalıdır.',
-    responsible: 'Yetkili kişi 3 ile 30 karakter arasında olmalıdır.',
-    phone: 'Telefon numarası 10 karakter olmalıdır.',
-    email: 'Lütfen geçerli bir email giriniz.',
-  };
 
   const initialFormValues = {
     name: {
@@ -49,39 +50,13 @@ function CreateHotel() {
       [e.target.name]: {
         value: e.target.value,
         isValid: getIsValid(e.target.name, e.target.value),
-        validationMessage: getValidationMessage(e.target.name, e.target.value),
+        validationMessage: getValidationMessage(
+          e.target.name,
+          e.target.value,
+          formValues
+        ),
       },
     }));
-  };
-
-  const getIsValid = (field, value) => {
-    if (field === 'name') return value.length >= 3 && value.length <= 30;
-    if (field === 'responsible') return value.length >= 3 && value.length <= 30;
-
-    if (field === 'phone') return value.length === 10;
-
-    if (field === 'email') {
-      const emailRegex =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return emailRegex.test(value);
-    }
-  };
-
-  const getValidationMessage = (field, value = '') => {
-    if (field === 'name' && !formValues[field].isValid) {
-      return validationMessages.name;
-    }
-    if (field === 'responsible' && !formValues[field].isValid) {
-      return validationMessages.responsible;
-    }
-    if (field === 'phone' && !formValues[field].isValid) {
-      return validationMessages.phone;
-    }
-    if (field === 'email' && !formValues[field].isValid) {
-      return validationMessages.email;
-    }
-
-    return '';
   };
 
   const createHotel = async () => {
@@ -106,6 +81,7 @@ function CreateHotel() {
         body,
         config
       );
+      navigate(`/management/hotels/${data._id}`);
 
       toast.success(`${data.name} oteli başarıyla oluşturuldu.`);
     } catch (error) {
@@ -119,14 +95,10 @@ function CreateHotel() {
     }
   };
 
-  const isFormValid = () => {
-    return Object.values(formValues).every((field) => field.isValid);
-  };
-
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
 
-    if (!isFormValid()) return;
+    if (!isFormValid(formValues)) return;
 
     await createHotel();
 
@@ -135,9 +107,10 @@ function CreateHotel() {
 
   return (
     <PageWrapper title="Create Hotel | Management">
+      <BackButton />
       <HotelForm
         title={'Yeni Otel'}
-        handleSubmitCreate={handleSubmitCreate}
+        handleSubmit={handleSubmitCreate}
         handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}

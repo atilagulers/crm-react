@@ -13,19 +13,34 @@ const initialState = {
   management: {
     users: {
       list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
     },
     hotels: {
       list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
     },
     games: {
       list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
     },
     airlines: {
       list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
     },
   },
   customers: {
     list: [],
+    totalCount: 1,
+    totalPages: 1,
+    currentPage: 1,
   },
 };
 
@@ -43,15 +58,28 @@ const reducer = (draft, action) => {
       return;
     case 'UPDATE_USERS':
       draft.management.users.list = action.data.users;
+      draft.management.users.totalCount = action.data.totalCount;
+      draft.management.users.currentPage = action.data.currentPage;
+      draft.management.users.totalPages = action.data.totalPages;
+
       return;
     case 'UPDATE_HOTELS':
       draft.management.hotels.list = action.data.hotels;
+      draft.management.hotels.totalCount = action.data.totalCount;
+      draft.management.hotels.currentPage = action.data.currentPage;
+      draft.management.hotels.totalPages = action.data.totalPages;
       return;
     case 'UPDATE_GAMES':
       draft.management.games.list = action.data.games;
+      draft.management.games.totalCount = action.data.totalCount;
+      draft.management.games.currentPage = action.data.currentPage;
+      draft.management.games.totalPages = action.data.totalPages;
       return;
     case 'UPDATE_AIRLINES':
       draft.management.airlines.list = action.data.airlines;
+      draft.management.airlines.totalCount = action.data.totalCount;
+      draft.management.airlines.currentPage = action.data.currentPage;
+      draft.management.airlines.totalPages = action.data.totalPages;
       return;
     case 'UPDATE_CUSTOMERS':
       draft.customers.list = action.data.customers;

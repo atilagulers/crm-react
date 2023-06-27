@@ -6,6 +6,7 @@ import {Routes, Route, useNavigate} from 'react-router-dom';
 import CreateHotel from './CreateHotel';
 import ListHotels from './ListHotels';
 import HotelDetails from './HotelDetails';
+import EditHotel from './EditHotel';
 
 function Hotels() {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ function Hotels() {
         <Route path="/" element={<ListHotels />} />
         <Route path="/create" element={<CreateHotel />} />
         <Route path="/:id" element={<HotelDetails />} />
+        <Route path="/:id/edit" element={<EditHotel />} />
       </Routes>
     </PageWrapper>
   );

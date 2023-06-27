@@ -5,6 +5,7 @@ import {Container, Button} from 'react-bootstrap';
 import ListGames from './ListGames';
 import CreateGame from './CreateGame';
 import GameDetails from './GameDetails';
+import EditGame from './EditGame';
 
 function Games() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ function Games() {
         <Route path="/" element={<ListGames />} />
         <Route path="/create" element={<CreateGame />} />
         <Route path="/:id" element={<GameDetails />} />
+        <Route path="/:id/edit" element={<EditGame />} />
       </Routes>
     </PageWrapper>
   );

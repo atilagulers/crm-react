@@ -1,11 +1,11 @@
 import React, {useEffect, useContext, useState} from 'react';
 import PageWrapper from '../../../Components/PageWrapper';
-import UserForm from './UserForm';
 import {useNavigate, useParams} from 'react-router-dom';
 import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 import LoadingSpinner from '../../../Components/LoadingSpinner';
+import AirlineForm from './AirlineForm';
 import BackButton from '../../../Components/BackButton';
 
 import {
@@ -13,48 +13,29 @@ import {
   getIsValid,
   getValidationMessage,
   isFormValid,
-} from './UserValidation';
+} from './AirlineValidation';
 
-function EditUser() {
+function EditHotel() {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
-  const {id: userId} = useParams();
-  const [user, setUser] = useState();
+  const {id: airlineId} = useParams();
+  const [airline, setAirline] = useState();
 
   const [isUpdating, setIsUpdating] = useState(false);
 
   const initialFormValues = {
-    firstName: {
-      value: user ? user.firstName : '',
+    name: {
+      value: airline ? airline.name : '',
       isValid: false,
-      validationMessage: validationMessages.firstName,
-    },
-    lastName: {
-      value: user ? user.lastName : '',
-      isValid: false,
-      validationMessage: validationMessages.lastName,
-    },
-    username: {
-      value: user ? user.username : '',
-      isValid: false,
-      validationMessage: validationMessages.username,
-    },
-    password: {
-      value: user ? user.password : '',
-      isValid: false,
-      validationMessage: validationMessages.password,
-    },
-    role: {
-      value: user ? user.role : '',
-      isValid: true,
-      validationMessage: '',
+      validationMessage: validationMessages.name,
     },
   };
   const [formValues, setFormValues] = useState(initialFormValues);
+
   useEffect(() => {
     const source = axios.CancelToken.source();
 
-    const fetchUser = async () => {
+    const fetchAirline = async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${state.token}`,
@@ -62,37 +43,22 @@ function EditUser() {
       };
 
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/user/${userId}`,
+        `${process.env.REACT_APP_API}/airline/${airlineId}`,
         config
       );
 
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
-        firstName: {
-          ...prevFormValues.firstName,
-          value: data.firstName || '',
-          isValid: true,
-        },
-        lastName: {
-          ...prevFormValues.lastName,
-          value: data.lastName || '',
-          isValid: true,
-        },
-        username: {
-          ...prevFormValues.username,
-          value: data.username || '',
-          isValid: true,
-        },
-        role: {
-          ...prevFormValues.role,
-          value: data.role || '',
+        name: {
+          ...prevFormValues.name,
+          value: data.name || '',
           isValid: true,
         },
       }));
 
-      setUser(data);
+      setAirline(data);
     };
-    fetchUser();
+    fetchAirline();
 
     return () => {
       source.cancel();
@@ -111,10 +77,6 @@ function EditUser() {
           formValues
         ),
       },
-      password: {
-        ...prevValues.password,
-        isValid: true,
-      },
     }));
   };
   const handleSubmitUpdate = async (e) => {
@@ -130,40 +92,38 @@ function EditUser() {
       };
 
       const body = {
-        firstName: formValues.firstName.value,
-        lastName: formValues.lastName.value,
-        username: formValues.username.value,
-        role: formValues.role.value,
+        name: formValues.name.value,
       };
-      console.log(body);
+
       await axios.patch(
-        `${process.env.REACT_APP_API}/user/${userId}`,
+        `${process.env.REACT_APP_API}/airline/${airlineId}`,
         body,
         config
       );
 
-      navigate(`/management/users/${userId}`);
-      toast.success(`Kullanıcı güncellendi.`);
+      navigate(`/management/airlines/${airlineId}`);
+      toast.success(`Havayolu güncellendi.`);
 
       return () => {
         source.cancel();
       };
     } catch (error) {
       if (error.response.status === 409) {
-        toast.error('Bu kullanıcı adı zaten kullanılıyor.');
+        toast.error('Bu havayolu adı zaten kullanılıyor.');
       } else {
-        toast.error('Kullanıcı oluşturulamadı. ' + error);
+        toast.error('Havayolu oluşturulamadı. ' + error);
       }
     } finally {
       setIsUpdating(false);
     }
   };
-  if (!user) return <LoadingSpinner />;
+  if (!airline) return <LoadingSpinner />;
+
   return (
     <PageWrapper title="User Details | Management">
       <BackButton />
-      <UserForm
-        title={'Kullanıcı Güncelle'}
+      <AirlineForm
+        title={'Havayolu Güncelle'}
         handleSubmit={handleSubmitUpdate}
         handleChange={handleChangeInput}
         formValues={formValues}
@@ -178,4 +138,4 @@ function EditUser() {
   );
 }
 
-export default EditUser;
+export default EditHotel;

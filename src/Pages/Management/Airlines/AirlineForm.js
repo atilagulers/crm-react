@@ -1,24 +1,38 @@
 import React, {useEffect} from 'react';
 import {Form, Button, Container, Row, Col} from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faUserPen} from '@fortawesome/free-solid-svg-icons';
 
 function AirlineForm({
   title,
-  handleSubmitCreate,
+  handleSubmit,
   handleChange,
   formValues,
   isFormValid,
-  isCreating,
+  isSaving,
+  disabled = false,
+  showSubmitButton = true,
+  handleClickEdit,
+  showEditButton = false,
+  submitButtonText = 'Kaydet',
 }) {
   return (
     <Container className=" p-0 bg-light-dark mb-5" style={{margin: '0% auto'}}>
-      <Container className="p-3 bg-primary">
+      <Container className="p-3 bg-primary d-flex justify-content-between">
         <h3>{title}</h3>
+        <FontAwesomeIcon
+          onClick={handleClickEdit}
+          className="p-2"
+          icon={faUserPen}
+          size="2x"
+          style={{cursor: 'pointer', display: showEditButton ? '' : 'none'}}
+        />
       </Container>
       <Form
         className="p-5"
         noValidate
         //validated={validated}
-        onSubmit={handleSubmitCreate}
+        onSubmit={handleSubmit}
       >
         <Row className="d-flex justify-content-between">
           <Col>
@@ -36,6 +50,7 @@ function AirlineForm({
                 isValid={formValues.name.isValid}
                 isInvalid={!formValues.name.isValid}
                 value={formValues.name.value}
+                disabled={disabled}
               />
               <Form.Control.Feedback type="invalid">
                 {formValues.name.validationMessage}
@@ -48,9 +63,10 @@ function AirlineForm({
           <Button
             type="submit"
             size="lg"
-            disabled={!isFormValid() || isCreating}
+            style={{display: showSubmitButton ? '' : 'none'}}
+            disabled={!isFormValid(formValues) || isSaving}
           >
-            Kaydet
+            {submitButtonText}
           </Button>
         </Container>
       </Form>
