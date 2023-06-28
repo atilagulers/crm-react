@@ -29,17 +29,17 @@ function CustomerDetails() {
     },
     firstName: {
       value: customer ? customer.firstName : '',
-      isValid: false,
+      isValid: true,
       validationMessage: validationMessages.firstName,
     },
     lastName: {
       value: customer ? customer.lastName : '',
-      isValid: false,
+      isValid: true,
       validationMessage: validationMessages.lastName,
     },
     phone1: {
       value: customer ? customer.phone1 : '',
-      isValid: false,
+      isValid: true,
       validationMessage: validationMessages.phone1,
     },
     phone2: {
@@ -136,8 +136,8 @@ function CustomerDetails() {
     };
   }, []);
 
-  if (isFetching) return <LoadingSpinner />;
-
+  if (isFetching || !customer) return <LoadingSpinner />;
+  console.log(customer);
   return (
     <PageWrapper title={'Details | Customer'}>
       <BackButton />
