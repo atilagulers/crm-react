@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PageWrapper from '../../Components/PageWrapper';
 import CustomerForm from './CustomerForm';
@@ -21,7 +21,7 @@ function CreateCustomer() {
   const initialFormValues = {
     tc: {
       value: '',
-      isValid: false,
+      isValid: true,
       validationMessage: validationMessages.tc,
     },
     firstName: {
@@ -34,15 +34,55 @@ function CreateCustomer() {
       isValid: false,
       validationMessage: validationMessages.lastName,
     },
-    phone: {
+    phone1: {
       value: '',
       isValid: false,
-      validationMessage: validationMessages.phone,
+      validationMessage: validationMessages.phone1,
+    },
+    phone2: {
+      value: '',
+      isValid: true,
+      validationMessage: validationMessages.phone1,
+    },
+    phone3: {
+      value: '',
+      isValid: true,
+      validationMessage: validationMessages.phone1,
     },
     email: {
       value: '',
-      isValid: false,
+      isValid: true,
       validationMessage: validationMessages.email,
+    },
+    birthday: {
+      value: '',
+      isValid: true,
+      validationMessage: validationMessages.birthday,
+    },
+    address: {
+      value: '',
+      isValid: true,
+      validationMessage: validationMessages.address,
+    },
+    workAddress: {
+      value: '',
+      isValid: true,
+      validationMessage: validationMessages.workAddress,
+    },
+    city: {
+      value: 'Diğer',
+      isValid: true,
+      validationMessage: validationMessages.city,
+    },
+    gender: {
+      value: 'erkek',
+      isValid: true,
+      validationMessage: validationMessages.gender,
+    },
+    user: {
+      value: '',
+      isValid: true,
+      validationMessage: validationMessages.user,
     },
   };
 
@@ -63,15 +103,24 @@ function CreateCustomer() {
     }));
   };
 
-  const createHotel = async () => {
+  const createCustomer = async () => {
     try {
       setIsCreating(true);
 
       const body = {
-        name: formValues.name.value,
+        tc: formValues.tc.value,
         firstName: formValues.firstName.value,
-        phone: formValues.phone.value,
+        lastName: formValues.lastName.value,
+        phone1: formValues.phone1.value,
+        phone2: formValues.phone2.value,
+        phone3: formValues.phone3.value,
         email: formValues.email.value,
+        birthday: formValues.birthday.value,
+        address: formValues.address.value,
+        workAddress: formValues.workAddress.value,
+        city: formValues.city.value,
+        gender: formValues.gender.value,
+        user: formValues.user.value,
       };
 
       const config = {
@@ -81,7 +130,7 @@ function CreateCustomer() {
       };
 
       const {data} = await axios.post(
-        `${process.env.REACT_APP_API}/hotel`,
+        `${process.env.REACT_APP_API}/customer`,
         body,
         config
       );
@@ -101,10 +150,10 @@ function CreateCustomer() {
 
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
-
+    console.log(formValues);
     if (!isFormValid(formValues)) return;
 
-    await createHotel();
+    await createCustomer();
 
     setFormValues(initialFormValues);
   };

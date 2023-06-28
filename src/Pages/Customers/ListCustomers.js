@@ -10,12 +10,13 @@ function ListCustomers() {
   const customers = state.customers;
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isUpdatingUser, setIsUpdatingUser] = useState(false);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchCustomers = async () => {
-      if (customers.list.length > 0) return setIsLoading(false);
+      //if (customers.list.length > 0) return setIsLoading(false);
 
       setIsLoading(true);
       try {
@@ -41,11 +42,45 @@ function ListCustomers() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [isUpdatingUser]);
+
+  const handleSelectUser = async (userId, customerId) => {
+    setIsUpdatingUser(true);
+
+    try {
+      const source = axios.CancelToken.source();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      };
+      const body = {
+        user: userId,
+      };
+      await axios.patch(
+        `${process.env.REACT_APP_API}/customer/${customerId}`,
+        body,
+        config
+      );
+
+      return () => {
+        source.cancel();
+      };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsUpdatingUser(false);
+    }
+  };
 
   if (isLoading) return <LoadingSpinner />;
 
-  return <CustomerTable customers={customers.list} />;
+  return (
+    <CustomerTable
+      customers={customers.list}
+      handleSelectUser={handleSelectUser}
+    />
+  );
 }
 
 export default ListCustomers;

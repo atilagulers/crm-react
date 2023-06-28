@@ -5,13 +5,112 @@ import {useParams} from 'react-router-dom';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import axios from 'axios';
 import {AppContext} from '../../Contexts/AppContext';
+import CustomerForm from './CustomerForm';
+import BackButton from '../../Components/BackButton';
+import {
+  validationMessages,
+  getIsValid,
+  getValidationMessage,
+  isFormValid,
+} from './CustomerValidation';
 
 function CustomerDetails() {
   const {state} = useContext(AppContext);
-  const {id: userId} = useParams();
+
+  const {id: customerId} = useParams();
   const [customer, setCustomer] = useState();
+  const [isFetching, setIsFetching] = useState(false);
+
+  const initialFormValues = {
+    tc: {
+      value: customer ? customer.tc : '',
+      isValid: true,
+      validationMessage: validationMessages.tc,
+    },
+    firstName: {
+      value: customer ? customer.firstName : '',
+      isValid: false,
+      validationMessage: validationMessages.firstName,
+    },
+    lastName: {
+      value: customer ? customer.lastName : '',
+      isValid: false,
+      validationMessage: validationMessages.lastName,
+    },
+    phone1: {
+      value: customer ? customer.phone1 : '',
+      isValid: false,
+      validationMessage: validationMessages.phone1,
+    },
+    phone2: {
+      value: customer ? customer.phone2 : '',
+      isValid: true,
+      validationMessage: validationMessages.phone1,
+    },
+    phone3: {
+      value: customer ? customer.phone3 : '',
+      isValid: true,
+      validationMessage: validationMessages.phone1,
+    },
+    email: {
+      value: customer ? customer.email : '',
+      isValid: true,
+      validationMessage: validationMessages.email,
+    },
+    birthday: {
+      value: customer ? customer.birthday : '',
+      isValid: true,
+      validationMessage: validationMessages.birthday,
+    },
+    address: {
+      value: customer ? customer.address : '',
+      isValid: true,
+      validationMessage: validationMessages.address,
+    },
+    workAddress: {
+      value: customer ? customer.workAddress : '',
+      isValid: true,
+      validationMessage: validationMessages.workAddress,
+    },
+    city: {
+      value: customer ? customer.city : '',
+      isValid: true,
+      validationMessage: validationMessages.city,
+    },
+    gender: {
+      value: customer ? customer.gender : '',
+      isValid: true,
+      validationMessage: validationMessages.gender,
+    },
+    user: {
+      value: customer
+        ? `${customer.user.firstName} ${customer.user.lastName}`
+        : '',
+      isValid: true,
+      validationMessage: validationMessages.user,
+    },
+  };
+
+  const [formValues, setFormValues] = useState(initialFormValues);
+
+  const handleChangeInput = (e) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [e.target.name]: {
+        value: e.target.value,
+        isValid: getIsValid(e.target.name, e.target.value),
+        validationMessage: getValidationMessage(
+          e.target.name,
+          e.target.value,
+          formValues
+        ),
+      },
+    }));
+  };
 
   useEffect(() => {
+    setIsFetching(true);
+
     const source = axios.CancelToken.source();
 
     const fetchHotel = async () => {
@@ -22,7 +121,7 @@ function CustomerDetails() {
       };
 
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/customer/${userId}`,
+        `${process.env.REACT_APP_API}/customer/${customerId}`,
         config
       );
 
@@ -30,48 +129,29 @@ function CustomerDetails() {
     };
     fetchHotel();
 
+    setIsFetching(false);
+
     return () => {
       source.cancel();
     };
   }, []);
 
-  if (!customer) return <LoadingSpinner />;
+  if (isFetching) return <LoadingSpinner />;
 
   return (
     <PageWrapper title={'Details | Customer'}>
-      <Container className=" p-0 bg-light-dark " style={{margin: '0% auto'}}>
-        <Container className="p-3 bg-primary">
-          <h3>{'Müşteri Detayları'}</h3>
-        </Container>
-
-        <Table striped hover borderless>
-          <tbody>
-            {[
-              {label: 'TC', value: customer.tc},
-              {label: 'Adı', value: customer.firstName},
-              {label: 'Soyadı', value: customer.lastName},
-              {label: 'Telefon 1', value: customer.phone1},
-              {label: 'Telefon 2', value: customer.phone2},
-              {label: 'Telefon 3', value: customer.phone3},
-              {label: 'Email', value: customer.email},
-              {label: 'Doğum Tarihi', value: customer.birthday},
-              {label: 'Adres', value: customer.address},
-              {label: 'İş Adresi', value: customer.workAddress},
-              {label: 'Şehir', value: customer.city},
-              {label: 'Cinsiyet', value: customer.gender},
-              {
-                label: 'Agent',
-                value: `${customer.user.firstName} ${customer.user.lastName}`,
-              },
-            ].map((item, i) => (
-              <tr key={i}>
-                <td className="col-md-2"> {item.label}:</td>
-                <td>{item.value}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Container>
+      <BackButton />
+      {console.log(formValues)}
+      <CustomerForm
+        title={'Müşteri Detayları'}
+        //handleSubmit={handleSubmitCreate}
+        handleChange={handleChangeInput}
+        formValues={formValues}
+        isFormValid={isFormValid}
+        disabled={true}
+        //isCreating={isCreating}
+        //users={users}
+      />
     </PageWrapper>
   );
 }

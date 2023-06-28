@@ -51,6 +51,7 @@ function EditUser() {
     },
   };
   const [formValues, setFormValues] = useState(initialFormValues);
+
   useEffect(() => {
     const source = axios.CancelToken.source();
 
@@ -158,6 +159,7 @@ function EditUser() {
       setIsUpdating(false);
     }
   };
+
   if (!user) return <LoadingSpinner />;
   return (
     <PageWrapper title="User Details | Management">

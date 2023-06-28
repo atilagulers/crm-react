@@ -3,21 +3,22 @@ import {Table, Dropdown, Container} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 
-function CustomerTable({customers}) {
+function CustomerTable({customers, handleSelectUser}) {
   const {state} = useContext(AppContext);
 
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchUsers = async () => {
-      //if (customers.length > 0) return setIsLoading(false);
+      //if (customers.length > 0) return setIsFetching(false);
 
-      setIsLoading(true);
+      setIsFetching(true);
       try {
         const {data} = await axios.get(
           `${process.env.REACT_APP_API}/user/?page=1&limit=9999`,
@@ -33,7 +34,7 @@ function CustomerTable({customers}) {
       } catch (error) {
         console.log(error);
       } finally {
-        setIsLoading(false);
+        setIsFetching(false);
       }
     };
     fetchUsers();
@@ -47,6 +48,8 @@ function CustomerTable({customers}) {
     navigate(`/customers/${customerId}`);
   };
 
+  if (isFetching) return <LoadingSpinner />;
+
   return (
     <Container className="px-0">
       <Table
@@ -58,12 +61,11 @@ function CustomerTable({customers}) {
       >
         <thead>
           <tr className="table-dark">
-            <th>+</th>
             <th>Adı</th>
             <th>Soyadı</th>
             <th>Telefon</th>
-            <th>Email</th>
-            <th>user</th>
+
+            <th>Agent</th>
             {/*<th>Otel</th>*/}
             <th>Grup</th>
           </tr>
@@ -74,59 +76,41 @@ function CustomerTable({customers}) {
               return (
                 <tr key={customer._id}>
                   <td onClick={(e) => handleClickCustomer(e, customer._id)}>
-                    +
+                    {customer.firstName}
                   </td>
-                  <td>{customer.firstName}</td>
-                  <td>{customer.lastName}</td>
-                  <td>{customer.phone1}</td>
-                  <td>{customer.email}</td>
+                  <td onClick={(e) => handleClickCustomer(e, customer._id)}>
+                    {customer.lastName}
+                  </td>
+                  <td onClick={(e) => handleClickCustomer(e, customer._id)}>
+                    {customer.phone1}
+                  </td>
+
                   <td>
-                    <Dropdown>
+                    <Dropdown
+                      onSelect={(userId) =>
+                        handleSelectUser(userId, customer._id)
+                      }
+                    >
                       <Dropdown.Toggle
-                        variant="secondary"
+                        variant="primary"
                         id={`user-dropdown-${customer.id}`}
                         style={{width: '100%'}}
                       >
-                        {customer.user[0]?.firstName}
+                        {`${customer.user[0]?.firstName} ${customer.user[0]?.lastName}`}
                       </Dropdown.Toggle>
+
                       <Dropdown.Menu>
-                        {users?.map((agent) => {
+                        {users?.map((user) => {
                           return (
-                            <Dropdown.Item
-                              key={agent._id}
-                              active={customer.user === 'Burak Kaya'}
-                            >
-                              {`${agent.firstName} ${agent.lastName}`}
+                            <Dropdown.Item key={user._id} eventKey={user._id}>
+                              {`${user.firstName} ${user.lastName}`}
                             </Dropdown.Item>
                           );
                         })}
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>
-                  {/*<td data-field="hotel">
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      variant="secondary"
-                      id="hotel-dropdown"
-                      style={{width: '100%'}}
-                    >
-                      {selectedHotels.length > 0
-                        ? `${selectedHotels.length} otel seçildi`
-                        : 'Otel Seçin'}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {customer.hotels.map((hotel, index) => (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={() => handleChangeHotels(hotel)}
-                          active={selectedHotels.includes(hotel)}
-                        >
-                          {hotel}
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </td>*/}
+
                   <td>{customer.group}</td>
                 </tr>
               );
