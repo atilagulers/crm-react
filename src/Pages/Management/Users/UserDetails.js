@@ -106,11 +106,8 @@ function UserDetails() {
       <BackButton />
       <UserForm
         title={'Kullanıcı Detayları'}
-        //handleSubmit={handleSubmitUpdate}
-        //handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}
-        //isSaving={isUpdating}
         showPasswordInput={false}
         handleClickEdit={handleClickEdit}
         showSubmitButton={false}

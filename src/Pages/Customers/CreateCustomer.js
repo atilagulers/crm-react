@@ -122,7 +122,7 @@ function CreateCustomer() {
         gender: formValues.gender.value,
         user: formValues.user.value,
       };
-
+      console.log(body);
       const config = {
         headers: {
           Authorization: `Bearer ${state.token}`,
@@ -134,7 +134,7 @@ function CreateCustomer() {
         body,
         config
       );
-      navigate(`/management/customers/${data._id}`);
+      navigate(`/customers/${data._id}`);
 
       toast.success(`${data.firstName} müşterisi başarıyla oluşturuldu.`);
     } catch (error) {

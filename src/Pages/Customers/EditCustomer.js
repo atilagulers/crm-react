@@ -1,12 +1,13 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
-import {Row, Table, Container} from 'react-bootstrap';
-import {useNavigate, useParams} from 'react-router-dom';
-import LoadingSpinner from '../../Components/LoadingSpinner';
-import axios from 'axios';
-import {AppContext} from '../../Contexts/AppContext';
 import CustomerForm from './CustomerForm';
+import {useNavigate, useParams} from 'react-router-dom';
+import {AppContext} from '../../Contexts/AppContext';
+import axios from 'axios';
+import {toast} from 'react-toastify';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 import BackButton from '../../Components/BackButton';
+
 import {
   validationMessages,
   getIsValid,
@@ -14,12 +15,13 @@ import {
   isFormValid,
 } from './CustomerValidation';
 
-function CustomerDetails() {
+function EditCustomer() {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
   const {id: customerId} = useParams();
   const [customer, setCustomer] = useState();
-  const [isFetching, setIsFetching] = useState(true);
+
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const initialFormValues = {
     tc: {
@@ -58,7 +60,7 @@ function CustomerDetails() {
       validationMessage: validationMessages.email,
     },
     birthday: {
-      value: customer ? new Date(customer.birthday) : '',
+      value: customer ? customer.birthday : '',
       isValid: true,
       validationMessage: validationMessages.birthday,
     },
@@ -90,30 +92,12 @@ function CustomerDetails() {
       validationMessage: validationMessages.user,
     },
   };
-
   const [formValues, setFormValues] = useState(initialFormValues);
 
-  const handleChangeInput = (e) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [e.target.name]: {
-        value: e.target.value,
-        isValid: getIsValid(e.target.name, e.target.value),
-        validationMessage: getValidationMessage(
-          e.target.name,
-          e.target.value,
-          formValues
-        ),
-      },
-    }));
-  };
-
   useEffect(() => {
-    setIsFetching(true);
-
     const source = axios.CancelToken.source();
 
-    const fetchHotel = async () => {
+    const fetchUser = async () => {
       const config = {
         headers: {
           Authorization: `Bearer ${state.token}`,
@@ -164,8 +148,7 @@ function CustomerDetails() {
         },
         birthday: {
           ...prevFormValues.birthday,
-          value:
-            new Date(data.birthday).toISOString().split('T')[0] || '1970-01-01',
+          value: new Date(data.birthday) || '1970-01-01',
           isValid: true,
         },
         address: {
@@ -197,37 +180,100 @@ function CustomerDetails() {
 
       setCustomer(data);
     };
-    fetchHotel();
-
-    setIsFetching(false);
+    fetchUser();
 
     return () => {
       source.cancel();
     };
   }, []);
 
-  const handleClickEdit = () => {
-    navigate('edit');
+  const handleChangeInput = (e) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [e.target.name]: {
+        value: e.target.value,
+        isValid: getIsValid(e.target.name, e.target.value),
+        validationMessage: getValidationMessage(
+          e.target.name,
+          e.target.value,
+          formValues
+        ),
+      },
+      password: {
+        ...prevValues.password,
+        isValid: true,
+      },
+    }));
   };
+  const handleSubmitUpdate = async (e) => {
+    e.preventDefault();
+    setIsUpdating(true);
 
-  if (isFetching || !customer) return <LoadingSpinner />;
+    try {
+      const source = axios.CancelToken.source();
+      const config = {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      };
+
+      const body = {
+        tc: formValues.tc.value,
+        firstName: formValues.firstName.value,
+        lastName: formValues.lastName.value,
+        phone1: formValues.phone1.value,
+        phone2: formValues.phone2.value,
+        phone3: formValues.phone3.value,
+        email: formValues.email.value,
+        birthday: new Date(formValues.birthday.value),
+        address: formValues.address.value,
+        workAddress: formValues.workAddress.value,
+        city: formValues.city.value,
+        gender: formValues.gender.value,
+        user: formValues.user.value._id,
+      };
+      console.log(body);
+      await axios.patch(
+        `${process.env.REACT_APP_API}/customer/${customerId}`,
+        body,
+        config
+      );
+
+      navigate(`/customers/${customerId}`);
+      toast.success(`Müşteri güncellendi.`);
+
+      return () => {
+        source.cancel();
+      };
+    } catch (error) {
+      if (error.response.status === 409) {
+        toast.error('Bu müşteri zaten var.');
+      } else {
+        toast.error('Müşteri oluşturulamadı. ' + error);
+      }
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+  if (!customer) return <LoadingSpinner />;
 
   return (
-    <PageWrapper title={'Details | Customer'}>
+    <PageWrapper title="Customer Details | Management">
       <BackButton />
-
       <CustomerForm
-        title={'Müşteri Detayları'}
+        title={'Kullanıcı Güncelle'}
+        handleSubmit={handleSubmitUpdate}
+        handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}
+        isSaving={isUpdating}
+        disabled={false}
         showPasswordInput={false}
-        handleClickEdit={handleClickEdit}
-        showSubmitButton={false}
-        showEditButton={true}
-        disabled={true}
+        showSubmitButton={true}
+        submitButtonText={'Güncelle'}
       />
     </PageWrapper>
   );
 }
 
-export default CustomerDetails;
+export default EditCustomer;

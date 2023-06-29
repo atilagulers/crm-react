@@ -1,9 +1,11 @@
 import {Container, Form, Row, Col, Button} from 'react-bootstrap';
-import React from 'react';
+import {useEffect, useContext, useState} from 'react';
 import Select from 'react-select';
 import cities from '../../data/cities';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUserPen} from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+import {AppContext} from '../../Contexts/AppContext';
 
 function CustomerForm({
   title,
@@ -17,12 +19,39 @@ function CustomerForm({
   handleClickEdit,
   showEditButton = false,
   submitButtonText = 'Kaydet',
-  users,
 }) {
+  const {state} = useContext(AppContext);
+  const [users, setUsers] = useState([]);
+
   const handleChangeCity = (selectedCity) => {
     const e = {target: {name: 'city', value: selectedCity.value}};
     handleChange(e);
   };
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    const fetchUsers = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+          cancelToken: source.token,
+        };
+
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/user?page=1&limit=9999`,
+          config
+        );
+        setUsers(data.users);
+      } catch (error) {}
+    };
+    fetchUsers();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
 
   return (
     <Container className="p-0 bg-light-dark " style={{margin: '0% auto'}}>
@@ -171,6 +200,7 @@ function CustomerForm({
                 onChange={(e) => handleChange(e)}
                 name="birthday"
                 type="date"
+                disabled={disabled}
                 value={formValues.birthday.value}
               />
             </Form.Group>
@@ -211,6 +241,7 @@ function CustomerForm({
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Şehir:</Form.Label>
               <Select
+                isDisabled={disabled}
                 options={cities}
                 styles={{
                   option: (provided, state) => ({
@@ -234,7 +265,6 @@ function CustomerForm({
                 name="gender"
                 defaultValue={formValues.gender.value}
                 aria-label="Default select example"
-                disabled={disabled}
               >
                 <option value="erkek">Erkek</option>
                 <option value="kadin">Kadın</option>
@@ -245,16 +275,22 @@ function CustomerForm({
           <Col>
             <Form.Group>
               <Form.Label>Agent:</Form.Label>
+
               <Form.Select
                 onChange={(e) => handleChange(e)}
                 name="user"
-                defaultValue={formValues.user.value}
+                value={formValues.user.value}
+                isValid={formValues.user.isValid}
+                isInvalid={!formValues.user.isValid}
                 aria-label="Default select example"
-                disabled={disabled}
               >
+                <option value="" disabled>
+                  Seçin
+                </option>
                 {users &&
                   users.map((user) => {
                     const fullName = `${user.firstName} ${user.lastName}`;
+
                     return (
                       <option value={user._id} key={user._id}>
                         {fullName}

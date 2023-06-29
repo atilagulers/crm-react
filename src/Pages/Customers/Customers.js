@@ -7,6 +7,8 @@ import CustomerDetails from './CustomerDetails';
 import ListCustomerGroups from './ListCustomerGroups';
 import CreateCustomer from './CreateCustomer';
 import CreateCustomerGroup from './CreateCustomerGroup';
+import EditiCustomer from './EditCustomer';
+import EditCustomer from './EditCustomer';
 
 function Customers() {
   const navigate = useNavigate();
@@ -50,6 +52,7 @@ function Customers() {
         <Route path="/customer-groups" element={<ListCustomerGroups />} />
 
         <Route path="/:id" element={<CustomerDetails />} />
+        <Route path="/:id/edit" element={<EditCustomer />} />
       </Routes>
     </PageWrapper>
   );
