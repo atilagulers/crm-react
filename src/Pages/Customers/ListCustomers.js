@@ -4,24 +4,25 @@ import CustomerTable from './CustomerTable';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';
+import Pagination from '../../Components/Pagination';
 
 function ListCustomers() {
   const {state, dispatch} = useContext(AppContext);
   const customers = state.customers;
-
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(true);
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
+  const limit = 2;
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchCustomers = async () => {
-      //if (customers.list.length > 0) return setIsLoading(false);
+      //if (customers.list.length > 0) return setIsFetching(false);
 
-      setIsLoading(true);
+      setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer?page=1&limit=30`,
+          `${process.env.REACT_APP_API}/customer?page=${customers.currentPage}&limit=${limit}`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -29,12 +30,12 @@ function ListCustomers() {
             cancelToken: source.token,
           }
         );
-
+        console.log(data);
         dispatch({type: 'UPDATE_CUSTOMERS', data});
       } catch (error) {
         console.log(error);
       } finally {
-        setIsLoading(false);
+        setIsFetching(false);
       }
     };
     fetchCustomers();
@@ -42,7 +43,7 @@ function ListCustomers() {
     return () => {
       source.cancel();
     };
-  }, [isUpdatingUser]);
+  }, []);
 
   const handleSelectUser = async (userId, customerId) => {
     setIsUpdatingUser(true);
@@ -73,13 +74,41 @@ function ListCustomers() {
     }
   };
 
-  if (isLoading) return <LoadingSpinner />;
+  const handleClickPage = async ({selected}) => {
+    const page = selected + 1;
+    setIsFetching(true);
+    try {
+      const {data} = await axios.get(
+        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+
+      dispatch({type: 'UPDATE_CUSTOMERS', data});
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  if (isFetching || isUpdatingUser) return <LoadingSpinner />;
 
   return (
-    <CustomerTable
-      customers={customers.list}
-      handleSelectUser={handleSelectUser}
-    />
+    <Container className="p-0">
+      <CustomerTable
+        customers={customers.list}
+        handleSelectUser={handleSelectUser}
+      />
+      <Pagination
+        handleClickPage={handleClickPage}
+        totalPages={customers.totalPages}
+        currentPage={customers.currentPage - 1}
+      />
+    </Container>
   );
 }
 

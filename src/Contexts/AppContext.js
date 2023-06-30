@@ -42,6 +42,12 @@ const initialState = {
     totalPages: 1,
     currentPage: 1,
   },
+  customerGroups: {
+    list: [],
+    totalCount: 1,
+    totalPages: 1,
+    currentPage: 1,
+  },
 };
 
 const reducer = (draft, action) => {
@@ -83,6 +89,16 @@ const reducer = (draft, action) => {
       return;
     case 'UPDATE_CUSTOMERS':
       draft.customers.list = action.data.customers;
+      draft.customers.totalCount = action.data.totalCount;
+      draft.customers.currentPage = action.data.currentPage;
+      draft.customers.totalPages = action.data.totalPages;
+      return;
+
+    case 'UPDATE_CUSTOMER_GROUPS':
+      draft.customerGroups.list = action.data.customerGroups;
+      draft.customerGroups.totalCount = action.data.totalCount;
+      draft.customerGroups.currentPage = action.data.currentPage;
+      draft.customerGroups.totalPages = action.data.totalPages;
       return;
     default:
       return draft;

@@ -11,13 +11,6 @@ function CustomerGroupTable({customerGroups}) {
 
   return (
     <div>
-      {/*<Button
-        onClick={() => navigate(-1)}
-        variant="link"
-        className="text-light"
-      >
-        {'\u003C'} Geri
-      </Button>*/}
       <Table
         className="table customer-table table-striped table-dark table-hover"
         striped
@@ -37,7 +30,7 @@ function CustomerGroupTable({customerGroups}) {
               return (
                 <tr onClick={() => handleClickRow(group.id)} key={i}>
                   <td>{group.name}</td>
-                  <td>{group.aciklama}</td>
+                  <td>{group.explanation}</td>
                 </tr>
               );
             })}

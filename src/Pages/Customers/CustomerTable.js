@@ -48,7 +48,7 @@ function CustomerTable({customers, handleSelectUser}) {
     navigate(`/customers/${customerId}`);
   };
 
-  if (isFetching) return <LoadingSpinner />;
+  //if (isFetching) return <LoadingSpinner />;
 
   return (
     <Container className="px-0">
