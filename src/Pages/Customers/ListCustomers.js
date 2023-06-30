@@ -11,7 +11,7 @@ function ListCustomers() {
   const customers = state.customers;
   const [isFetching, setIsFetching] = useState(true);
   const [isUpdatingUser, setIsUpdatingUser] = useState(false);
-  const limit = 2;
+  const limit = 20;
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -30,7 +30,7 @@ function ListCustomers() {
             cancelToken: source.token,
           }
         );
-        console.log(data);
+
         dispatch({type: 'UPDATE_CUSTOMERS', data});
       } catch (error) {
         console.log(error);

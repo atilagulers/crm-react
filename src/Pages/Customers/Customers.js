@@ -7,8 +7,9 @@ import CustomerDetails from './CustomerDetails';
 import ListCustomerGroups from './ListCustomerGroups';
 import CreateCustomer from './CreateCustomer';
 import CreateCustomerGroup from './CreateCustomerGroup';
-import EditiCustomer from './EditCustomer';
 import EditCustomer from './EditCustomer';
+import CustomerGroupDetails from './CustomerGroupDetails';
+import EditCustomerGroup from './EditCustomerGroup';
 
 function Customers() {
   const navigate = useNavigate();
@@ -32,12 +33,15 @@ function Customers() {
         <Button onClick={handleClickListCustomers} className="me-3">
           Müşterileri Listele
         </Button>
-        <Button onClick={handleClickListGroups} className="me-3">
-          Müşteri Gruplarını Listele
-        </Button>
+
         <Button onClick={handleClickCreateCustomer} className="me-3">
           Müşteri Oluştur
         </Button>
+
+        <Button onClick={handleClickListGroups} className="me-3">
+          Müşteri Gruplarını Listele
+        </Button>
+
         <Button onClick={handleClickCreateGroup} className="me-3">
           Müşteri Grubu Oluştur
         </Button>
@@ -50,6 +54,11 @@ function Customers() {
           element={<CreateCustomerGroup title={'Yeni Müşteri Grubu'} />}
         />
         <Route path="/customer-groups" element={<ListCustomerGroups />} />
+        <Route path="/customer-groups/:id" element={<CustomerGroupDetails />} />
+        <Route
+          path="/customer-groups/:id/edit"
+          element={<EditCustomerGroup />}
+        />
 
         <Route path="/:id" element={<CustomerDetails />} />
         <Route path="/:id/edit" element={<EditCustomer />} />

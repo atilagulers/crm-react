@@ -157,6 +157,7 @@ function CreateCustomer() {
 
     setFormValues(initialFormValues);
   };
+
   return (
     <PageWrapper title="Create Customer">
       <BackButton />

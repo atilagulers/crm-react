@@ -28,7 +28,7 @@ function CustomerGroupTable({customerGroups}) {
           {customerGroups &&
             customerGroups.map((group, i) => {
               return (
-                <tr onClick={() => handleClickRow(group.id)} key={i}>
+                <tr onClick={() => handleClickRow(group._id)} key={i}>
                   <td>{group.name}</td>
                   <td>{group.explanation}</td>
                 </tr>
