@@ -91,6 +91,11 @@ function EditCustomer() {
       isValid: true,
       validationMessage: validationMessages.user,
     },
+    customerGroup: {
+      value: customer ? customer.customerGroup : '',
+      isValid: true,
+      validationMessage: validationMessages.customerGroup,
+    },
   };
   const [formValues, setFormValues] = useState(initialFormValues);
 
@@ -174,6 +179,11 @@ function EditCustomer() {
         user: {
           ...prevFormValues.user,
           value: data.user || '-',
+          isValid: true,
+        },
+        customerGroup: {
+          ...prevFormValues.customerGroup,
+          value: data.customerGroup || '-',
           isValid: true,
         },
       }));

@@ -19,7 +19,6 @@ function CallTable({customers}) {
   };
 
   const handleClickCallEntry = (e, customerId) => {
-    console.log(customerId);
     setShowEntryModal(true);
   };
 

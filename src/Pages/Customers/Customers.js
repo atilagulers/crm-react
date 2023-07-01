@@ -10,6 +10,7 @@ import CreateCustomerGroup from './CreateCustomerGroup';
 import EditCustomer from './EditCustomer';
 import CustomerGroupDetails from './CustomerGroupDetails';
 import EditCustomerGroup from './EditCustomerGroup';
+import HoldingCustomers from './HoldingCustomers';
 
 function Customers() {
   const navigate = useNavigate();
@@ -27,6 +28,10 @@ function Customers() {
   const handleClickListGroups = () => {
     navigate('customer-groups');
   };
+  const handleClickHoldingCustomers = () => {
+    navigate('hold');
+  };
+
   return (
     <PageWrapper title={'Customers'}>
       <Container className="p-3 px-0 my-3">
@@ -45,9 +50,15 @@ function Customers() {
         <Button onClick={handleClickCreateGroup} className="me-3">
           Müşteri Grubu Oluştur
         </Button>
+
+        <Button onClick={handleClickHoldingCustomers} className="me-3">
+          Beklemede Olan Müşteriler
+        </Button>
       </Container>
       <Routes>
         <Route path="/" element={<ListCustomers />} />
+        <Route path="/hold" element={<HoldingCustomers />} />
+
         <Route path="/create" element={<CreateCustomer />} />
         <Route
           path="/create-group"

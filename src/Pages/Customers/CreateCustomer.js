@@ -81,8 +81,13 @@ function CreateCustomer() {
     },
     user: {
       value: '',
-      isValid: true,
+      isValid: false,
       validationMessage: validationMessages.user,
+    },
+    customerGroup: {
+      value: '',
+      isValid: false,
+      validationMessage: validationMessages.customerGroup,
     },
   };
 
@@ -121,6 +126,7 @@ function CreateCustomer() {
         city: formValues.city.value,
         gender: formValues.gender.value,
         user: formValues.user.value,
+        customerGroup: formValues.customerGroup.value,
       };
       console.log(body);
       const config = {
@@ -150,7 +156,7 @@ function CreateCustomer() {
 
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
-    console.log(formValues);
+
     if (!isFormValid(formValues)) return;
 
     await createCustomer();

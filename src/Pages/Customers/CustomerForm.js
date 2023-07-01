@@ -22,6 +22,7 @@ function CustomerForm({
 }) {
   const {state} = useContext(AppContext);
   const [users, setUsers] = useState([]);
+  const [customerGroups, setCustomerGroups] = useState([]);
 
   const handleChangeCity = (selectedCity) => {
     const e = {target: {name: 'city', value: selectedCity.value}};
@@ -47,6 +48,32 @@ function CustomerForm({
       } catch (error) {}
     };
     fetchUsers();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    const fetchCustomerGroups = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+          cancelToken: source.token,
+        };
+
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/customer-group?page=1&limit=9999`,
+          config
+        );
+
+        setCustomerGroups(data.customerGroups);
+      } catch (error) {}
+    };
+    fetchCustomerGroups();
 
     return () => {
       source.cancel();
@@ -265,6 +292,7 @@ function CustomerForm({
                 name="gender"
                 defaultValue={formValues.gender.value}
                 aria-label="Default select example"
+                disabled={disabled}
               >
                 <option value="erkek">Erkek</option>
                 <option value="kadin">Kadın</option>
@@ -283,6 +311,7 @@ function CustomerForm({
                 isValid={formValues.user.isValid}
                 isInvalid={!formValues.user.isValid}
                 aria-label="Default select example"
+                disabled={disabled}
               >
                 <option value="" disabled>
                   Seçin
@@ -294,6 +323,33 @@ function CustomerForm({
                     return (
                       <option value={user._id} key={user._id}>
                         {fullName}
+                      </option>
+                    );
+                  })}
+              </Form.Select>
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <Form.Label>Agent:</Form.Label>
+
+              <Form.Select
+                onChange={(e) => handleChange(e)}
+                name="customerGroup"
+                value={formValues.customerGroup.value}
+                isValid={formValues.customerGroup.isValid}
+                isInvalid={!formValues.customerGroup.isValid}
+                aria-label="Default select example"
+                disabled={disabled}
+              >
+                <option value="" disabled>
+                  Seçin
+                </option>
+                {customerGroups &&
+                  customerGroups.map((customerGroup) => {
+                    return (
+                      <option value={customerGroup._id} key={customerGroup._id}>
+                        {customerGroup.name}
                       </option>
                     );
                   })}
