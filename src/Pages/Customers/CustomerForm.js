@@ -331,7 +331,7 @@ function CustomerForm({
           </Col>
           <Col>
             <Form.Group>
-              <Form.Label>Agent:</Form.Label>
+              <Form.Label>Grup:</Form.Label>
 
               <Form.Select
                 onChange={(e) => handleChange(e)}

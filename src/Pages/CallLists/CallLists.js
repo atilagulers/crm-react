@@ -3,7 +3,7 @@ import PageWrapper from '../../Components/PageWrapper';
 import {Container, Button} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import PlannedForToday from './PlannedForToday';
-import ToBeCalled from './ToBeCalled';
+import WillBeCalled from './WillBeCalled';
 import CallHistory from './CallHistory';
 
 function CallLists() {
@@ -37,7 +37,7 @@ function CallLists() {
       </Container>
       <Routes>
         <Route path="/planned-for-today" element={<PlannedForToday />} />
-        <Route path="/to-be-called" element={<ToBeCalled />} />
+        <Route path="/to-be-called" element={<WillBeCalled />} />
         <Route path="/call-history" element={<CallHistory />} />
 
         {/*<Route path="/:id" element={<AirlineDetails />} />*/}

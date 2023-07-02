@@ -1,20 +1,50 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {Table, Dropdown, Container} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import CallEntryModal from './CallEntryModal';
+import {AppContext} from '../../Contexts/AppContext';
+import axios from 'axios';
 
 function CallTable({customers}) {
+  const {state} = useContext(AppContext);
   const navigate = useNavigate();
   const [showEntryModal, setShowEntryModal] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    const fetchUsers = async () => {
+      //if (customers.length > 0) return setIsFetching(false);
+
+      setIsFetching(true);
+      try {
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/user/?page=1&limit=9999`,
+          {
+            headers: {
+              Authorization: `Bearer ${state.token}`,
+            },
+            cancelToken: source.token,
+          }
+        );
+
+        setUsers(data.users);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    fetchUsers();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
 
   const handleClickRow = (e, customerId) => {
-    if (e.target.tagName !== 'TD') return;
-    if (
-      e.target.getAttribute('data-field') === 'agent' ||
-      e.target.getAttribute('data-field') === 'hotel'
-    )
-      return;
-
     //navigate(`/customers/${customerId}`);
   };
 
@@ -22,7 +52,7 @@ function CallTable({customers}) {
     setShowEntryModal(true);
   };
 
-  const handleChangeAgent = (e, customerId) => {};
+  const handleChangeUser = (e, customerId) => {};
 
   const handleChangeHotels = (e, hotelId) => {};
 
@@ -43,7 +73,9 @@ function CallTable({customers}) {
             <th>+</th>
             <th>Adı</th>
             <th>Soyadı</th>
-            <th>Telefon</th>
+            <th>Telefon 1</th>
+            <th>Telefon 2</th>
+            <th>Telefon 3</th>
             <th>Email</th>
             <th>Agent</th>
             {/*<th>Otel</th>*/}
@@ -59,60 +91,15 @@ function CallTable({customers}) {
                   <td onClick={(e) => handleClickCallEntry(e, customer.id)}>
                     +
                   </td>
-                  <td>{customer.name}</td>
-                  <td>{customer.surname}</td>
-                  <td>{customer.phone}</td>
+                  <td>{customer.firstName}</td>
+                  <td>{customer.lastName}</td>
+                  <td>{customer.phone1}</td>
+                  <td>{customer.phone2}</td>
+                  <td>{customer.phone3}</td>
                   <td>{customer.email}</td>
-                  <td data-field="agent">
-                    <Dropdown>
-                      <Dropdown.Toggle
-                        variant="secondary"
-                        id={`agent-dropdown-${customer.id}`}
-                        style={{width: '100%'}}
-                      >
-                        {customer.agent}
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-                        <Dropdown.Item
-                          onClick={(e) => handleChangeAgent(e, customer.id)}
-                          active={customer.agent === 'Burak Kaya'}
-                        >
-                          Burak Kaya
-                        </Dropdown.Item>
-                        <Dropdown.Item
-                          onClick={(e) => handleChangeAgent(e, customer.id)}
-                          active={customer.agent === 'Ferdi Caner'}
-                        >
-                          Ferdi Caner
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </td>
-                  {/*<td data-field="hotel">
-                  <Dropdown>
-                    <Dropdown.Toggle
-                      variant="secondary"
-                      id="hotel-dropdown"
-                      style={{width: '100%'}}
-                    >
-                      {selectedHotels.length > 0
-                        ? `${selectedHotels.length} otel seçildi`
-                        : 'Otel Seçin'}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {customer.hotels.map((hotel, index) => (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={() => handleChangeHotels(hotel)}
-                          active={selectedHotels.includes(hotel)}
-                        >
-                          {hotel}
-                        </Dropdown.Item>
-                      ))}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </td>*/}
-                  <td>{customer.group}</td>
+                  <td>{`${customer.user[0].firstName} ${customer.user[0].lastName}`}</td>
+
+                  <td>{customer.customerGroup[0]?.name}</td>
                 </tr>
               );
             })}

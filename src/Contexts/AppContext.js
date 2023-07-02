@@ -48,6 +48,20 @@ const initialState = {
     totalPages: 1,
     currentPage: 1,
   },
+  calls: {
+    today: {
+      list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
+    },
+    future: {
+      list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
+    },
+  },
 };
 
 const reducer = (draft, action) => {
@@ -99,6 +113,19 @@ const reducer = (draft, action) => {
       draft.customerGroups.totalCount = action.data.totalCount;
       draft.customerGroups.currentPage = action.data.currentPage;
       draft.customerGroups.totalPages = action.data.totalPages;
+      return;
+
+    case 'UPDATE_TODAY_CALLS':
+      draft.calls.today.list = action.data.customers;
+      draft.calls.today.totalCount = action.data.totalCount;
+      draft.calls.today.currentPage = action.data.currentPage;
+      draft.calls.today.totalPages = action.data.totalPages;
+      return;
+    case 'UPDATE_FUTURE_CALLS':
+      draft.calls.future.list = action.data.customers;
+      draft.calls.future.totalCount = action.data.totalCount;
+      draft.calls.future.currentPage = action.data.currentPage;
+      draft.calls.future.totalPages = action.data.totalPages;
       return;
     default:
       return draft;

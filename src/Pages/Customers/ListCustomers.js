@@ -22,7 +22,7 @@ function ListCustomers() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer?page=${customers.currentPage}&limit=${limit}`,
+          `${process.env.REACT_APP_API}/customer?page=${customers.currentPage}&limit=${limit}&sortBy=firstName&sortOrder=1`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,

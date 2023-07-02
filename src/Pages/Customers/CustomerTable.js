@@ -84,7 +84,6 @@ function CustomerTable({customers, handleSelectUser}) {
                   <td onClick={(e) => handleClickCustomer(e, customer._id)}>
                     {customer.phone1}
                   </td>
-
                   <td>
                     <Dropdown
                       onSelect={(userId) =>
@@ -110,8 +109,7 @@ function CustomerTable({customers, handleSelectUser}) {
                       </Dropdown.Menu>
                     </Dropdown>
                   </td>
-
-                  <td>{customer.group}</td>
+                  <td>{customer.customerGroup[0]?.name}</td>
                 </tr>
               );
             })}

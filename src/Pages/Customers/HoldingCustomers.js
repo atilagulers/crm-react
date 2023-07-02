@@ -3,23 +3,27 @@ import {Table, Container, Form, Button} from 'react-bootstrap';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
+import LoadingSpinner from '../../Components/LoadingSpinner';
+import {toast} from 'react-toastify';
 
 function HoldingCustomers() {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
   const [isFetching, setIsFetching] = useState();
+  const [isSaving, setIsSaving] = useState(false);
+  const [callDate, setCallDate] = useState(Date.now());
+  const [currentPage, setCurrentPage] = useState(1);
+  const limit = 20;
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchCustomers = async () => {
-      //if (customers.length > 0) return setIsFetching(false);
-
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer/?page=1&limit=9999&willBeCalled=true`,
+          `${process.env.REACT_APP_API}/customer/?page=${currentPage}&limit=${limit}&willBeCalled=false&sortBy=createdAt&sortOrder=1`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -40,12 +44,42 @@ function HoldingCustomers() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [isSaving]);
+
+  const handleClickDate = async (e, customerId) => {
+    e.preventDefault();
+
+    setIsSaving(true);
+
+    try {
+      const body = {
+        willBeCalled: true,
+        callDate,
+      };
+
+      const {data} = await axios.patch(
+        `${process.env.REACT_APP_API}/customer/${customerId}`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      console.log(data);
+      toast.success(`${data.firstName} müşterisi arama listesine eklendi.`);
+    } catch (error) {
+      toast.error(`Müşteri Güncellenemedi. ${error}`);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleClickRow = (customerId) => {
     navigate(`/customers/${customerId}`);
   };
 
+  if (isFetching) return <LoadingSpinner />;
   return (
     <Container className="px-0">
       <Table
@@ -90,8 +124,17 @@ function HoldingCustomers() {
                         className="d-flex gap-5"
                         controlId="exampleForm.ControlInput1"
                       >
-                        <Form.Control name="date" type="date" />
-                        <Button className="py-0">Kaydet</Button>
+                        <Form.Control
+                          name="date"
+                          type="date"
+                          onChange={(e) => setCallDate(e.target.value)}
+                        />
+                        <Button
+                          onClick={(e) => handleClickDate(e, customer._id)}
+                          className="py-0"
+                        >
+                          Kaydet
+                        </Button>
                       </Form.Group>
                     </Form>
                   </td>

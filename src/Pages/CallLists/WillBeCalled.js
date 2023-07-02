@@ -4,7 +4,7 @@ import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 
-function PlannedForToday() {
+function WillBeCalled() {
   const {state, dispatch} = useContext(AppContext);
 
   const [isFetching, setIsFetching] = useState(true);
@@ -16,7 +16,7 @@ function PlannedForToday() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer?page=1&limit=30&sortBy=firstName&sortOrder=1&willBeCalled=true&callDate=today`,
+          `${process.env.REACT_APP_API}/customer?page=1&limit=30&sortBy=firstName&sortOrder=1&willBeCalled=true&callDate=future`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -24,8 +24,8 @@ function PlannedForToday() {
             cancelToken: source.token,
           }
         );
-        console.log(data);
-        dispatch({type: 'UPDATE_TODAY_CALLS', data});
+
+        dispatch({type: 'UPDATE_FUTURE_CALLS', data});
       } catch (error) {
         console.log(error);
       } finally {
@@ -44,4 +44,4 @@ function PlannedForToday() {
   return <CallTable customers={state.calls.today.list} />;
 }
 
-export default PlannedForToday;
+export default WillBeCalled;
