@@ -9,6 +9,7 @@ function CallTable({customers}) {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
   const [showEntryModal, setShowEntryModal] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState();
   const [users, setUsers] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
 
@@ -45,10 +46,13 @@ function CallTable({customers}) {
   }, []);
 
   const handleClickRow = (e, customerId) => {
-    //navigate(`/customers/${customerId}`);
+    navigate(`/customers/${customerId}`);
   };
 
   const handleClickCallEntry = (e, customerId) => {
+    const customer = customers.find((c) => c.id === customerId);
+
+    setSelectedCustomer(customer);
     setShowEntryModal(true);
   };
 
@@ -66,7 +70,11 @@ function CallTable({customers}) {
         variant="dark"
       >
         {/*Modal of entity form*/}
-        <CallEntryModal show={showEntryModal} setShow={setShowEntryModal} />
+        <CallEntryModal
+          show={showEntryModal}
+          setShow={setShowEntryModal}
+          customer={selectedCustomer}
+        />
 
         <thead>
           <tr className="table-dark">
@@ -78,7 +86,6 @@ function CallTable({customers}) {
             <th>Telefon 3</th>
             <th>Email</th>
             <th>Agent</th>
-            {/*<th>Otel</th>*/}
             <th>Grup</th>
           </tr>
         </thead>
@@ -87,19 +94,35 @@ function CallTable({customers}) {
           {customers &&
             customers.map((customer, i) => {
               return (
-                <tr onClick={(e) => handleClickRow(e, customer.id)} key={i}>
+                <tr key={i}>
                   <td onClick={(e) => handleClickCallEntry(e, customer.id)}>
                     +
                   </td>
-                  <td>{customer.firstName}</td>
-                  <td>{customer.lastName}</td>
-                  <td>{customer.phone1}</td>
-                  <td>{customer.phone2}</td>
-                  <td>{customer.phone3}</td>
-                  <td>{customer.email}</td>
-                  <td>{`${customer.user[0].firstName} ${customer.user[0].lastName}`}</td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {customer.firstName}
+                  </td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {customer.lastName}
+                  </td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {customer.phone1}
+                  </td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {customer.phone2}
+                  </td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {customer.phone3}
+                  </td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {customer.email}
+                  </td>
+                  <td
+                    onClick={(e) => handleClickRow(e, customer._id)}
+                  >{`${customer.user[0].firstName} ${customer.user[0].lastName}`}</td>
 
-                  <td>{customer.customerGroup[0]?.name}</td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {customer.customerGroup[0]?.name}
+                  </td>
                 </tr>
               );
             })}

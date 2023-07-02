@@ -241,8 +241,9 @@ function EditCustomer() {
         city: formValues.city.value,
         gender: formValues.gender.value,
         user: formValues.user.value._id,
+        customerGroup: formValues.customerGroup.value,
       };
-      console.log(body);
+      //console.log(body);
       await axios.patch(
         `${process.env.REACT_APP_API}/customer/${customerId}`,
         body,

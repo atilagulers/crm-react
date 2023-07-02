@@ -8,7 +8,7 @@ import {
   Table,
 } from 'react-bootstrap';
 
-function CallEntryModal(props) {
+function CallEntryModal({show, setShow, customer}) {
   const [isComing, setIsComing] = useState(false);
   const [willBeCalled, setWillBeCalled] = useState(false);
 
@@ -20,11 +20,11 @@ function CallEntryModal(props) {
   };
   return (
     <Modal
-      show={props.show}
+      show={show}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      onHide={() => props.setShow(false)}
+      onHide={() => setShow(false)}
     >
       <Modal.Header
         closeButton
@@ -36,7 +36,11 @@ function CallEntryModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-light-dark" style={{border: '1px solid black'}}>
-        <h4>Atila Güler - 0536 872 78 03</h4>
+        <h4>
+          {`${customer?.firstName} ${customer?.lastName} - ${customer?.phone1}`}
+          {customer?.phone2 && ` - ${customer?.phone2}`}
+          {customer?.phone3 && ` - ${customer?.phone3}`}
+        </h4>
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Açıklama</Form.Label>
@@ -57,7 +61,7 @@ function CallEntryModal(props) {
             />
           </FormGroup>
           <Container className="d-flex justify-content-end gap-4 px-0">
-            <Button variant="secondary" onClick={() => props.setShow(false)}>
+            <Button variant="secondary" onClick={() => setShow(false)}>
               İptal
             </Button>
             <Button>Kaydet</Button>
