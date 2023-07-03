@@ -5,6 +5,7 @@ const initialState = {
   loggedIn: Boolean(localStorage.getItem('token')),
   token: localStorage.getItem('token'),
   user: {
+    _id: localStorage.getItem('id'),
     username: localStorage.getItem('username'),
     firstName: localStorage.getItem('firstName'),
     lastName: localStorage.getItem('lastName'),

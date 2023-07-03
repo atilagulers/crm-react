@@ -50,7 +50,7 @@ function CallTable({customers}) {
   };
 
   const handleClickCallEntry = (e, customerId) => {
-    const customer = customers.find((c) => c.id === customerId);
+    const customer = customers.find((c) => c._id === customerId);
 
     setSelectedCustomer(customer);
     setShowEntryModal(true);
@@ -70,11 +70,13 @@ function CallTable({customers}) {
         variant="dark"
       >
         {/*Modal of entity form*/}
-        <CallEntryModal
-          show={showEntryModal}
-          setShow={setShowEntryModal}
-          customer={selectedCustomer}
-        />
+        {showEntryModal && (
+          <CallEntryModal
+            show={showEntryModal}
+            setShow={setShowEntryModal}
+            customer={selectedCustomer}
+          />
+        )}
 
         <thead>
           <tr className="table-dark">
@@ -95,7 +97,7 @@ function CallTable({customers}) {
             customers.map((customer, i) => {
               return (
                 <tr key={i}>
-                  <td onClick={(e) => handleClickCallEntry(e, customer.id)}>
+                  <td onClick={(e) => handleClickCallEntry(e, customer._id)}>
                     +
                   </td>
                   <td onClick={(e) => handleClickRow(e, customer._id)}>

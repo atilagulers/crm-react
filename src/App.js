@@ -33,12 +33,14 @@ function App() {
   useEffect(() => {
     if (state.loggedIn) {
       localStorage.setItem('token', state.token);
+      localStorage.setItem('id', state.user._id);
       localStorage.setItem('firstName', state.user.firstName);
       localStorage.setItem('lastName', state.user.lastName);
       localStorage.setItem('username', state.user.username);
       localStorage.setItem('role', state.user.role);
     } else {
       localStorage.removeItem('token', state.token);
+      localStorage.removeItem('id', state.user._id);
       localStorage.removeItem('firstName');
       localStorage.removeItem('lastName');
       localStorage.removeItem('username');

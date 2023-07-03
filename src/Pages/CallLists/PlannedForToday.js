@@ -24,7 +24,7 @@ function PlannedForToday() {
             cancelToken: source.token,
           }
         );
-
+        console.log(data);
         dispatch({type: 'UPDATE_TODAY_CALLS', data});
       } catch (error) {
         console.log(error);
