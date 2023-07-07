@@ -10,15 +10,15 @@ function CallLists() {
   const navigate = useNavigate();
 
   const handleClickListToday = () => {
-    navigate('planned-for-today');
+    navigate('today');
   };
 
   const handleClickListToBeCalled = () => {
-    navigate('to-be-called');
+    navigate('future');
   };
 
   const handleClickListCallHistory = () => {
-    navigate('call-history');
+    navigate('history');
   };
 
   return (
@@ -36,9 +36,9 @@ function CallLists() {
         </Button>
       </Container>
       <Routes>
-        <Route path="/planned-for-today" element={<PlannedForToday />} />
-        <Route path="/to-be-called" element={<WillBeCalled />} />
-        <Route path="/call-history" element={<CallHistory />} />
+        <Route path="/future" element={<PlannedForToday />} />
+        <Route path="/today" element={<WillBeCalled />} />
+        <Route path="/history" element={<CallHistory />} />
 
         {/*<Route path="/:id" element={<AirlineDetails />} />*/}
       </Routes>

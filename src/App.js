@@ -14,7 +14,7 @@ import Sidebar from './Components/Sidebar';
 import Home from './Pages/Home';
 import Customers from './Pages/Customers/Customers';
 import CallLists from './Pages/CallLists/CallLists';
-import Reservations from './Pages/Reservations';
+import Reservations from './Pages/Reservations/Reservations';
 import Credits from './Pages/Credits';
 import LogIn from './Pages/LogIn';
 import Management from './Pages/Management/Management';

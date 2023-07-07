@@ -34,11 +34,11 @@ function Sidebar(props) {
   };
   const handleClickCallLists = (e) => {
     e.preventDefault();
-    navigate('/call-lists/planned-for-today');
+    navigate('/call-lists/today');
   };
   const handleClickReservations = (e) => {
     e.preventDefault();
-    navigate('/reservations');
+    navigate('/reservations/today');
   };
   const handleClickCredits = (e) => {
     e.preventDefault();

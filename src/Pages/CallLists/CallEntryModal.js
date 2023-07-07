@@ -17,7 +17,7 @@ function CallEntryModal({show, setShow, customer}) {
   const {state} = useContext(AppContext);
   const user = state.user;
   const [log, setLog] = useState('');
-  const [isComing, setIsComing] = useState(false);
+  const [isReserved, setIsReserved] = useState(false);
   const [willBeCalled, setWillBeCalled] = useState(false);
   const [callDate, setCallDate] = useState();
   const [calls, setCalls] = useState([]);
@@ -30,7 +30,7 @@ function CallEntryModal({show, setShow, customer}) {
       setIsFetchingCalls(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/call?&sortBy=createdAt&sortOrder=-1&customerId${customer._id}`,
+          `${process.env.REACT_APP_API}/call?&sortBy=createdAt&sortOrder=-1&customerId=${customer._id}`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -80,7 +80,7 @@ function CallEntryModal({show, setShow, customer}) {
   const updateCustomer = async () => {
     try {
       const body = {
-        isComing,
+        isReserved,
         willBeCalled,
         callDate,
       };
@@ -109,6 +109,16 @@ function CallEntryModal({show, setShow, customer}) {
     await updateCustomer();
     setShow(false);
     window.location.reload();
+  };
+
+  const handleChangeIsReserved = (e) => {
+    console.log(isReserved);
+    if (true) {
+      e.preventDefault();
+      toast.error('Bu kullanıcının zaten rezervasyonu var.');
+    } else {
+      setIsReserved(!customer.isReserved);
+    }
   };
 
   return (
@@ -147,7 +157,7 @@ function CallEntryModal({show, setShow, customer}) {
           </Form.Group>
           <Form.Group
             className="mb-3 d-flex align-items-center"
-            controlId="isComingCheckbox"
+            controlId="willBeCalledCheckbox"
           >
             <Form.Check
               onChange={(e) => setWillBeCalled(e.target.checked)}
@@ -163,11 +173,16 @@ function CallEntryModal({show, setShow, customer}) {
               style={{maxWidth: '300px', display: willBeCalled ? '' : 'none'}}
             />
           </Form.Group>
-          <FormGroup className="mb-3" controlId="willBeCalledCheckbox">
+          <FormGroup className="mb-3" controlId="isReservedCheckbox">
             <Form.Check
-              onChange={(e) => setIsComing(e.target.checked)}
+              onChange={(e) => handleChangeIsReserved(e)}
               type="checkbox"
-              label="Geliyor"
+              label={
+                customer.isReserved
+                  ? 'Müşteri zaten rezervasyon listesinde'
+                  : 'Rezervasyon Bekleme Listesine Ekle'
+              }
+              disabled={customer.isReserved}
             />
           </FormGroup>
           <Container className="d-flex justify-content-end gap-4 px-0">
