@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import CallEntryModal from './CallEntryModal';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
+import {formatDate} from '../../Helpers';
 
 function CallTable({customers}) {
   const {state} = useContext(AppContext);
@@ -81,6 +82,7 @@ function CallTable({customers}) {
         <thead>
           <tr className="table-dark">
             <th>+</th>
+            <th>Tarih</th>
             <th>Adı</th>
             <th>Soyadı</th>
             <th>Telefon 1</th>
@@ -99,6 +101,9 @@ function CallTable({customers}) {
                 <tr key={i}>
                   <td onClick={(e) => handleClickCallEntry(e, customer._id)}>
                     +
+                  </td>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                    {formatDate(customer.callDate)}
                   </td>
                   <td onClick={(e) => handleClickRow(e, customer._id)}>
                     {customer.firstName}

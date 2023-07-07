@@ -19,7 +19,7 @@ function WillBeCalled() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer?page=1&limit=30&sortBy=firstName&sortOrder=1&willBeCalled=true&callDate=future`,
+          `${process.env.REACT_APP_API}/customer?page=1&limit=30&sortBy=firstName&sortOrder=1&willBeCalled=true&time=future`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,

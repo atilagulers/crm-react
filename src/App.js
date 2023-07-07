@@ -91,7 +91,7 @@ function App() {
 
               <Route path="/customers/*" element={<Customers />} />
               <Route path="/call-lists/*" element={<CallLists />} />
-              <Route path="/reservations" element={<Reservations />} />
+              <Route path="/reservations/*" element={<Reservations />} />
               <Route path="/credits" element={<Credits />} />
               <Route path="/login" element={<LogIn />} />
             </Routes>

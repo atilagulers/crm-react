@@ -17,8 +17,8 @@ function CallEntryModal({show, setShow, customer}) {
   const {state} = useContext(AppContext);
   const user = state.user;
   const [log, setLog] = useState('');
-  const [isReserved, setIsReserved] = useState(false);
   const [willBeCalled, setWillBeCalled] = useState(false);
+  const [waitingReservation, setIsWaitingReservation] = useState(false);
   const [callDate, setCallDate] = useState();
   const [calls, setCalls] = useState([]);
   const [isFetchingCalls, setIsFetchingCalls] = useState(false);
@@ -80,7 +80,7 @@ function CallEntryModal({show, setShow, customer}) {
   const updateCustomer = async () => {
     try {
       const body = {
-        isReserved,
+        waitingReservation,
         willBeCalled,
         callDate,
       };
@@ -111,13 +111,15 @@ function CallEntryModal({show, setShow, customer}) {
     window.location.reload();
   };
 
-  const handleChangeIsReserved = (e) => {
-    console.log(isReserved);
-    if (true) {
+  const handleChangeWaitingReservation = (e) => {
+    if (customer.isReserved) {
+      e.preventDefault();
+      toast.error('Bu kullanıcının zaten rezervasyonu var.');
+    } else if (customer.waitingReservation) {
       e.preventDefault();
       toast.error('Bu kullanıcının zaten rezervasyonu var.');
     } else {
-      setIsReserved(!customer.isReserved);
+      setIsWaitingReservation(!customer.isReserved);
     }
   };
 
@@ -175,14 +177,14 @@ function CallEntryModal({show, setShow, customer}) {
           </Form.Group>
           <FormGroup className="mb-3" controlId="isReservedCheckbox">
             <Form.Check
-              onChange={(e) => handleChangeIsReserved(e)}
+              onChange={(e) => handleChangeWaitingReservation(e)}
               type="checkbox"
               label={
-                customer.isReserved
-                  ? 'Müşteri zaten rezervasyon listesinde'
+                customer.isReserved || customer.waitingReservation
+                  ? 'Müşterinin zaten rezervasyonu var ya da bekleme listesinde..'
                   : 'Rezervasyon Bekleme Listesine Ekle'
               }
-              disabled={customer.isReserved}
+              disabled={customer.isReserved || customer.waitingReservation}
             />
           </FormGroup>
           <Container className="d-flex justify-content-end gap-4 px-0">
