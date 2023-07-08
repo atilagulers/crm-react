@@ -19,7 +19,7 @@ function PlannedForToday() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer?page=${calls.currentPage}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&time=today`,
+          `${process.env.REACT_APP_API}/customer?page=${calls.currentPage}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&callDate=today`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,

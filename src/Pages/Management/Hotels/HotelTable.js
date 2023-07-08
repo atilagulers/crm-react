@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 
 function HotelTable({hotels}) {
   const navigate = useNavigate();
 
-  const handleClickRow = (hotelId) => {
+  const handleClickHotel = (hotelId) => {
     navigate(`${hotelId}`);
   };
 
@@ -19,6 +21,7 @@ function HotelTable({hotels}) {
     >
       <thead>
         <tr className="table-dark">
+          <th style={{width: '5%'}}>Detay</th>
           <th>Otel Adı</th>
           <th>Yetkili Kişi</th>
           <th>Telefon</th>
@@ -29,7 +32,10 @@ function HotelTable({hotels}) {
         {hotels &&
           hotels.map((hotel, i) => {
             return (
-              <tr onClick={() => handleClickRow(hotel._id)} key={i}>
+              <tr key={i}>
+                <td onClick={(e) => handleClickHotel(hotel._id)}>
+                  <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
+                </td>
                 <td>{hotel.name}</td>
                 <td>{hotel.responsible}</td>
                 <td>{hotel.phone}</td>

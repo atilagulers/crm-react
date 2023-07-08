@@ -1,10 +1,12 @@
 import {Table} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 
 function UserTable({users}) {
   const navigate = useNavigate();
 
-  const handleClickRow = (userId) => {
+  const handleClickUser = (userId) => {
     navigate(`${userId}`);
   };
 
@@ -18,6 +20,7 @@ function UserTable({users}) {
     >
       <thead>
         <tr className="table-dark">
+          <th style={{width: '5%'}}>Detay</th>
           <th>Adı</th>
           <th>Soyadı</th>
           <th>Kullanıcı Adı</th>
@@ -27,7 +30,11 @@ function UserTable({users}) {
         {users &&
           users.map((user, i) => {
             return (
-              <tr onClick={() => handleClickRow(user._id)} key={i}>
+              <tr key={i}>
+                <td onClick={(e) => handleClickUser(user._id)}>
+                  <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
+                </td>
+
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.username}</td>

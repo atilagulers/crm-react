@@ -134,73 +134,73 @@ function CustomerDetails() {
         ...prevFormValues,
         tc: {
           ...prevFormValues.tc,
-          value: data.tc || '-',
+          value: data.tc || ' ',
           isValid: true,
         },
         firstName: {
           ...prevFormValues.firstName,
-          value: data.firstName || '-',
+          value: data.firstName || ' ',
           isValid: true,
         },
         lastName: {
           ...prevFormValues.lastName,
-          value: data.lastName || '-',
+          value: data.lastName || ' ',
           isValid: true,
         },
         phone1: {
           ...prevFormValues.phone1,
-          value: data.phone1 || '-',
+          value: data.phone1 || ' ',
           isValid: true,
         },
         phone2: {
           ...prevFormValues.phone2,
-          value: data.phone2 || '-',
+          value: data.phone2 || ' ',
           isValid: true,
         },
         phone3: {
           ...prevFormValues.phone3,
-          value: data.phone3 || '-',
+          value: data.phone3 || ' ',
           isValid: true,
         },
         email: {
           ...prevFormValues.email,
-          value: data.email || '-',
+          value: data.email || ' ',
           isValid: true,
         },
         birthday: {
           ...prevFormValues.birthday,
           value:
-            new Date(data.birthday).toISOString().split('T')[0] || '1970-01-01',
+            new Date(data.birthday).toISOString().split('T')[0] || '1970 01 01',
           isValid: true,
         },
         address: {
           ...prevFormValues.address,
-          value: data.address || '-',
+          value: data.address || ' ',
           isValid: true,
         },
         workAddress: {
           ...prevFormValues.workAddress,
-          value: data.workAddress || '-',
+          value: data.workAddress || ' ',
           isValid: true,
         },
         city: {
           ...prevFormValues.city,
-          value: data.city || '-',
+          value: data.city || ' ',
           isValid: true,
         },
         gender: {
           ...prevFormValues.gender,
-          value: data.gender || '-',
+          value: data.gender || ' ',
           isValid: true,
         },
         user: {
           ...prevFormValues.user,
-          value: data.user || '-',
+          value: data.user || ' ',
           isValid: true,
         },
         customerGroup: {
           ...prevFormValues.customerGroup,
-          value: data.customerGroup || '-',
+          value: data.customerGroup || ' ',
           isValid: true,
         },
       }));

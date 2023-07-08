@@ -5,6 +5,8 @@ import CallEntryModal from './CallEntryModal';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import {formatDate} from '../../Helpers';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faPhoneVolume, faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 
 function CallTable({customers}) {
   const {state} = useContext(AppContext);
@@ -81,7 +83,7 @@ function CallTable({customers}) {
 
         <thead>
           <tr className="table-dark">
-            <th>+</th>
+            <th>Arama Giriş</th>
             <th>Tarih</th>
             <th>Adı</th>
             <th>Soyadı</th>
@@ -91,6 +93,7 @@ function CallTable({customers}) {
             <th>Email</th>
             <th>Agent</th>
             <th>Grup</th>
+            <th style={{width: '5%'}}>Detay</th>
           </tr>
         </thead>
 
@@ -99,36 +102,27 @@ function CallTable({customers}) {
             customers.map((customer, i) => {
               return (
                 <tr key={i}>
-                  <td onClick={(e) => handleClickCallEntry(e, customer._id)}>
-                    +
+                  <td
+                    onClick={(e) => handleClickCallEntry(e, customer._id)}
+                    className="center-td"
+                  >
+                    <FontAwesomeIcon className="p-2" icon={faPhoneVolume} />
                   </td>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {formatDate(customer.callDate)}
-                  </td>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {customer.firstName}
-                  </td>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {customer.lastName}
-                  </td>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {customer.phone1}
-                  </td>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {customer.phone2}
-                  </td>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {customer.phone3}
-                  </td>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {customer.email}
-                  </td>
+                  <td>{formatDate(customer.callDate)}</td>
+                  <td>{customer.firstName}</td>
+                  <td>{customer.lastName}</td>
+                  <td>{customer.phone1}</td>
+                  <td>{customer.phone2}</td>
+                  <td>{customer.phone3}</td>
+                  <td>{customer.email}</td>
+                  <td>{`${customer.user[0].firstName} ${customer.user[0].lastName}`}</td>
+
+                  <td>{customer.customerGroup[0]?.name} </td>
                   <td
                     onClick={(e) => handleClickRow(e, customer._id)}
-                  >{`${customer.user[0].firstName} ${customer.user[0].lastName}`}</td>
-
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
-                    {customer.customerGroup[0]?.name}
+                    className="center-td"
+                  >
+                    <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
                   </td>
                 </tr>
               );

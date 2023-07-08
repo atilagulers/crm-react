@@ -50,6 +50,12 @@ const initialState = {
     currentPage: 1,
   },
   calls: {
+    past: {
+      list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
+    },
     today: {
       list: [],
       totalCount: 1,
@@ -114,6 +120,13 @@ const reducer = (draft, action) => {
       draft.customerGroups.totalCount = action.data.totalCount;
       draft.customerGroups.currentPage = action.data.currentPage;
       draft.customerGroups.totalPages = action.data.totalPages;
+      return;
+
+    case 'UPDATE_PAST_CALLS':
+      draft.calls.past.list = action.data.calls;
+      draft.calls.past.totalCount = action.data.totalCount;
+      draft.calls.past.currentPage = action.data.currentPage;
+      draft.calls.past.totalPages = action.data.totalPages;
       return;
 
     case 'UPDATE_TODAY_CALLS':

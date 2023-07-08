@@ -55,3 +55,9 @@ body > #root > div {
 .table tbody tr {
   cursor: pointer;
 }
+
+.center-td {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

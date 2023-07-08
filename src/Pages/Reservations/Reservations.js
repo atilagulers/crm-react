@@ -22,6 +22,10 @@ function Reservations() {
     navigate('create');
   };
 
+  const handleClickHoldingReservations = () => {
+    navigate('hold');
+  };
+
   return (
     <PageWrapper title="Reservations">
       <Container className="p-3 px-0 my-3">
@@ -39,6 +43,10 @@ function Reservations() {
 
         <Button onClick={handleClickCreateReservation} className="me-3">
           Rezervasyon Oluştur
+        </Button>
+
+        <Button onClick={handleClickHoldingReservations} className="me-3">
+          Beklemede Olan Rezervasyonlar
         </Button>
       </Container>
       {/*<Routes>

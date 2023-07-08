@@ -4,6 +4,8 @@ import {useNavigate} from 'react-router-dom';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 
 function CustomerTable({customers, handleSelectUser}) {
   const {state} = useContext(AppContext);
@@ -44,7 +46,7 @@ function CustomerTable({customers, handleSelectUser}) {
     };
   }, []);
 
-  const handleClickCustomer = (e, customerId) => {
+  const handleClickCustomer = (customerId) => {
     navigate(`/customers/${customerId}`);
   };
 
@@ -61,10 +63,10 @@ function CustomerTable({customers, handleSelectUser}) {
       >
         <thead>
           <tr className="table-dark">
+            <th style={{width: '5%'}}>Detay</th>
             <th>Adı</th>
             <th>Soyadı</th>
             <th>Telefon</th>
-
             <th>Agent</th>
             {/*<th>Otel</th>*/}
             <th>Grup</th>
@@ -75,15 +77,13 @@ function CustomerTable({customers, handleSelectUser}) {
             customers.map((customer, i) => {
               return (
                 <tr key={customer._id}>
-                  <td onClick={(e) => handleClickCustomer(e, customer._id)}>
-                    {customer.firstName}
+                  <td onClick={(e) => handleClickCustomer(customer._id)}>
+                    <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
                   </td>
-                  <td onClick={(e) => handleClickCustomer(e, customer._id)}>
-                    {customer.lastName}
-                  </td>
-                  <td onClick={(e) => handleClickCustomer(e, customer._id)}>
-                    {customer.phone1}
-                  </td>
+
+                  <td>{customer.firstName}</td>
+                  <td>{customer.lastName}</td>
+                  <td>{customer.phone1}</td>
                   <td>
                     <Dropdown
                       onSelect={(userId) =>
