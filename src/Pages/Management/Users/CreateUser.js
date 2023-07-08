@@ -6,6 +6,7 @@ import {AppContext} from '../../../Contexts/AppContext';
 import {toast} from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
 import BackButton from '../../../Components/BackButton';
+import {getIsValid, getValidationMessage, isFormValid} from './UserValidation';
 
 function CreateUser() {
   const {state} = useContext(AppContext);
@@ -54,39 +55,13 @@ function CreateUser() {
       [e.target.name]: {
         value: e.target.value,
         isValid: getIsValid(e.target.name, e.target.value),
-        validationMessage: getValidationMessage(e.target.name, e.target.value),
+        validationMessage: getValidationMessage(
+          e.target.name,
+          e.target.value,
+          formValues
+        ),
       },
     }));
-  };
-
-  const getIsValid = (field, value) => {
-    if (field === 'firstName' || field === 'lastName' || field === 'username')
-      return value.length >= 3 && value.length <= 20;
-
-    if (field === 'password') return value.length >= 8;
-
-    if (field === 'role') return true;
-  };
-
-  const getValidationMessage = (field, value = '') => {
-    if (field === 'firstName' && !formValues[field].isValid) {
-      return validationMessages.firstName;
-    }
-    if (field === 'lastName' && !formValues[field].isValid) {
-      return validationMessages.lastName;
-    }
-    if (field === 'username' && !formValues[field].isValid) {
-      return validationMessages.username;
-    }
-    if (field === 'password' && !formValues[field].isValid) {
-      return validationMessages.password;
-    }
-
-    return '';
-  };
-
-  const isFormValid = () => {
-    return Object.values(formValues).every((field) => field.isValid);
   };
 
   const createUser = async () => {
@@ -129,7 +104,7 @@ function CreateUser() {
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
 
-    if (!isFormValid()) return;
+    if (!isFormValid(formValues)) return;
 
     await createUser();
 

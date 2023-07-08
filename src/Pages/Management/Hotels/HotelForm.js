@@ -85,7 +85,7 @@ function HotelForm({
                 onChange={(e) => handleChange(e)}
                 name="phone"
                 required
-                type="text"
+                type="number"
                 placeholder="532xxxxxxx"
                 isValid={formValues.phone.isValid}
                 isInvalid={!formValues.phone.isValid}

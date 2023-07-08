@@ -25,7 +25,7 @@ function HoldingReservations() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer/?page=${currentPage}&limit=${limit}&willBeCalled=false&sortBy=createdAt&sortOrder=1`,
+          `${process.env.REACT_APP_API}/customer/?page=${currentPage}&limit=${limit}&waitingReservation=true&sortBy=createdAt&sortOrder=1`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,

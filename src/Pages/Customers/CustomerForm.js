@@ -167,7 +167,7 @@ function CustomerForm({
                 onChange={(e) => handleChange(e)}
                 name="phone1"
                 required
-                type="text"
+                type="number"
                 placeholder="532xxxxxxx"
                 isValid={formValues.phone1.isValid}
                 isInvalid={!formValues.phone1.isValid}
@@ -186,7 +186,7 @@ function CustomerForm({
               <Form.Control
                 onChange={(e) => handleChange(e)}
                 name="phone2"
-                type="text"
+                type="number"
                 placeholder="532xxxxxxx"
                 value={formValues.phone2.value}
                 disabled={disabled}
@@ -200,7 +200,7 @@ function CustomerForm({
               <Form.Control
                 onChange={(e) => handleChange(e)}
                 name="phone3"
-                type="text"
+                type="number"
                 placeholder="532xxxxxxx"
                 value={formValues.phone3.value}
                 disabled={disabled}

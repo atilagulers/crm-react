@@ -1,11 +1,16 @@
 import {useState, useContext} from 'react';
-import PageWrapper from '../../../Components/PageWrapper';
-import UserForm from './UserForm';
+import PageWrapper from '../../Components/PageWrapper';
+import ReservationForm from './ReservationForm';
 import axios from 'axios';
-import {AppContext} from '../../../Contexts/AppContext';
+import {AppContext} from '../../Contexts/AppContext';
 import {toast} from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
-import BackButton from '../../../Components/BackButton';
+import BackButton from '../../Components/BackButton';
+import {
+  getIsValid,
+  getValidationMessage,
+  isFormValid,
+} from './ReservationValidation';
 
 function CreateReservation() {
   const {state} = useContext(AppContext);
@@ -19,10 +24,10 @@ function CreateReservation() {
   };
 
   const initialFormValues = {
-    customer: {
+    customerNumber: {
       value: '',
       isValid: false,
-      validationMessage: validationMessages.customer,
+      validationMessage: validationMessages.customerNumber,
     },
     hotel: {
       value: '',
@@ -94,39 +99,13 @@ function CreateReservation() {
       [e.target.name]: {
         value: e.target.value,
         isValid: getIsValid(e.target.name, e.target.value),
-        validationMessage: getValidationMessage(e.target.name, e.target.value),
+        validationMessage: getValidationMessage(
+          e.target.name,
+          e.target.value,
+          formValues
+        ),
       },
     }));
-  };
-
-  const getIsValid = (field, value) => {
-    if (field === 'firstName' || field === 'lastName' || field === 'username')
-      return value.length >= 3 && value.length <= 20;
-
-    if (field === 'password') return value.length >= 8;
-
-    if (field === 'role') return true;
-  };
-
-  const getValidationMessage = (field, value = '') => {
-    if (field === 'firstName' && !formValues[field].isValid) {
-      return validationMessages.firstName;
-    }
-    if (field === 'lastName' && !formValues[field].isValid) {
-      return validationMessages.lastName;
-    }
-    if (field === 'username' && !formValues[field].isValid) {
-      return validationMessages.username;
-    }
-    if (field === 'password' && !formValues[field].isValid) {
-      return validationMessages.password;
-    }
-
-    return '';
-  };
-
-  const isFormValid = () => {
-    return Object.values(formValues).every((field) => field.isValid);
   };
 
   const createUser = async () => {
@@ -169,7 +148,7 @@ function CreateReservation() {
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
 
-    if (!isFormValid()) return;
+    if (!isFormValid(formValues)) return;
 
     await createUser();
 
@@ -179,8 +158,8 @@ function CreateReservation() {
   return (
     <PageWrapper title="Create User | Management">
       <BackButton />
-      <UserForm
-        title={'Yeni Kullanıcı'}
+      <ReservationForm
+        title={'Yeni Rezervasyon'}
         handleSubmit={handleSubmitCreate}
         handleChange={handleChangeInput}
         formValues={formValues}
