@@ -48,11 +48,11 @@ function CallTable({customers}) {
     };
   }, []);
 
-  const handleClickRow = (e, customerId) => {
+  const handleClickRow = (customerId) => {
     navigate(`/customers/${customerId}`);
   };
 
-  const handleClickCallEntry = (e, customerId) => {
+  const handleClickCallEntry = (customerId) => {
     const customer = customers.find((c) => c._id === customerId);
 
     setSelectedCustomer(customer);
@@ -83,6 +83,7 @@ function CallTable({customers}) {
 
         <thead>
           <tr className="table-dark">
+            <th style={{width: '5%'}}>Detay</th>
             <th>Arama Giriş</th>
             <th>Tarih</th>
             <th>Adı</th>
@@ -93,7 +94,6 @@ function CallTable({customers}) {
             <th>Email</th>
             <th>Agent</th>
             <th>Grup</th>
-            <th style={{width: '5%'}}>Detay</th>
           </tr>
         </thead>
 
@@ -102,11 +102,18 @@ function CallTable({customers}) {
             customers.map((customer, i) => {
               return (
                 <tr key={i}>
+                  <td onClick={(e) => handleClickRow(customer._id)}>
+                    <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
+                  </td>
                   <td
-                    onClick={(e) => handleClickCallEntry(e, customer._id)}
+                    onClick={(e) => handleClickCallEntry(customer._id)}
                     className="center-td"
                   >
-                    <FontAwesomeIcon className="p-2" icon={faPhoneVolume} />
+                    <FontAwesomeIcon
+                      className="p-2"
+                      icon={faPhoneVolume}
+                      style={{height: '20px'}}
+                    />
                   </td>
                   <td>{formatDate(customer.callDate)}</td>
                   <td>{customer.firstName}</td>
@@ -118,12 +125,6 @@ function CallTable({customers}) {
                   <td>{`${customer.user[0].firstName} ${customer.user[0].lastName}`}</td>
 
                   <td>{customer.customerGroup[0]?.name} </td>
-                  <td
-                    onClick={(e) => handleClickRow(e, customer._id)}
-                    className="center-td"
-                  >
-                    <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
-                  </td>
                 </tr>
               );
             })}

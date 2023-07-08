@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
 import {Container, Button} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
+import HoldingReservations from './HoldingReservations';
+import CreateReservation from './CreateReservation';
 
 function Reservations() {
   const navigate = useNavigate();
@@ -46,15 +48,15 @@ function Reservations() {
         </Button>
 
         <Button onClick={handleClickHoldingReservations} className="me-3">
-          Beklemede Olan Rezervasyonlar
+          Rezervasyon Bekleyen Müşteriler
         </Button>
       </Container>
-      {/*<Routes>
-        <Route path="/" element={<ListCustomers />} />
-        <Route path="/hold" element={<HoldingCustomers />} />
+      <Routes>
+        {/*<Route path="/" element={<ListCustomers />} />*/}
+        <Route path="/hold" element={<HoldingReservations />} />
 
-        <Route path="/create" element={<CreateCustomer />} />
-        <Route
+        <Route path="/create" element={<CreateReservation />} />
+        {/*<Route
           path="/create-group"
           element={<CreateCustomerGroup title={'Yeni Müşteri Grubu'} />}
         />
@@ -66,8 +68,8 @@ function Reservations() {
         />
 
         <Route path="/:id" element={<CustomerDetails />} />
-        <Route path="/:id/edit" element={<EditCustomer />} />
-      </Routes>*/}
+        <Route path="/:id/edit" element={<EditCustomer />} />*/}
+      </Routes>
     </PageWrapper>
   );
 }

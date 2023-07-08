@@ -8,7 +8,7 @@ import {toast} from 'react-toastify';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 
-function HoldingCustomers() {
+function HoldingReservations() {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
@@ -48,35 +48,6 @@ function HoldingCustomers() {
     };
   }, [isSaving]);
 
-  const handleClickDate = async (e, customerId) => {
-    e.preventDefault();
-
-    setIsSaving(true);
-
-    try {
-      const body = {
-        willBeCalled: true,
-        callDate,
-      };
-
-      const {data} = await axios.patch(
-        `${process.env.REACT_APP_API}/customer/${customerId}`,
-        body,
-        {
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-        }
-      );
-      console.log(data);
-      toast.success(`${data.firstName} müşterisi arama listesine eklendi.`);
-    } catch (error) {
-      toast.error(`Müşteri Güncellenemedi. ${error}`);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
   const handleClickRow = (customerId) => {
     navigate(`/customers/${customerId}`);
   };
@@ -94,12 +65,11 @@ function HoldingCustomers() {
         <thead>
           <tr className="table-dark">
             <th style={{width: '5%'}}>Detay</th>
-
             <th>Adı</th>
             <th>Soyadı</th>
-            <th>Telefon</th>
+            <th>Telefon 1</th>
+
             <th>Agent</th>
-            <th>Tarih</th>
           </tr>
         </thead>
         <tbody>
@@ -107,35 +77,16 @@ function HoldingCustomers() {
             customers.map((customer, i) => {
               return (
                 <tr key={customer._id}>
-                  <td onClick={(e) => handleClickRow(customer._id)}>
+                  <td onClick={(e) => handleClickRow(e, customer._id)}>
                     <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
                   </td>
+
                   <td>{customer.firstName}</td>
                   <td>{customer.lastName}</td>
                   <td>{customer.phone1}</td>
+
                   <td>
                     {customer.user[0].firstName} {customer.user[0].lastName}
-                  </td>
-
-                  <td style={{maxWidth: '100px'}}>
-                    <Form>
-                      <Form.Group
-                        className="d-flex gap-5"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Control
-                          name="date"
-                          type="date"
-                          onChange={(e) => setCallDate(e.target.value)}
-                        />
-                        <Button
-                          onClick={(e) => handleClickDate(e, customer._id)}
-                          className="py-0"
-                        >
-                          Kaydet
-                        </Button>
-                      </Form.Group>
-                    </Form>
                   </td>
                 </tr>
               );
@@ -146,4 +97,4 @@ function HoldingCustomers() {
   );
 }
 
-export default HoldingCustomers;
+export default HoldingReservations;
