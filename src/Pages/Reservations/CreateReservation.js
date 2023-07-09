@@ -24,10 +24,10 @@ function CreateReservation() {
   };
 
   const initialFormValues = {
-    customerNumber: {
+    customerPhone: {
       value: '',
       isValid: false,
-      validationMessage: validationMessages.customerNumber,
+      validationMessage: validationMessages.customerPhone,
     },
     hotel: {
       value: '',
