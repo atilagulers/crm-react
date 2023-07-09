@@ -31,7 +31,7 @@ function CreateReservation() {
       validationMessage: validationMessages.hotel,
     },
     departureAirline: {
-      value: 'Diger',
+      value: '',
       isValid: true,
       validationMessage: validationMessages.departureAirline,
     },
@@ -102,16 +102,24 @@ function CreateReservation() {
     }));
   };
 
-  const createUser = async () => {
+  const createReservation = async () => {
     try {
       setIsCreating(true);
 
       const body = {
-        firstName: formValues.firstName.value,
-        lastName: formValues.lastName.value,
-        username: formValues.username.value,
-        password: formValues.password.value,
-        role: formValues.role.value,
+        customer: formValues.customer.value,
+        hotel: formValues.hotel.value,
+        departureAirline: formValues.departureAirline.value,
+        departureDate: formValues.departureDate.value,
+        departureTime: formValues.departureTime.value,
+        departureDestination: formValues.departureDestination.value,
+        departurePNR: formValues.departurePNR.value,
+        returnAirline: formValues.returnAirline.value,
+        returnDate: formValues.returnDate.value,
+        returnTime: formValues.returnTime.value,
+        returnDestination: formValues.returnDestination.value,
+        returnPNR: formValues.returnPNR.value,
+        user: formValues.user.value,
       };
 
       const config = {
@@ -121,18 +129,18 @@ function CreateReservation() {
       };
 
       const {data} = await axios.post(
-        `${process.env.REACT_APP_API}/user`,
+        `${process.env.REACT_APP_API}/reservation`,
         body,
         config
       );
-      navigate(`/management/users/${data.id}`);
+      navigate(`/reservations/${data._id}`);
 
-      toast.success(`${data.username} kullanıcısı başarıyla oluşturuldu.`);
+      toast.success(`Rezervasyon başarıyla oluşturuldu.`);
     } catch (error) {
       if (error.response.status === 409) {
-        toast.error('Bu kullanıcı adı zaten kullanılıyor.');
+        toast.error('Bu rezervasyon adı zaten kullanılıyor.');
       } else {
-        toast.error('Kullanıcı oluşturulamadı. ' + error);
+        toast.error('Rezervasyon oluşturulamadı. ' + error);
       }
     } finally {
       setIsCreating(false);
@@ -144,7 +152,7 @@ function CreateReservation() {
 
     if (!isFormValid(formValues)) return;
 
-    await createUser();
+    await createReservation();
 
     setFormValues(initialFormValues);
   };

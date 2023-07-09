@@ -1,8 +1,8 @@
 export const validationMessages = {
-  departureDate: 'Kalkış tarihi boş bırakılamaz.',
-  departureTime: 'Kalkış saati boş bırakılamaz.',
-  departureDestination: 'Kalkış yeri boş bırakılamaz.',
-  departurePNR: 'Kalkış PNR boş bırakılamaz.',
+  departureDate: 'Gidiş tarihi boş bırakılamaz.',
+  departureTime: 'Gidiş saati boş bırakılamaz.',
+  departureDestination: 'Gidiş yeri boş bırakılamaz.',
+  departurePNR: 'Gidiş PNR boş bırakılamaz.',
   returnDate: 'Dönüş tarihi boş bırakılamaz.',
   returnTime: 'Dönüş saati boş bırakılamaz.',
   returnDestination: 'Dönüş yeri boş bırakılamaz.',

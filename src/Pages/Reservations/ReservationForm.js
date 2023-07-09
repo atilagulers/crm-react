@@ -31,8 +31,8 @@ function ReservationForm({
   const [hotels, setHotels] = useState([]);
   const [airlines, setAirlines] = useState([]);
 
-  const handleChangeCustomer = (selectedCity) => {
-    const e = {target: {name: 'city', value: selectedCity.value}};
+  const handleChangeCustomer = (selectedCustomer) => {
+    const e = {target: {name: 'customer', value: selectedCustomer.value}};
     handleChange(e);
   };
 
@@ -89,8 +89,7 @@ function ReservationForm({
           config
         );
         const hotelOptions = data.hotels.map((hotel) => ({
-          _id: hotel._id,
-          value: hotel.name,
+          value: hotel._id,
           label: hotel.name,
         }));
 
@@ -120,10 +119,22 @@ function ReservationForm({
           config
         );
         const airlineOptions = data.airlines.map((airline) => ({
-          _id: airline._id,
-          value: airline.name,
+          value: airline._id,
           label: airline.name,
         }));
+
+        const departureAirlineEvent = {
+          target: {name: 'departureAirline', value: data.airlines[0]._id},
+        };
+        handleChange(departureAirlineEvent);
+
+        const returnAirlineEvent = {
+          target: {
+            name: 'returnAirline',
+            value: data.airlines[0]._id,
+          },
+        };
+        handleChange(returnAirlineEvent);
 
         setAirlines(airlineOptions);
       } catch (error) {}
@@ -148,8 +159,16 @@ function ReservationForm({
         config
       );
 
-      const e = {target: {name: 'customer', value: data.customers[0]._id}};
-      handleChange(e);
+      const customerEvent = {
+        target: {name: 'customer', value: data.customers[0]._id},
+      };
+      handleChange(customerEvent);
+
+      const userEvent = {
+        target: {name: 'user', value: data.customers[0].user[0]._id},
+      };
+
+      handleChange(userEvent);
 
       setSelectedCustomer(data.customers[0]);
     } catch (error) {
@@ -230,11 +249,33 @@ function ReservationForm({
                 <Form.Label>Müşteri:</Form.Label>
                 <Form.Control
                   onChange={(e) => handleChange(e)}
-                  //name="customerName"
+                  name="customer"
                   required
                   type="text"
                   placeholder={'Müşteri Adı'}
                   value={`${selectedCustomer?.firstName} ${selectedCustomer?.lastName}`}
+                  disabled={true}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {formValues.hotel.validationMessage}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group
+                className="mb-3 ms"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Agent:</Form.Label>
+                <Form.Control
+                  onChange={(selectedOption) =>
+                    handleChangeCustomer(selectedOption)
+                  }
+                  name="user"
+                  required
+                  type="text"
+                  placeholder={'Agent Adı'}
+                  value={`${selectedCustomer?.user[0].firstName} ${selectedCustomer?.user[0].lastName}`}
                   disabled={true}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -341,7 +382,7 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>*Kalkış Yeri:</Form.Label>
+                <Form.Label>*Gidiş Yeri:</Form.Label>
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}
