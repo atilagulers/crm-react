@@ -25,14 +25,6 @@ function ReservationForm({
   submitButtonText = 'Kaydet',
   selectedCustomer,
   setSelectedCustomer,
-  departureHotel,
-  setDepartureHotel,
-  departureAirline,
-  setDepartureAirline,
-  departureTime,
-  setDepartureTime,
-  returnTime,
-  setReturnTime,
 }) {
   const {state} = useContext(AppContext);
   const [phone, setPhone] = useState();
@@ -41,6 +33,43 @@ function ReservationForm({
 
   const handleChangeCustomer = (selectedCity) => {
     const e = {target: {name: 'city', value: selectedCity.value}};
+    handleChange(e);
+  };
+
+  const handleChangeHotel = (selectedHotel) => {
+    const e = {target: {name: 'hotel', value: selectedHotel.value}};
+    handleChange(e);
+    console.log(formValues);
+  };
+
+  const handleChangeDepartureAirline = (selectedAirline) => {
+    const e = {
+      target: {name: 'departureAirline', value: selectedAirline.value},
+    };
+    handleChange(e);
+  };
+
+  const handleChangeReturnAirline = (selectedAirline) => {
+    const e = {
+      target: {
+        name: 'returnAirline',
+        value: selectedAirline.value,
+      },
+    };
+    handleChange(e);
+  };
+
+  const handleChangeDepartureTime = (time) => {
+    const e = {
+      target: {name: 'departureTime', value: time},
+    };
+    handleChange(e);
+  };
+
+  const handleChangeReturnTime = (time) => {
+    const e = {
+      target: {name: 'returnTime', value: time},
+    };
     handleChange(e);
   };
 
@@ -119,6 +148,9 @@ function ReservationForm({
         config
       );
 
+      const e = {target: {name: 'customer', value: data.customers[0]._id}};
+      handleChange(e);
+
       setSelectedCustomer(data.customers[0]);
     } catch (error) {
       toast.error(`Müşteri bulunamadı. ${error}`);
@@ -129,14 +161,6 @@ function ReservationForm({
     e.preventDefault();
 
     fetchSelectedCustomer();
-  };
-
-  const handleChangeDepartureTime = (time) => {
-    setDepartureTime(time);
-  };
-
-  const handleChangeReturnTime = (time) => {
-    setReturnTime(time);
   };
 
   return (
@@ -162,7 +186,7 @@ function ReservationForm({
         <Row className="d-flex justify-content-between">
           <Col>
             <Form.Group className="mb-3">
-              <Form.Label>Müşteri Telefonu (Telefon 1-2 veya 3):</Form.Label>
+              <Form.Label>*Müşteri Telefonu (Telefon 1-2 veya 3):</Form.Label>
               <Row>
                 <Col className="col-4">
                   <Form.Control
@@ -224,7 +248,7 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Otel:</Form.Label>
+                <Form.Label>*Otel:</Form.Label>
                 <Select
                   isDisabled={disabled}
                   options={hotels}
@@ -235,7 +259,7 @@ function ReservationForm({
                     }),
                   }}
                   onChange={(selectedOption) =>
-                    setDepartureHotel(selectedOption)
+                    handleChangeHotel(selectedOption)
                   }
                   defaultValue={{
                     value: hotels[0].value,
@@ -253,7 +277,7 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Havayolu:</Form.Label>
+                <Form.Label>*Havayolu:</Form.Label>
                 <Select
                   isDisabled={disabled}
                   options={airlines}
@@ -264,7 +288,7 @@ function ReservationForm({
                     }),
                   }}
                   onChange={(selectedOption) =>
-                    setDepartureAirline(selectedOption)
+                    handleChangeDepartureAirline(selectedOption)
                   }
                   defaultValue={{
                     value: airlines[0].value,
@@ -279,7 +303,7 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput2"
               >
-                <Form.Label>Tarih:</Form.Label>{' '}
+                <Form.Label>*Tarih:</Form.Label>{' '}
                 <Form.Control
                   onChange={(e) => handleChange(e)}
                   name="departureDate"
@@ -290,6 +314,7 @@ function ReservationForm({
                   isInvalid={!formValues.departureDate.isValid}
                   value={formValues.departureDate.value}
                   disabled={disabled}
+                  max="2023-12-31"
                 />
                 <Form.Control.Feedback type="invalid">
                   {formValues.departureDate.validationMessage}
@@ -301,10 +326,10 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Saat:</Form.Label>
+                <Form.Label>*Saat:</Form.Label>
                 <TimePicker
                   onChange={handleChangeDepartureTime}
-                  value={departureTime}
+                  value={formValues.departureTime.value}
                   format="HH:mm"
                   clearIcon={null}
                 />
@@ -316,13 +341,13 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Kalkış Yeri:</Form.Label>
+                <Form.Label>*Kalkış Yeri:</Form.Label>
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}
                   name="departureDestination"
                   required
-                  type="departureDestination"
+                  type="text"
                   placeholder="Lefkoşa"
                   isValid={formValues.departureDestination.isValid}
                   isInvalid={!formValues.departureDestination.isValid}
@@ -339,11 +364,11 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>PNR:</Form.Label>
+                <Form.Label>*PNR:</Form.Label>
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}
-                  name="text"
+                  name="departurePNR"
                   required
                   type="text"
                   placeholder="ABC123"
@@ -366,21 +391,24 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Havayolu:</Form.Label>
-                <Form.Control
-                  onChange={(e) => handleChange(e)}
-                  name="returnAirline"
-                  required
-                  type="text"
-                  placeholder={'THY'}
-                  isValid={formValues.returnAirline.isValid}
-                  isInvalid={!formValues.returnAirline.isValid}
-                  value={formValues.returnAirline.value}
-                  disabled={disabled}
+                <Form.Label>*Havayolu:</Form.Label>
+                <Select
+                  isDisabled={disabled}
+                  options={airlines}
+                  styles={{
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: 'black',
+                    }),
+                  }}
+                  onChange={(selectedOption) =>
+                    handleChangeReturnAirline(selectedOption)
+                  }
+                  defaultValue={{
+                    value: airlines[0].value,
+                    label: airlines[0].label,
+                  }}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formValues.returnAirline.validationMessage}
-                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
@@ -388,7 +416,7 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput2"
               >
-                <Form.Label>Tarih:</Form.Label>{' '}
+                <Form.Label>*Tarih:</Form.Label>{' '}
                 <Form.Control
                   onChange={(e) => handleChange(e)}
                   name="returnDate"
@@ -399,6 +427,7 @@ function ReservationForm({
                   isInvalid={!formValues.returnDate.isValid}
                   value={formValues.returnDate.value}
                   disabled={disabled}
+                  max="2023-12-31"
                 />
                 <Form.Control.Feedback type="invalid">
                   {formValues.returnDate.validationMessage}
@@ -410,10 +439,10 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Saat:</Form.Label>
+                <Form.Label>*Saat:</Form.Label>
                 <TimePicker
                   onChange={handleChangeReturnTime}
-                  value={returnTime}
+                  value={formValues.returnTime.value}
                   format="HH:mm"
                   clearIcon={null}
                 />
@@ -424,7 +453,7 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>Dönüş Yeri:</Form.Label>
+                <Form.Label>*Dönüş Yeri:</Form.Label>
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}
@@ -445,9 +474,9 @@ function ReservationForm({
             <Col>
               <Form.Group
                 className="mb-3"
-                controlId="exampleForm.ControlInput1"
+                controlId="exampleForm.ControlInput3"
               >
-                <Form.Label>PNR:</Form.Label>
+                <Form.Label>*PNR:</Form.Label>
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}

@@ -229,6 +229,7 @@ function CustomerForm({
                 type="date"
                 disabled={disabled}
                 value={formValues.birthday.value}
+                max="2023-12-31"
               />
             </Form.Group>
           </Col>

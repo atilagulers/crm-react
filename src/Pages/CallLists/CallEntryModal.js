@@ -173,6 +173,7 @@ function CallEntryModal({show, setShow, customer}) {
               label="Tekrar Aranacak"
               className="ms-3"
               style={{maxWidth: '300px', display: willBeCalled ? '' : 'none'}}
+              max="2023-12-31"
             />
           </Form.Group>
           <FormGroup className="mb-3" controlId="isReservedCheckbox">

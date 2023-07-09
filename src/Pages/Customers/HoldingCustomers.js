@@ -117,7 +117,7 @@ function HoldingCustomers() {
                     {customer.user[0].firstName} {customer.user[0].lastName}
                   </td>
 
-                  <td style={{maxWidth: '100px'}}>
+                  <td className="col-3" style={{maxWidth: '100px'}}>
                     <Form>
                       <Form.Group
                         className="d-flex gap-5"
@@ -127,6 +127,7 @@ function HoldingCustomers() {
                           name="date"
                           type="date"
                           onChange={(e) => setCallDate(e.target.value)}
+                          max="2023-12-31"
                         />
                         <Button
                           onClick={(e) => handleClickDate(e, customer._id)}

@@ -1,5 +1,12 @@
 export const validationMessages = {
-  firstName: 'Ad 3 ile 20 karakter arasında olmalıdır.',
+  departureDate: 'Kalkış tarihi boş bırakılamaz.',
+  departureTime: 'Kalkış saati boş bırakılamaz.',
+  departureDestination: 'Kalkış yeri boş bırakılamaz.',
+  departurePNR: 'Kalkış PNR boş bırakılamaz.',
+  returnDate: 'Dönüş tarihi boş bırakılamaz.',
+  returnTime: 'Dönüş saati boş bırakılamaz.',
+  returnDestination: 'Dönüş yeri boş bırakılamaz.',
+  returnPNR: 'Dönüş PNR boş bırakılamaz.',
   lastName: 'Soyad 3 ile 20 karakter arasında olmalıdır.',
   username: 'Kullanıcı Adı 3 ile 20 karakter arasında olmalıdır.',
   password: 'Şifre en az 8 karakter arasında olmalıdır.',
@@ -9,23 +16,35 @@ export const getIsValid = (field, value) => {
   if (field === 'firstName' || field === 'lastName' || field === 'username')
     return value.length >= 3 && value.length <= 20;
 
-  if (field === 'password') return value.length >= 8;
+  if (field === 'departureDate' || field === 'returnDate') return value !== '';
 
-  if (field === 'role') return true;
+  if (field === 'departureTime' || field === 'returnTime') {
+    return value !== undefined && value !== null && value !== '';
+  }
+
+  if (field === 'departureDestination' || field === 'returnDestination') {
+    return value.length > 1;
+  }
+
+  if (field === 'departurePNR' || field === 'returnPNR') {
+    return value.length > 1;
+  }
+
+  return true;
 };
 
 export const getValidationMessage = (field, value = '', formValues) => {
-  if (field === 'firstName' && !formValues[field].isValid) {
-    return validationMessages.firstName;
+  if (field === 'departureDate' && !formValues[field].isValid) {
+    return validationMessages.departureDate;
   }
-  if (field === 'lastName' && !formValues[field].isValid) {
-    return validationMessages.lastName;
+  if (field === 'departureTime' && !formValues[field].isValid) {
+    return validationMessages.departureTime;
   }
-  if (field === 'username' && !formValues[field].isValid) {
-    return validationMessages.username;
+  if (field === 'departureDestination' && !formValues[field].isValid) {
+    return validationMessages.departureDestination;
   }
-  if (field === 'password' && !formValues[field].isValid) {
-    return validationMessages.password;
+  if (field === 'departureDestination' && !formValues[field].isValid) {
+    return validationMessages.departureDestination;
   }
 
   return '';
