@@ -16,6 +16,12 @@ function CreateReservation() {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
   const [isCreating, setIsCreating] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState();
+  const [departureHotel, setDepartureHotel] = useState();
+  const [departureAirline, setDepartureAirline] = useState();
+  const [departureTime, setDepartureTime] = useState('00:00');
+  const [returnTime, setReturnTime] = useState('00:00');
+
   const validationMessages = {
     firstName: 'Ad 3 ile 20 karakter arasında olmalıdır.',
     lastName: 'Soyad 3 ile 20 karakter arasında olmalıdır.',
@@ -35,7 +41,7 @@ function CreateReservation() {
       validationMessage: validationMessages.hotel,
     },
     departureAirline: {
-      value: '',
+      value: 'Diger',
       isValid: false,
       validationMessage: validationMessages.departureAirline,
     },
@@ -166,6 +172,16 @@ function CreateReservation() {
         formValues={formValues}
         isFormValid={isFormValid}
         isCreating={isCreating}
+        selectedCustomer={selectedCustomer}
+        setSelectedCustomer={setSelectedCustomer}
+        departureHotel={departureHotel}
+        setDepartureHotel={setDepartureHotel}
+        departureAirline={departureAirline}
+        setDepartureAirline={setDepartureAirline}
+        departureTime={departureTime}
+        setDepartureTime={setDepartureTime}
+        returnTime={returnTime}
+        setReturnTime={setReturnTime}
       />
     </PageWrapper>
   );

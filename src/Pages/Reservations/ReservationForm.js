@@ -4,6 +4,11 @@ import {faUserPen} from '@fortawesome/free-solid-svg-icons';
 import {useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 import {AppContext} from '../../Contexts/AppContext';
+import {toast} from 'react-toastify';
+import Select from 'react-select';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
 
 function ReservationForm({
   title,
@@ -18,34 +23,120 @@ function ReservationForm({
   handleClickEdit,
   showEditButton = false,
   submitButtonText = 'Kaydet',
+  selectedCustomer,
+  setSelectedCustomer,
+  departureHotel,
+  setDepartureHotel,
+  departureAirline,
+  setDepartureAirline,
+  departureTime,
+  setDepartureTime,
+  returnTime,
+  setReturnTime,
 }) {
   const {state} = useContext(AppContext);
-  const [selectedCustomer, setSelectedCustomer] = useState();
   const [phone, setPhone] = useState();
+  const [hotels, setHotels] = useState([]);
+  const [airlines, setAirlines] = useState([]);
+
   const handleChangeCustomer = (selectedCity) => {
     const e = {target: {name: 'city', value: selectedCity.value}};
     handleChange(e);
   };
 
-  const fetchSelectedCustomer = async () => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${state.token}`,
-      },
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    const fetchHotels = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+          cancelToken: source.token,
+        };
+
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/hotel?page=1&limit=9999`,
+          config
+        );
+        const hotelOptions = data.hotels.map((hotel) => ({
+          _id: hotel._id,
+          value: hotel.name,
+          label: hotel.name,
+        }));
+
+        setHotels(hotelOptions);
+      } catch (error) {}
     };
+    fetchHotels();
 
-    const {data} = await axios.get(
-      `${process.env.REACT_APP_API}/customer?phone=${phone}&sortBy=firstName&sortOrder=-1`,
-      config
-    );
+    return () => {
+      source.cancel();
+    };
+  }, []);
 
-    setSelectedCustomer(data.customers[0]);
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    const fetchAirlines = async () => {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+          cancelToken: source.token,
+        };
+
+        const {data} = await axios.get(
+          `${process.env.REACT_APP_API}/airline?page=1&limit=9999`,
+          config
+        );
+        const airlineOptions = data.airlines.map((airline) => ({
+          _id: airline._id,
+          value: airline.name,
+          label: airline.name,
+        }));
+
+        setAirlines(airlineOptions);
+      } catch (error) {}
+    };
+    fetchAirlines();
+
+    return () => {
+      source.cancel();
+    };
+  }, []);
+
+  const fetchSelectedCustomer = async () => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      };
+
+      const {data} = await axios.get(
+        `${process.env.REACT_APP_API}/customer?phone=${phone}&sortBy=firstName&sortOrder=-1`,
+        config
+      );
+
+      setSelectedCustomer(data.customers[0]);
+    } catch (error) {
+      toast.error(`Müşteri bulunamadı. ${error}`);
+    }
   };
 
   const handleSubmitPhone = (e) => {
     e.preventDefault();
 
     fetchSelectedCustomer();
+  };
+
+  const handleChangeDepartureTime = (time) => {
+    setDepartureTime(time);
+  };
+
+  const handleChangeReturnTime = (time) => {
+    setReturnTime(time);
   };
 
   return (
@@ -127,26 +218,30 @@ function ReservationForm({
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
+
             <Col>
               <Form.Group
-                className="mb-3 ms"
+                className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Otel:</Form.Label>
-                <Form.Control
-                  onChange={(e) => handleChange(e)}
-                  name="hotel"
-                  required
-                  type="text"
-                  placeholder={'Savoy'}
-                  isValid={formValues.hotel.isValid}
-                  isInvalid={!formValues.hotel.isValid}
-                  value={formValues.hotel.value}
-                  disabled={disabled}
+                <Select
+                  isDisabled={disabled}
+                  options={hotels}
+                  styles={{
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: 'black',
+                    }),
+                  }}
+                  onChange={(selectedOption) =>
+                    setDepartureHotel(selectedOption)
+                  }
+                  defaultValue={{
+                    value: hotels[0].value,
+                    label: hotels[0].label,
+                  }}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formValues.hotel.validationMessage}
-                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -159,22 +254,26 @@ function ReservationForm({
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Havayolu:</Form.Label>
-                <Form.Control
-                  onChange={(e) => handleChange(e)}
-                  name="departureAirline"
-                  required
-                  type="text"
-                  placeholder={'THY'}
-                  isValid={formValues.departureAirline.isValid}
-                  isInvalid={!formValues.departureAirline.isValid}
-                  value={formValues.departureAirline.value}
-                  disabled={disabled}
+                <Select
+                  isDisabled={disabled}
+                  options={airlines}
+                  styles={{
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: 'black',
+                    }),
+                  }}
+                  onChange={(selectedOption) =>
+                    setDepartureAirline(selectedOption)
+                  }
+                  defaultValue={{
+                    value: airlines[0].value,
+                    label: airlines[0].label,
+                  }}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formValues.departureAirline.validationMessage}
-                </Form.Control.Feedback>
               </Form.Group>
             </Col>
+
             <Col>
               <Form.Group
                 className="mb-3"
@@ -203,22 +302,15 @@ function ReservationForm({
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Saat:</Form.Label>
-                <Form.Control
-                  onChange={(e) => handleChange(e)}
-                  name="departureTime"
-                  required
-                  type="text"
-                  placeholder="atilaguler"
-                  isValid={formValues.departureTime.isValid}
-                  isInvalid={!formValues.departureTime.isValid}
-                  value={formValues.departureTime.value}
-                  disabled={disabled}
+                <TimePicker
+                  onChange={handleChangeDepartureTime}
+                  value={departureTime}
+                  format="HH:mm"
+                  clearIcon={null}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formValues.departureTime.validationMessage}
-                </Form.Control.Feedback>
               </Form.Group>
             </Col>
+
             <Col>
               <Form.Group
                 className="mb-3"
@@ -319,20 +411,12 @@ function ReservationForm({
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Saat:</Form.Label>
-                <Form.Control
-                  onChange={(e) => handleChange(e)}
-                  name="returnTime"
-                  required
-                  type="text"
-                  placeholder="atilaguler"
-                  isValid={formValues.returnTime.isValid}
-                  isInvalid={!formValues.returnTime.isValid}
-                  value={formValues.returnTime.value}
-                  disabled={disabled}
+                <TimePicker
+                  onChange={handleChangeReturnTime}
+                  value={returnTime}
+                  format="HH:mm"
+                  clearIcon={null}
                 />
-                <Form.Control.Feedback type="invalid">
-                  {formValues.returnTime.validationMessage}
-                </Form.Control.Feedback>
               </Form.Group>
             </Col>
             <Col>
