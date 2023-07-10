@@ -9,6 +9,7 @@ import Select from 'react-select';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 
 function ReservationForm({
   title,
@@ -28,8 +29,8 @@ function ReservationForm({
 }) {
   const {state} = useContext(AppContext);
   const [phone, setPhone] = useState();
-  const [hotels, setHotels] = useState([]);
-  const [airlines, setAirlines] = useState([]);
+  const [hotels, setHotels] = useState(false);
+  const [airlines, setAirlines] = useState(false);
 
   const handleChangeCustomer = (selectedCustomer) => {
     const e = {target: {name: 'customer', value: selectedCustomer.value}};
@@ -92,6 +93,11 @@ function ReservationForm({
           value: hotel._id,
           label: hotel.name,
         }));
+
+        const hotelEvent = {
+          target: {name: 'hotel', value: data.hotels[0]._id},
+        };
+        handleChange(hotelEvent);
 
         setHotels(hotelOptions);
       } catch (error) {}
@@ -231,8 +237,7 @@ function ReservationForm({
           </Col>
         </Row>
       </Form>
-
-      {selectedCustomer && (
+      {selectedCustomer && airlines && hotels && (
         <Form
           noValidate
           //validated={validated}

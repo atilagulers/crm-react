@@ -133,6 +133,9 @@ function CreateReservation() {
         body,
         config
       );
+
+      await updateCustomer();
+
       navigate(`/reservations/${data._id}`);
 
       toast.success(`Rezervasyon başarıyla oluşturuldu.`);
@@ -147,6 +150,36 @@ function CreateReservation() {
     }
   };
 
+  const updateCustomer = async () => {
+    try {
+      setIsCreating(true);
+
+      const body = {
+        waitingReservation: false,
+        isReserved: true,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      };
+
+      const {data} = await axios.patch(
+        `${process.env.REACT_APP_API}/customer/${selectedCustomer._id}`,
+        body,
+        config
+      );
+
+      toast.success(`Müşteri güncellendi oluşturuldu.`);
+    } catch (error) {
+      toast.error('Müşteri güncellenemedi. ' + error);
+      console.log(error);
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
 
@@ -154,7 +187,7 @@ function CreateReservation() {
 
     await createReservation();
 
-    setFormValues(initialFormValues);
+    //setFormValues(initialFormValues);
   };
 
   return (

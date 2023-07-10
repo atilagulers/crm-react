@@ -65,10 +65,12 @@ function HoldingReservations() {
         <thead>
           <tr className="table-dark">
             <th style={{width: '5%'}}>Detay</th>
+
             <th>Adı</th>
             <th>Soyadı</th>
             <th>Telefon 1</th>
-
+            <th>Telefon 2</th>
+            <th>Telefon 3</th>
             <th>Agent</th>
           </tr>
         </thead>
@@ -84,6 +86,8 @@ function HoldingReservations() {
                   <td>{customer.firstName}</td>
                   <td>{customer.lastName}</td>
                   <td>{customer.phone1}</td>
+                  <td>{customer.phone2}</td>
+                  <td>{customer.phone3}</td>
 
                   <td>
                     {customer.user[0].firstName} {customer.user[0].lastName}
