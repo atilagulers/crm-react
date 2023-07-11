@@ -48,8 +48,12 @@ function HoldingReservations() {
     };
   }, [isSaving]);
 
-  const handleClickRow = (customerId) => {
+  const handleClickDetails = (customerId) => {
     navigate(`/customers/${customerId}`);
+  };
+
+  const handleClickCreate = (customerPhone) => {
+    navigate(`/reservations/create?customerPhone=${customerPhone}`);
   };
 
   if (isFetching) return <LoadingSpinner />;
@@ -72,6 +76,7 @@ function HoldingReservations() {
             <th>Telefon 2</th>
             <th>Telefon 3</th>
             <th>Agent</th>
+            <th>Rezervasyon</th>
           </tr>
         </thead>
         <tbody>
@@ -79,7 +84,7 @@ function HoldingReservations() {
             customers.map((customer, i) => {
               return (
                 <tr key={customer._id}>
-                  <td onClick={(e) => handleClickRow(e, customer._id)}>
+                  <td onClick={(e) => handleClickDetails(customer._id)}>
                     <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
                   </td>
 
@@ -91,6 +96,18 @@ function HoldingReservations() {
 
                   <td>
                     {customer.user[0].firstName} {customer.user[0].lastName}
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() =>
+                        handleClickCreate(
+                          customer.phone1 || customer.phone2 || customer.phone3
+                        )
+                      }
+                      style={{width: '100%'}}
+                    >
+                      Oluştur
+                    </Button>
                   </td>
                 </tr>
               );

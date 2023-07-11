@@ -10,6 +10,7 @@ import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
 import LoadingSpinner from '../../Components/LoadingSpinner';
+import {useLocation} from 'react-router-dom';
 
 function ReservationForm({
   title,
@@ -31,6 +32,13 @@ function ReservationForm({
   const [phone, setPhone] = useState();
   const [hotels, setHotels] = useState(false);
   const [airlines, setAirlines] = useState(false);
+  const {search} = useLocation();
+
+  useEffect(() => {
+    const customerPhone = search.split('=')[1];
+
+    if (customerPhone) setPhone(customerPhone);
+  }, []);
 
   const handleChangeCustomer = (selectedCustomer) => {
     const e = {target: {name: 'customer', value: selectedCustomer.value}};
@@ -222,7 +230,7 @@ function ReservationForm({
                     placeholder={'532xxxxxxx'}
                     //isValid={formValues.hotel.isValid}
                     //isInvalid={!formValues.hotel.isValid}
-                    //value={formValues.hotel.value}
+                    value={phone}
                     disabled={disabled}
                   />
                 </Col>

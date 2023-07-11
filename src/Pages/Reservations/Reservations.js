@@ -4,6 +4,7 @@ import {Container, Button} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import HoldingReservations from './HoldingReservations';
 import CreateReservation from './CreateReservation';
+import TodayReservations from './TodayReservations';
 
 function Reservations() {
   const navigate = useNavigate();
@@ -56,11 +57,11 @@ function Reservations() {
         <Route path="/hold" element={<HoldingReservations />} />
 
         <Route path="/create" element={<CreateReservation />} />
-        {/*<Route
-          path="/create-group"
-          element={<CreateCustomerGroup title={'Yeni Müşteri Grubu'} />}
+        <Route
+          path="/today"
+          element={<TodayReservations title={'Yeni Müşteri Grubu'} />}
         />
-        <Route path="/customer-groups" element={<ListCustomerGroups />} />
+        {/*<Route path="/customer-groups" element={<ListCustomerGroups />} />
         <Route path="/customer-groups/:id" element={<CustomerGroupDetails />} />
         <Route
           path="/customer-groups/:id/edit"

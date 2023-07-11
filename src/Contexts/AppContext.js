@@ -69,6 +69,27 @@ const initialState = {
       currentPage: 1,
     },
   },
+
+  reservations: {
+    past: {
+      list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
+    },
+    today: {
+      list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
+    },
+    future: {
+      list: [],
+      totalCount: 1,
+      totalPages: 1,
+      currentPage: 1,
+    },
+  },
 };
 
 const reducer = (draft, action) => {
@@ -140,6 +161,26 @@ const reducer = (draft, action) => {
       draft.calls.future.totalCount = action.data.totalCount;
       draft.calls.future.currentPage = action.data.currentPage;
       draft.calls.future.totalPages = action.data.totalPages;
+      return;
+
+    case 'UPDATE_PAST_RESERVATIONS':
+      draft.reservations.past.list = action.data.reservations;
+      draft.reservations.past.totalCount = action.data.totalCount;
+      draft.reservations.past.currentPage = action.data.currentPage;
+      draft.reservations.past.totalPages = action.data.totalPages;
+      return;
+
+    case 'UPDATE_TODAY_RESERVATIONS':
+      draft.reservations.today.list = action.data.reservations;
+      draft.reservations.today.totalCount = action.data.totalCount;
+      draft.reservations.today.currentPage = action.data.currentPage;
+      draft.reservations.today.totalPages = action.data.totalPages;
+      return;
+    case 'UPDATE_FUTURE_RESERVATIONS':
+      draft.reservations.future.list = action.data.reservations;
+      draft.reservations.future.totalCount = action.data.totalCount;
+      draft.reservations.future.currentPage = action.data.currentPage;
+      draft.reservations.future.totalPages = action.data.totalPages;
       return;
     default:
       return draft;
