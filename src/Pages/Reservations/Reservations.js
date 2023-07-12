@@ -5,6 +5,8 @@ import {Routes, Route, useNavigate} from 'react-router-dom';
 import HoldingReservations from './HoldingReservations';
 import CreateReservation from './CreateReservation';
 import TodayReservations from './TodayReservations';
+import FutureReservations from './FutureReservations';
+import ReservationHistory from './ReservationHistory';
 
 function Reservations() {
   const navigate = useNavigate();
@@ -37,7 +39,7 @@ function Reservations() {
         </Button>
 
         <Button onClick={handleClickWillCome} className="me-3">
-          Gelecekler
+          Gelecek Rezervasyonlar
         </Button>
 
         <Button onClick={handleClickReservationHistory} className="me-3">
@@ -57,10 +59,9 @@ function Reservations() {
         <Route path="/hold" element={<HoldingReservations />} />
 
         <Route path="/create" element={<CreateReservation />} />
-        <Route
-          path="/today"
-          element={<TodayReservations title={'Yeni Müşteri Grubu'} />}
-        />
+        <Route path="/history" element={<ReservationHistory />} />
+        <Route path="/today" element={<TodayReservations />} />
+        <Route path="/future" element={<FutureReservations />} />
         {/*<Route path="/customer-groups" element={<ListCustomerGroups />} />
         <Route path="/customer-groups/:id" element={<CustomerGroupDetails />} />
         <Route

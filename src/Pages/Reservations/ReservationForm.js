@@ -29,7 +29,7 @@ function ReservationForm({
   setSelectedCustomer,
 }) {
   const {state} = useContext(AppContext);
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState('');
   const [hotels, setHotels] = useState(false);
   const [airlines, setAirlines] = useState(false);
   const {search} = useLocation();
@@ -48,7 +48,6 @@ function ReservationForm({
   const handleChangeHotel = (selectedHotel) => {
     const e = {target: {name: 'hotel', value: selectedHotel.value}};
     handleChange(e);
-    console.log(formValues);
   };
 
   const handleChangeDepartureAirline = (selectedAirline) => {

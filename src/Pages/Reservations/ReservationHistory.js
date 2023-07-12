@@ -6,9 +6,9 @@ import LoadingSpinner from '../../Components/LoadingSpinner';
 import Pagination from '../../Components/Pagination';
 import {Container} from 'react-bootstrap';
 
-function TodayReservations() {
+function ReservationHistory() {
   const {state, dispatch} = useContext(AppContext);
-  const reservations = state.reservations.today;
+  const reservations = state.reservations.past;
   const limit = 20;
   const [isFetching, setIsFetching] = useState(true);
 
@@ -19,7 +19,7 @@ function TodayReservations() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/reservation?page=1&limit=30&sortBy=createdAt&sortOrder=1&time=today`,
+          `${process.env.REACT_APP_API}/reservation?page=1&limit=30&sortBy=createdAt&sortOrder=1&time=past`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -27,8 +27,8 @@ function TodayReservations() {
             cancelToken: source.token,
           }
         );
-
-        dispatch({type: 'UPDATE_TODAY_RESERVATIONS', data});
+        console.log(data);
+        dispatch({type: 'UPDATE_PAST_RESERVATIONS', data});
       } catch (error) {
         console.log(error);
       } finally {
@@ -47,7 +47,7 @@ function TodayReservations() {
     setIsFetching(true);
     try {
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&time=today`,
+        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&time=past`,
         {
           headers: {
             Authorization: `Bearer ${state.token}`,
@@ -55,7 +55,7 @@ function TodayReservations() {
         }
       );
 
-      dispatch({type: 'UPDATE_TODAY_RESERVATIONS', data});
+      dispatch({type: 'UPDATE_PAST_RESERVATIONS', data});
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,4 +77,4 @@ function TodayReservations() {
   );
 }
 
-export default TodayReservations;
+export default ReservationHistory;

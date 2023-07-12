@@ -4,8 +4,8 @@ export const formatDate = (date) => {
     day: 'numeric',
     month: 'numeric',
     year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
+    //hour: 'numeric',
+    //minute: 'numeric',
   };
   const formattedDate = newDate.toLocaleString('tr-TR', options);
 
