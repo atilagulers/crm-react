@@ -27,7 +27,7 @@ function ReservationHistory() {
             cancelToken: source.token,
           }
         );
-        console.log(data);
+
         dispatch({type: 'UPDATE_PAST_RESERVATIONS', data});
       } catch (error) {
         console.log(error);
@@ -40,7 +40,7 @@ function ReservationHistory() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [dispatch, state.token]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;

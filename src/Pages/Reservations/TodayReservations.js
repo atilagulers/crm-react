@@ -40,7 +40,7 @@ function TodayReservations() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [dispatch, state.token]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;
