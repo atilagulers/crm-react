@@ -11,6 +11,7 @@ import {
   faCalendarDays,
   faMoneyBill1Wave,
   faBars,
+  faRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import SidebarItem from './SidebarItem';
 import {AppContext} from '../Contexts/AppContext';
@@ -123,7 +124,7 @@ function Sidebar(props) {
       </div>
       <div className="sidebar-item" onClick={handleClickLogOut}>
         <FontAwesomeIcon
-          icon={faMoneyBill1Wave}
+          icon={faRightFromBracket}
           size="xl"
           className="sidebar-item-icon"
         />
