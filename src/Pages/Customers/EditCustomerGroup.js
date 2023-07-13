@@ -8,12 +8,7 @@ import {toast} from 'react-toastify';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import BackButton from '../../Components/BackButton';
 
-import {
-  validationMessages,
-  getIsValid,
-  getValidationMessage,
-  isFormValid,
-} from './CustomerValidation';
+import {isFormValid} from './CustomerValidation';
 
 function EditCustomer() {
   const {state} = useContext(AppContext);
@@ -58,7 +53,7 @@ function EditCustomer() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [customerGroupId, state.token]);
 
   const handleChangeInput = (e) => {
     setFormValues((prevValues) => ({

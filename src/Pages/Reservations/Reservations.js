@@ -1,8 +1,7 @@
-import React, {useEffect} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
 import {Container, Button} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
-import HoldingReservations from './HoldingReservations';
+import HoldingCustomers from './HoldingCustomers';
 import CreateReservation from './CreateReservation';
 import TodayReservations from './TodayReservations';
 import FutureReservations from './FutureReservations';
@@ -27,7 +26,7 @@ function Reservations() {
     navigate('create');
   };
 
-  const handleClickHoldingReservations = () => {
+  const handleClickHoldingCustomers = () => {
     navigate('hold');
   };
 
@@ -50,13 +49,13 @@ function Reservations() {
           Rezervasyon Oluştur
         </Button>
 
-        <Button onClick={handleClickHoldingReservations} className="me-3">
+        <Button onClick={handleClickHoldingCustomers} className="me-3">
           Rezervasyon Bekleyen Müşteriler
         </Button>
       </Container>
       <Routes>
         {/*<Route path="/" element={<ListCustomers />} />*/}
-        <Route path="/hold" element={<HoldingReservations />} />
+        <Route path="/hold" element={<HoldingCustomers />} />
 
         <Route path="/create" element={<CreateReservation />} />
         <Route path="/history" element={<ReservationHistory />} />

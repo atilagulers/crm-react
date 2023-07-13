@@ -166,7 +166,7 @@ function CreateReservation() {
         },
       };
 
-      const {data} = await axios.patch(
+      await axios.patch(
         `${process.env.REACT_APP_API}/customer/${selectedCustomer._id}`,
         body,
         config

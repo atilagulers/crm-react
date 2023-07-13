@@ -37,7 +37,7 @@ function ListCustomerGroups() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [dispatch, state.token]);
 
   if (isFetching) return <LoadingSpinner />;
 

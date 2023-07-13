@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PageWrapper from '../../../Components/PageWrapper';
-import {Container, Row, Col, Table} from 'react-bootstrap';
 import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import {AppContext} from '../../../Contexts/AppContext';
@@ -70,7 +69,7 @@ function AirlineDetails() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [airlineId, state.token]);
 
   const handleClickEdit = () => {
     navigate('edit');

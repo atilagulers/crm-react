@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';

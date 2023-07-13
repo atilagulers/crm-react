@@ -6,7 +6,6 @@ import {AppContext} from '../../../Contexts/AppContext';
 import './Style/Users.css';
 import LoadingSpinner from '../../../Components/LoadingSpinner';
 import UserForm from './UserForm';
-import {toast} from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
 import BackButton from '../../../Components/BackButton';
 
@@ -93,7 +92,7 @@ function UserDetails() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token, userId]);
 
   const handleClickEdit = () => {
     navigate('edit');

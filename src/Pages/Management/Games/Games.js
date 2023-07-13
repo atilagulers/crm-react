@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import PageWrapper from '../../../Components/PageWrapper';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import {Container, Button} from 'react-bootstrap';

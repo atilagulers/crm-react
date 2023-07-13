@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
 import PageWrapper from '../../../Components/PageWrapper';
-import {Form, Button, Container, Row, Col, Table, Nav} from 'react-bootstrap';
+import {Button, Container} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
 import CreateHotel from './CreateHotel';

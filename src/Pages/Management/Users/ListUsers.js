@@ -43,7 +43,7 @@ function ListUsers() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [dispatch, state.token, users.currentPage]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;

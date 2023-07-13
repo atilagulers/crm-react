@@ -9,7 +9,6 @@ import Select from 'react-select';
 import TimePicker from 'react-time-picker';
 import 'react-time-picker/dist/TimePicker.css';
 import 'react-clock/dist/Clock.css';
-import LoadingSpinner from '../../Components/LoadingSpinner';
 import {useLocation} from 'react-router-dom';
 
 function ReservationForm({
@@ -38,7 +37,7 @@ function ReservationForm({
     const customerPhone = search.split('=')[1];
 
     if (customerPhone) setPhone(customerPhone);
-  }, []);
+  }, [search]);
 
   const handleChangeCustomer = (selectedCustomer) => {
     const e = {target: {name: 'customer', value: selectedCustomer.value}};
@@ -114,7 +113,7 @@ function ReservationForm({
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token, handleChange]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -157,7 +156,7 @@ function ReservationForm({
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token, handleChange]);
 
   const fetchSelectedCustomer = async () => {
     try {

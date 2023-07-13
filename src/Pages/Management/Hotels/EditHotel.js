@@ -92,7 +92,7 @@ function EditHotel() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [hotelId, state.token]);
 
   const handleChangeInput = (e) => {
     setFormValues((prevValues) => ({

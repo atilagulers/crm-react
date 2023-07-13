@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import {Form, Button, Container, Row, Col} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUserPen} from '@fortawesome/free-solid-svg-icons';

@@ -1,4 +1,3 @@
-import React, {useContext} from 'react';
 import PageWrapper from '../Components/PageWrapper';
 
 function Home() {

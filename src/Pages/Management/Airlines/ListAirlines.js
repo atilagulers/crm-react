@@ -41,7 +41,7 @@ function ListAirlines() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [airlines.currentPage, state.token, dispatch]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;

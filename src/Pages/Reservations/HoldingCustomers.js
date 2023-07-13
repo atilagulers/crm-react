@@ -1,21 +1,18 @@
 import React, {useEffect, useContext, useState} from 'react';
-import {Table, Container, Form, Button} from 'react-bootstrap';
+import {Table, Container, Button} from 'react-bootstrap';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import LoadingSpinner from '../../Components/LoadingSpinner';
-import {toast} from 'react-toastify';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
+import Pagination from '../../Components/Pagination';
 
-function HoldingReservations() {
-  const {state} = useContext(AppContext);
+function HoldingCustomers() {
+  const {state, dispatch} = useContext(AppContext);
   const navigate = useNavigate();
-  const [customers, setCustomers] = useState([]);
+  const customers = state.holdingCustomers;
   const [isFetching, setIsFetching] = useState();
-  const [isSaving, setIsSaving] = useState(false);
-  const [callDate, setCallDate] = useState(Date.now());
-  const [currentPage, setCurrentPage] = useState(1);
   const limit = 20;
 
   useEffect(() => {
@@ -25,7 +22,7 @@ function HoldingReservations() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer/?page=${currentPage}&limit=${limit}&waitingReservation=true&sortBy=createdAt&sortOrder=1`,
+          `${process.env.REACT_APP_API}/customer/?page=${customers.currentPage}&limit=${limit}&waitingReservation=true&sortBy=createdAt&sortOrder=1`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -34,7 +31,7 @@ function HoldingReservations() {
           }
         );
 
-        setCustomers(data.customers);
+        dispatch({type: 'UPDATE_HOLDING_CUSTOMERS', data});
       } catch (error) {
         console.log(error);
       } finally {
@@ -46,7 +43,7 @@ function HoldingReservations() {
     return () => {
       source.cancel();
     };
-  }, [isSaving]);
+  }, [customers.currentPage, dispatch, state.token]);
 
   const handleClickDetails = (customerId) => {
     navigate(`/customers/${customerId}`);
@@ -54,6 +51,27 @@ function HoldingReservations() {
 
   const handleClickCreate = (customerPhone) => {
     navigate(`/reservations/create?customerPhone=${customerPhone}`);
+  };
+
+  const handleClickPage = async ({selected}) => {
+    const page = selected + 1;
+    setIsFetching(true);
+    try {
+      const {data} = await axios.get(
+        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+
+      dispatch({type: 'UPDATE_HOLDING_CUSTOMERS', data});
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetching(false);
+    }
   };
 
   if (isFetching) return <LoadingSpinner />;
@@ -80,8 +98,8 @@ function HoldingReservations() {
           </tr>
         </thead>
         <tbody>
-          {customers &&
-            customers.map((customer, i) => {
+          {customers.list &&
+            customers.list.map((customer, i) => {
               return (
                 <tr key={customer._id}>
                   <td onClick={(e) => handleClickDetails(customer._id)}>
@@ -114,8 +132,13 @@ function HoldingReservations() {
             })}
         </tbody>
       </Table>
+      <Pagination
+        handleClickPage={handleClickPage}
+        totalPages={customers.totalPages}
+        currentPage={customers.currentPage - 1}
+      />
     </Container>
   );
 }
 
-export default HoldingReservations;
+export default HoldingCustomers;

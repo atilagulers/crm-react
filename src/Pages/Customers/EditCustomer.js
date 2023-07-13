@@ -195,7 +195,7 @@ function EditCustomer() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [customerId, state.token]);
 
   const handleChangeInput = (e) => {
     setFormValues((prevValues) => ({

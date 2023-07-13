@@ -41,7 +41,7 @@ function ListGames() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token, dispatch, games.totalPages]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;

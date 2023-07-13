@@ -4,7 +4,6 @@ import Users from './Users/Users';
 import Hotels from './Hotels/Hotels';
 import Games from './Games/Games';
 import Airlines from './Airlines/Airlines';
-import CreateUser from './Users/CreateUser';
 
 function Management() {
   return (

@@ -63,7 +63,7 @@ function EditHotel() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [airlineId, state.token]);
 
   const handleChangeInput = (e) => {
     setFormValues((prevValues) => ({

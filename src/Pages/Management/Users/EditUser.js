@@ -98,7 +98,7 @@ function EditUser() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token, userId]);
 
   const handleChangeInput = (e) => {
     setFormValues((prevValues) => ({

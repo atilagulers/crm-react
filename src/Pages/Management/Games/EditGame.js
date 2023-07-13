@@ -62,7 +62,7 @@ function EditGame() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [gameId, state.token]);
 
   const handleChangeInput = (e) => {
     setFormValues((prevValues) => ({

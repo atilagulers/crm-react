@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Container, Table, Button} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import {Container} from 'react-bootstrap';
 import HotelTable from './HotelTable';
 import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
@@ -43,7 +42,7 @@ function ListHotels() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [dispatch, hotels.currentPage, state.token]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;
