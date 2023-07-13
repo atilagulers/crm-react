@@ -52,7 +52,7 @@ function CustomerForm({
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -78,7 +78,7 @@ function CustomerForm({
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token]);
 
   return (
     <Container className="p-0 bg-light-dark " style={{margin: '0% auto'}}>

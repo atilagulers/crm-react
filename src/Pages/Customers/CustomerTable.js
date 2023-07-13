@@ -44,13 +44,13 @@ function CustomerTable({customers, handleSelectUser}) {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token]);
 
   const handleClickCustomer = (customerId) => {
     navigate(`/customers/${customerId}`);
   };
 
-  //if (isFetching) return <LoadingSpinner />;
+  if (isFetching) return <LoadingSpinner />;
 
   return (
     <Container className="px-0">

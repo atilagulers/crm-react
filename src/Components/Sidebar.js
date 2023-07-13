@@ -17,7 +17,7 @@ import SidebarItem from './SidebarItem';
 import {AppContext} from '../Contexts/AppContext';
 
 function Sidebar(props) {
-  const {state, dispatch} = useContext(AppContext);
+  const {dispatch} = useContext(AppContext);
   const navigate = useNavigate();
   const [activeSubMenu, setActiveSubMenu] = useState(null);
 

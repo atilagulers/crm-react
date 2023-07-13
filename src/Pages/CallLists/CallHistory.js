@@ -40,7 +40,7 @@ function CallHistory() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [state.token, calls.currentPage, dispatch]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;

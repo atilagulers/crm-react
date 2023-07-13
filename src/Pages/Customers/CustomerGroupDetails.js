@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
-import {Row, Table, Container} from 'react-bootstrap';
 import {useNavigate, useParams} from 'react-router-dom';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import axios from 'axios';
@@ -21,13 +20,6 @@ function CustomerGroupDetails() {
   };
 
   const [formValues, setFormValues] = useState(initialFormValues);
-
-  const handleChangeInput = (e) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   useEffect(() => {
     setIsFetching(true);
@@ -61,7 +53,7 @@ function CustomerGroupDetails() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [customerGroupId, state.token]);
 
   const handleClickEdit = () => {
     navigate('edit');

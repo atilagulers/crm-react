@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useContext} from 'react';
 import CustomerGroupForm from './CustomerGroupForm';
 import {useNavigate} from 'react-router-dom';
 import PageWrapper from '../../Components/PageWrapper';
@@ -6,6 +6,7 @@ import BackButton from '../../Components/BackButton';
 import {toast} from 'react-toastify';
 import axios from 'axios';
 import {AppContext} from '../../Contexts/AppContext';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 
 function CreateCustomerGroup({title}) {
   const {state} = useContext(AppContext);
@@ -63,12 +64,13 @@ function CreateCustomerGroup({title}) {
 
   const handleSubmitCreate = async (e) => {
     e.preventDefault();
-    console.log(formValues);
 
     await createCustomerGroup();
 
     setFormValues(initialFormValues);
   };
+
+  if (isCreating) return <LoadingSpinner />;
 
   return (
     <PageWrapper title="Create Customer Group">
