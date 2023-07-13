@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react';
 import ReactPaginate from 'react-paginate';
 import '../Css/Components/Pagination.css';
 

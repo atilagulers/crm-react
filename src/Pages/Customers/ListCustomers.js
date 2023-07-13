@@ -43,7 +43,7 @@ function ListCustomers() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [customers.currentPage, dispatch, state.token]);
 
   const handleSelectUser = async (userId, customerId) => {
     setIsUpdatingUser(true);

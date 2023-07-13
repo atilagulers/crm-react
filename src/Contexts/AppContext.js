@@ -49,6 +49,12 @@ const initialState = {
     totalPages: 1,
     currentPage: 1,
   },
+  holdingCustomers: {
+    list: [],
+    totalCount: 1,
+    totalPages: 1,
+    currentPage: 1,
+  },
   calls: {
     past: {
       list: [],
@@ -141,6 +147,13 @@ const reducer = (draft, action) => {
       draft.customerGroups.totalCount = action.data.totalCount;
       draft.customerGroups.currentPage = action.data.currentPage;
       draft.customerGroups.totalPages = action.data.totalPages;
+      return;
+
+    case 'UPDATE_HOLDING_CUSTOMERS':
+      draft.holdingCustomers.list = action.data.customers;
+      draft.holdingCustomers.totalCount = action.data.totalCount;
+      draft.holdingCustomers.currentPage = action.data.currentPage;
+      draft.holdingCustomers.totalPages = action.data.totalPages;
       return;
 
     case 'UPDATE_PAST_CALLS':

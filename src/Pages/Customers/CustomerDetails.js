@@ -1,18 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
-import {Row, Table, Container} from 'react-bootstrap';
 import {useNavigate, useParams} from 'react-router-dom';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import axios from 'axios';
 import {AppContext} from '../../Contexts/AppContext';
 import CustomerForm from './CustomerForm';
 import BackButton from '../../Components/BackButton';
-import {
-  validationMessages,
-  getIsValid,
-  getValidationMessage,
-  isFormValid,
-} from './CustomerValidation';
+import {validationMessages, isFormValid} from './CustomerValidation';
 
 function CustomerDetails() {
   const {state} = useContext(AppContext);
@@ -97,21 +91,6 @@ function CustomerDetails() {
   };
 
   const [formValues, setFormValues] = useState(initialFormValues);
-
-  const handleChangeInput = (e) => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [e.target.name]: {
-        value: e.target.value,
-        isValid: getIsValid(e.target.name, e.target.value),
-        validationMessage: getValidationMessage(
-          e.target.name,
-          e.target.value,
-          formValues
-        ),
-      },
-    }));
-  };
 
   useEffect(() => {
     setIsFetching(true);
@@ -214,7 +193,7 @@ function CustomerDetails() {
     return () => {
       source.cancel();
     };
-  }, []);
+  }, [customerId, state.token]);
 
   const handleClickEdit = () => {
     navigate('edit');

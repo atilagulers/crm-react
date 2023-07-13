@@ -1,52 +1,15 @@
-import React, {useState, useEffect, useContext} from 'react';
-import {Table, Dropdown, Container} from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Table, Container} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import CallEntryModal from './CallEntryModal';
-import {AppContext} from '../../Contexts/AppContext';
-import axios from 'axios';
 import {formatDate} from '../../Helpers';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPhoneVolume, faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 
 function CallTable({customers}) {
-  const {state} = useContext(AppContext);
   const navigate = useNavigate();
   const [showEntryModal, setShowEntryModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState();
-  const [users, setUsers] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
-
-  useEffect(() => {
-    const source = axios.CancelToken.source();
-
-    const fetchUsers = async () => {
-      //if (customers.length > 0) return setIsFetching(false);
-
-      setIsFetching(true);
-      try {
-        const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/user/?page=1&limit=9999`,
-          {
-            headers: {
-              Authorization: `Bearer ${state.token}`,
-            },
-            cancelToken: source.token,
-          }
-        );
-
-        setUsers(data.users);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsFetching(false);
-      }
-    };
-    fetchUsers();
-
-    return () => {
-      source.cancel();
-    };
-  }, []);
 
   const handleClickRow = (customerId) => {
     navigate(`/customers/${customerId}`);
@@ -58,10 +21,6 @@ function CallTable({customers}) {
     setSelectedCustomer(customer);
     setShowEntryModal(true);
   };
-
-  const handleChangeUser = (e, customerId) => {};
-
-  const handleChangeHotels = (e, hotelId) => {};
 
   return (
     <Container className="px-0">

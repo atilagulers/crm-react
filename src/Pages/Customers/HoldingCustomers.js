@@ -7,15 +7,15 @@ import LoadingSpinner from '../../Components/LoadingSpinner';
 import {toast} from 'react-toastify';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
+import Pagination from '../../Components/Pagination';
 
 function HoldingCustomers() {
-  const {state} = useContext(AppContext);
+  const {state, dispatch} = useContext(AppContext);
+  const customers = state.holdingCustomers;
   const navigate = useNavigate();
-  const [customers, setCustomers] = useState([]);
   const [isFetching, setIsFetching] = useState();
   const [isSaving, setIsSaving] = useState(false);
   const [callDate, setCallDate] = useState(Date.now());
-  const [currentPage, setCurrentPage] = useState(1);
   const limit = 20;
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function HoldingCustomers() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer/?page=${currentPage}&limit=${limit}&willBeCalled=false&sortBy=createdAt&sortOrder=1`,
+          `${process.env.REACT_APP_API}/customer/?page=${customers.currentPage}&limit=${limit}&willBeCalled=false&sortBy=createdAt&sortOrder=1`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -34,7 +34,7 @@ function HoldingCustomers() {
           }
         );
 
-        setCustomers(data.customers);
+        dispatch({type: 'UPDATE_HOLDING_CUSTOMERS', data});
       } catch (error) {
         console.log(error);
       } finally {
@@ -46,7 +46,7 @@ function HoldingCustomers() {
     return () => {
       source.cancel();
     };
-  }, [isSaving]);
+  }, [isSaving, customers.currentPage, dispatch, state.token]);
 
   const handleClickDate = async (e, customerId) => {
     e.preventDefault();
@@ -81,7 +81,29 @@ function HoldingCustomers() {
     navigate(`/customers/${customerId}`);
   };
 
+  const handleClickPage = async ({selected}) => {
+    const page = selected + 1;
+    setIsFetching(true);
+    try {
+      const {data} = await axios.get(
+        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+
+      dispatch({type: 'UPDATE_HOLDING_CUSTOMERS', data});
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
   if (isFetching) return <LoadingSpinner />;
+
   return (
     <Container className="px-0">
       <Table
@@ -103,8 +125,8 @@ function HoldingCustomers() {
           </tr>
         </thead>
         <tbody>
-          {customers &&
-            customers.map((customer, i) => {
+          {customers.list &&
+            customers.list.map((customer, i) => {
               return (
                 <tr key={customer._id}>
                   <td onClick={(e) => handleClickRow(customer._id)}>
@@ -143,6 +165,11 @@ function HoldingCustomers() {
             })}
         </tbody>
       </Table>
+      <Pagination
+        handleClickPage={handleClickPage}
+        totalPages={customers.totalPages}
+        currentPage={customers.currentPage - 1}
+      />
     </Container>
   );
 }

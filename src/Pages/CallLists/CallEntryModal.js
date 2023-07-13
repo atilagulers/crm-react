@@ -38,6 +38,7 @@ function CallEntryModal({show, setShow, customer}) {
             cancelToken: source.token,
           }
         );
+
         setCalls(data.calls);
       } catch (error) {
         console.log(error);
@@ -50,7 +51,7 @@ function CallEntryModal({show, setShow, customer}) {
     return () => {
       source.cancel();
     };
-  }, [show]);
+  }, [show, state.token, customer._id]);
 
   const createCall = async () => {
     try {
@@ -201,27 +202,31 @@ function CallEntryModal({show, setShow, customer}) {
         style={{border: '1px solid black'}}
       >
         <h3 className="p-2">Arama Geçmişi</h3>
-        <Table striped bordered hover variant="dark">
-          <thead>
-            <tr>
-              <th>Tarih</th>
-              <th>Açıklama</th>
-              <th>Agent</th>
-            </tr>
-          </thead>
-          <tbody>
-            {calls.length > 0 &&
-              calls?.map((call) => {
-                return (
-                  <tr key={call._id}>
-                    <td>{formatDate(call.createdAt)}</td>
-                    <td>{call.log}</td>
-                    <td>{`${call.user[0]?.firstName} ${call.user[0]?.lastName}`}</td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </Table>
+        {isFetchingCalls ? (
+          <LoadingSpinner />
+        ) : (
+          <Table striped bordered hover variant="dark">
+            <thead>
+              <tr>
+                <th>Tarih</th>
+                <th>Açıklama</th>
+                <th>Agent</th>
+              </tr>
+            </thead>
+            <tbody>
+              {calls.length > 0 &&
+                calls?.map((call) => {
+                  return (
+                    <tr key={call._id}>
+                      <td>{formatDate(call.createdAt)}</td>
+                      <td>{call.log}</td>
+                      <td>{`${call.user[0]?.firstName} ${call.user[0]?.lastName}`}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </Table>
+        )}
       </Modal.Footer>
     </Modal>
   );
