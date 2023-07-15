@@ -58,10 +58,10 @@ function ReservationTable({reservations}) {
                   <td>{formatDate(reservation.departureDate)}</td>
                   <td>{reservation.departureTime}</td>
                   <td>{reservation.departurePNR}</td>
-                  <td>{reservation.returnAirline[0].name}</td>
-                  <td>{formatDate(reservation.returnDate)}</td>
-                  <td>{reservation.returnTime}</td>
-                  <td>{reservation.returnPNR}</td>
+                  <td>{reservation.arrivalAirline[0].name}</td>
+                  <td>{formatDate(reservation.arrivalDate)}</td>
+                  <td>{reservation.arrivalTime}</td>
+                  <td>{reservation.arrivalPNR}</td>
                   <td>{`${reservation.user[0].firstName} ${reservation.user[0].lastName}`}</td>
                 </tr>
               );

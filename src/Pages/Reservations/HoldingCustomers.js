@@ -7,6 +7,7 @@ import LoadingSpinner from '../../Components/LoadingSpinner';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../Components/Pagination';
+import BasicTable from '../../Components/BasicTable';
 
 function HoldingCustomers() {
   const {state, dispatch} = useContext(AppContext);
@@ -14,6 +15,37 @@ function HoldingCustomers() {
   const customers = state.holdingCustomers;
   const [isFetching, setIsFetching] = useState();
   const limit = 20;
+
+  const COLUMNS = [
+    {
+      Header: 'Adı',
+      accessor: 'firstName',
+    },
+    {
+      Header: 'Soyadı',
+      accessor: 'lastName',
+    },
+    {
+      Header: 'Telefon 1',
+      accessor: 'phone1',
+    },
+    {
+      Header: 'Telefon 2',
+      accessor: 'phone2',
+    },
+    {
+      Header: 'Telefon 3',
+      accessor: 'phone3',
+    },
+    {
+      Header: 'Agent',
+      accessor: 'user[0]',
+      Cell: ({value}) => {
+        const {firstName, lastName} = value;
+        return <span>{`${firstName} ${lastName}`}</span>;
+      },
+    },
+  ];
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -65,7 +97,6 @@ function HoldingCustomers() {
           },
         }
       );
-
       dispatch({type: 'UPDATE_HOLDING_CUSTOMERS', data});
     } catch (error) {
       console.log(error);
@@ -75,8 +106,14 @@ function HoldingCustomers() {
   };
 
   if (isFetching) return <LoadingSpinner />;
+
   return (
     <Container className="px-0">
+      <BasicTable
+        columns={COLUMNS}
+        data={customers.list}
+        handleClickDetails={handleClickDetails}
+      />
       <Table
         className="table customer-table table-striped table-dark table-hover"
         striped

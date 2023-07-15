@@ -3,10 +3,10 @@ export const validationMessages = {
   departureTime: 'Gidiş saati boş bırakılamaz.',
   departureDestination: 'Gidiş yeri boş bırakılamaz.',
   departurePNR: 'Gidiş PNR boş bırakılamaz.',
-  returnDate: 'Dönüş tarihi boş bırakılamaz.',
-  returnTime: 'Dönüş saati boş bırakılamaz.',
-  returnDestination: 'Dönüş yeri boş bırakılamaz.',
-  returnPNR: 'Dönüş PNR boş bırakılamaz.',
+  arrivalDate: 'Dönüş tarihi boş bırakılamaz.',
+  arrivalTime: 'Dönüş saati boş bırakılamaz.',
+  arrivalDestination: 'Dönüş yeri boş bırakılamaz.',
+  arrivalPNR: 'Dönüş PNR boş bırakılamaz.',
   lastName: 'Soyad 3 ile 20 karakter arasında olmalıdır.',
   username: 'Kullanıcı Adı 3 ile 20 karakter arasında olmalıdır.',
   password: 'Şifre en az 8 karakter arasında olmalıdır.',
@@ -16,17 +16,17 @@ export const getIsValid = (field, value) => {
   if (field === 'firstName' || field === 'lastName' || field === 'username')
     return value.length >= 3 && value.length <= 20;
 
-  if (field === 'departureDate' || field === 'returnDate') return value !== '';
+  if (field === 'departureDate' || field === 'arrivalDate') return value !== '';
 
-  if (field === 'departureTime' || field === 'returnTime') {
+  if (field === 'departureTime' || field === 'arrivalTime') {
     return value !== undefined && value !== null && value !== '';
   }
 
-  if (field === 'departureDestination' || field === 'returnDestination') {
+  if (field === 'departureDestination' || field === 'arrivalDestination') {
     return value.length > 1;
   }
 
-  if (field === 'departurePNR' || field === 'returnPNR') {
+  if (field === 'departurePNR' || field === 'arrivalPNR') {
     return value.length > 1;
   }
 

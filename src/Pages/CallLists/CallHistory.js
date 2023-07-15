@@ -5,6 +5,7 @@ import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import {formatDate} from '../../Helpers';
 import Pagination from '../../Components/Pagination';
+import BasicTable from '../../Components/BasicTable';
 
 function CallHistory() {
   const {state, dispatch} = useContext(AppContext);
@@ -28,6 +29,7 @@ function CallHistory() {
             cancelToken: source.token,
           }
         );
+
         dispatch({type: 'UPDATE_PAST_CALLS', data});
       } catch (error) {
         console.log(error);
@@ -62,48 +64,57 @@ function CallHistory() {
       setIsFetching(false);
     }
   };
+  const COLUMNS = [
+    {
+      Header: 'Tarih',
+      accessor: 'createdAt',
+      Cell: ({value}) => {
+        return formatDate(value);
+      },
+    },
+    {
+      Header: 'Müşteri',
+      accessor: 'customer[0]',
+      Cell: ({value}) => {
+        const {firstName, lastName} = value;
+        return <span>{`${firstName} ${lastName}`}</span>;
+      },
+    },
+    {
+      Header: 'Telefon 1',
+      accessor: 'customer[0].phone1',
+    },
+    {
+      Header: 'Telefon 2',
+      accessor: 'customer[0].phone2',
+    },
+    {
+      Header: 'Telefon 3',
+      accessor: 'customer[0].phone3',
+    },
+    {
+      Header: 'Açıklama',
+      accessor: 'log',
+    },
+    {
+      Header: 'Agent',
+      accessor: 'user[0]',
+      Cell: ({value}) => {
+        const {firstName, lastName} = value;
+        return <span>{`${firstName} ${lastName}`}</span>;
+      },
+    },
+  ];
 
   if (isFetching) return <LoadingSpinner />;
 
   return (
     <Container className="px-0">
-      <Table
-        className="table call-table table-striped table-dark table-hover"
-        striped
-        bordered
-        hover
-        variant="dark"
-      >
-        <thead>
-          <tr className="table-dark">
-            <th>Tarih</th>
-            <th>Müşteri</th>
-            <th>Telefon 1</th>
-            <th>Telefon 2</th>
-            <th>Telefon 3</th>
-            <th>Detay</th>
-            <th>Agent</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {calls.list &&
-            calls.list.map((call, i) => {
-              return (
-                <tr key={call._id}>
-                  <td>{formatDate(call.createdAt)}</td>
-                  <td>{`${call.customer[0].firstName} ${call.customer[0].lastName}`}</td>
-                  <td>{call.customer[0].phone1}</td>
-                  <td>{call.customer[0].phone2}</td>
-                  <td>{call.customer[0].phone3}</td>
-
-                  <td>{call.log}</td>
-                  <td>{`${call.user[0]?.firstName} ${call.user[0]?.lastName}`}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </Table>
+      <BasicTable
+        columns={COLUMNS}
+        data={calls.list}
+        //handleClickDetails={handleClickDetails}
+      />
 
       <Pagination
         handleClickPage={handleClickPage}

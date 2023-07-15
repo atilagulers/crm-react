@@ -56,10 +56,10 @@ function ReservationForm({
     handleChange(e);
   };
 
-  const handleChangeReturnAirline = (selectedAirline) => {
+  const handleChangeArrivalAirline = (selectedAirline) => {
     const e = {
       target: {
-        name: 'returnAirline',
+        name: 'arrivalAirline',
         value: selectedAirline.value,
       },
     };
@@ -73,9 +73,9 @@ function ReservationForm({
     handleChange(e);
   };
 
-  const handleChangeReturnTime = (time) => {
+  const handleChangeArrivalTime = (time) => {
     const e = {
-      target: {name: 'returnTime', value: time},
+      target: {name: 'arrivalTime', value: time},
     };
     handleChange(e);
   };
@@ -140,13 +140,13 @@ function ReservationForm({
         };
         handleChange(departureAirlineEvent);
 
-        const returnAirlineEvent = {
+        const arrivalAirlineEvent = {
           target: {
-            name: 'returnAirline',
+            name: 'arrivalAirline',
             value: data.airlines[0]._id,
           },
         };
-        handleChange(returnAirlineEvent);
+        handleChange(arrivalAirlineEvent);
 
         setAirlines(airlineOptions);
       } catch (error) {}
@@ -322,7 +322,7 @@ function ReservationForm({
             </Col>
           </Row>
 
-          <h3 className="mb-3">Gidiş Bilgileri</h3>
+          <h3 className="mb-3">Kalkış Bilgileri</h3>
           <Row className="d-flex justify-content-between mb-3">
             <Col>
               <Form.Group
@@ -393,14 +393,14 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>*Gidiş Yeri:</Form.Label>
+                <Form.Label>*Kalkış Yeri:</Form.Label>
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}
                   name="departureDestination"
                   required
                   type="text"
-                  placeholder="Lefkoşa"
+                  placeholder="Ankara"
                   isValid={formValues.departureDestination.isValid}
                   isInvalid={!formValues.departureDestination.isValid}
                   value={formValues.departureDestination.value}
@@ -436,7 +436,7 @@ function ReservationForm({
             </Col>
           </Row>
 
-          <h3 className="mb-3">Dönüş Bilgileri</h3>
+          <h3 className="mb-3">Varış Bilgileri</h3>
           <Row className="d-flex justify-content-between mb-3">
             <Col>
               <Form.Group
@@ -454,7 +454,7 @@ function ReservationForm({
                     }),
                   }}
                   onChange={(selectedOption) =>
-                    handleChangeReturnAirline(selectedOption)
+                    handleChangeArrivalAirline(selectedOption)
                   }
                   defaultValue={{
                     value: airlines[0].value,
@@ -471,18 +471,18 @@ function ReservationForm({
                 <Form.Label>*Tarih:</Form.Label>{' '}
                 <Form.Control
                   onChange={(e) => handleChange(e)}
-                  name="returnDate"
+                  name="arrivalDate"
                   required
                   type="date"
                   placeholder="atilaguler"
-                  isValid={formValues.returnDate.isValid}
-                  isInvalid={!formValues.returnDate.isValid}
-                  value={formValues.returnDate.value}
+                  isValid={formValues.arrivalDate.isValid}
+                  isInvalid={!formValues.arrivalDate.isValid}
+                  value={formValues.arrivalDate.value}
                   disabled={disabled}
                   max="2023-12-31"
                 />
                 <Form.Control.Feedback type="invalid">
-                  {formValues.returnDate.validationMessage}
+                  {formValues.arrivalDate.validationMessage}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -493,8 +493,8 @@ function ReservationForm({
               >
                 <Form.Label>*Saat:</Form.Label>
                 <TimePicker
-                  onChange={handleChangeReturnTime}
-                  value={formValues.returnTime.value}
+                  onChange={handleChangeArrivalTime}
+                  value={formValues.arrivalTime.value}
                   format="HH:mm"
                   clearIcon={null}
                 />
@@ -505,21 +505,21 @@ function ReservationForm({
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
-                <Form.Label>*Dönüş Yeri:</Form.Label>
+                <Form.Label>*Varış Yeri:</Form.Label>
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}
-                  name="returnDestination"
+                  name="arrivalDestination"
                   required
                   type="text"
-                  placeholder="Ankara"
-                  isValid={formValues.returnDestination.isValid}
-                  isInvalid={!formValues.returnDestination.isValid}
-                  value={formValues.returnDestination.value}
+                  placeholder="Lefkoşa"
+                  isValid={formValues.arrivalDestination.isValid}
+                  isInvalid={!formValues.arrivalDestination.isValid}
+                  value={formValues.arrivalDestination.value}
                   disabled={disabled}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {formValues.returnDestination.validationMessage}
+                  {formValues.arrivalDestination.validationMessage}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>
@@ -532,17 +532,17 @@ function ReservationForm({
 
                 <Form.Control
                   onChange={(e) => handleChange(e)}
-                  name="returnPNR"
+                  name="arrivalPNR"
                   required
                   type="text"
                   placeholder="ABC123"
-                  isValid={formValues.returnPNR.isValid}
-                  isInvalid={!formValues.returnPNR.isValid}
-                  value={formValues.returnPNR.value}
+                  isValid={formValues.arrivalPNR.isValid}
+                  isInvalid={!formValues.arrivalPNR.isValid}
+                  value={formValues.arrivalPNR.value}
                   disabled={disabled}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {formValues.returnPNR.validationMessage}
+                  {formValues.arrivalPNR.validationMessage}
                 </Form.Control.Feedback>
               </Form.Group>
             </Col>

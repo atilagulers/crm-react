@@ -56,30 +56,30 @@ function CreateReservation() {
       isValid: false,
       validationMessage: validationMessages.departurePNR,
     },
-    returnAirline: {
+    arrivalAirline: {
       value: '',
       isValid: true,
-      validationMessage: validationMessages.returnAirline,
+      validationMessage: validationMessages.arrivalAirline,
     },
-    returnDate: {
+    arrivalDate: {
       value: '',
       isValid: false,
-      validationMessage: validationMessages.returnDate,
+      validationMessage: validationMessages.arrivalDate,
     },
-    returnTime: {
+    arrivalTime: {
       value: '00:00',
       isValid: true,
-      validationMessage: validationMessages.returnTime,
+      validationMessage: validationMessages.arrivalTime,
     },
-    returnDestination: {
+    arrivalDestination: {
       value: '',
       isValid: false,
-      validationMessage: validationMessages.returnDestination,
+      validationMessage: validationMessages.arrivalDestination,
     },
-    returnPNR: {
+    arrivalPNR: {
       value: '',
       isValid: false,
-      validationMessage: validationMessages.returnPNR,
+      validationMessage: validationMessages.arrivalPNR,
     },
     user: {
       value: '',
@@ -115,11 +115,11 @@ function CreateReservation() {
         departureTime: formValues.departureTime.value,
         departureDestination: formValues.departureDestination.value,
         departurePNR: formValues.departurePNR.value,
-        returnAirline: formValues.returnAirline.value,
-        returnDate: formValues.returnDate.value,
-        returnTime: formValues.returnTime.value,
-        returnDestination: formValues.returnDestination.value,
-        returnPNR: formValues.returnPNR.value,
+        arrivalAirline: formValues.arrivalAirline.value,
+        arrivalDate: formValues.arrivalDate.value,
+        arrivalTime: formValues.arrivalTime.value,
+        arrivalDestination: formValues.arrivalDestination.value,
+        arrivalPNR: formValues.arrivalPNR.value,
         user: formValues.user.value,
       };
 

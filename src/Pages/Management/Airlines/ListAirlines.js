@@ -5,12 +5,22 @@ import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../../Components/LoadingSpinner';
 import Pagination from '../../../Components/Pagination';
+import {useNavigate} from 'react-router-dom';
+import FilteringTable from '../../../Components/FilteringTable';
 
 function ListAirlines() {
   const {state, dispatch} = useContext(AppContext);
   const {airlines} = state.management;
+  const navigate = useNavigate();
   const [isFetching, setIsFetching] = useState(false);
-  const limit = 20;
+  const limit = 50;
+
+  const COLUMNS = [
+    {
+      Header: 'Havayolu Adı',
+      accessor: 'name',
+    },
+  ];
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -64,11 +74,19 @@ function ListAirlines() {
     }
   };
 
+  const handleClickDetails = (airlineId) => {
+    navigate(`${airlineId}`);
+  };
+
   if (isFetching) return <LoadingSpinner />;
 
   return (
     <Container className="p-0">
-      <AirlineTable airlines={airlines.list} />
+      <FilteringTable
+        columns={COLUMNS}
+        data={airlines.list}
+        handleClickDetails={handleClickDetails}
+      />
 
       <Pagination
         handleClickPage={handleClickPage}

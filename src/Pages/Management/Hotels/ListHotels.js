@@ -5,12 +5,34 @@ import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../../Components/LoadingSpinner';
 import Pagination from '../../../Components/Pagination';
+import FilteringTable from '../../../Components/FilteringTable';
+import {useNavigate} from 'react-router-dom';
 
 function ListHotels() {
   const {state, dispatch} = useContext(AppContext);
   const {hotels} = state.management;
+  const navigate = useNavigate();
   const [isFetching, setIsFetching] = useState(false);
   const limit = 20;
+
+  const COLUMNS = [
+    {
+      Header: 'Otel Adı',
+      accessor: 'name',
+    },
+    {
+      Header: 'Yetkili Kişi',
+      accessor: 'responsible',
+    },
+    {
+      Header: 'Telefon',
+      accessor: 'phone',
+    },
+    {
+      Header: 'Email',
+      accessor: 'email',
+    },
+  ];
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -65,11 +87,19 @@ function ListHotels() {
     }
   };
 
+  const handleClickDetails = (hotelId) => {
+    navigate(`${hotelId}`);
+  };
+
   if (isFetching) return <LoadingSpinner />;
 
   return (
     <Container className="p-0">
-      <HotelTable hotels={hotels.list} />
+      <FilteringTable
+        columns={COLUMNS}
+        data={hotels.list}
+        handleClickDetails={handleClickDetails}
+      />
 
       <Pagination
         handleClickPage={handleClickPage}
