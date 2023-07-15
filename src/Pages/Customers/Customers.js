@@ -1,6 +1,6 @@
 import React from 'react';
 import PageWrapper from '../../Components/PageWrapper';
-import {Container, Button} from 'react-bootstrap';
+import {Row, Col, Button, Container} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 import ListCustomers from './ListCustomers';
 import CustomerDetails from './CustomerDetails';
@@ -34,26 +34,33 @@ function Customers() {
 
   return (
     <PageWrapper title={'Customers'}>
-      <Container className="p-3 px-0 my-3">
-        <Button onClick={handleClickListCustomers} className="me-3">
-          Müşterileri Listele
-        </Button>
+      <Container>
+        <Row className="p-0 px-0 my-3">
+          <Col className="bg-light-dark p-3">
+            <h3>Müşteri</h3>
+            <Button onClick={handleClickListCustomers} className="me-3">
+              Müşterileri Listele
+            </Button>
 
-        <Button onClick={handleClickCreateCustomer} className="me-3">
-          Müşteri Oluştur
-        </Button>
+            <Button onClick={handleClickCreateCustomer} className="me-3">
+              Müşteri Oluştur
+            </Button>
+            <Button onClick={handleClickHoldingCustomers} className="me-3">
+              Beklemede Olan Müşteriler
+            </Button>
+          </Col>
 
-        <Button onClick={handleClickListGroups} className="me-3">
-          Müşteri Gruplarını Listele
-        </Button>
+          <Col className="bg-light-dark p-3">
+            <h3>Müşteri Grubu</h3>
+            <Button onClick={handleClickListGroups} className="me-3">
+              Müşteri Gruplarını Listele
+            </Button>
 
-        <Button onClick={handleClickCreateGroup} className="me-3">
-          Müşteri Grubu Oluştur
-        </Button>
-
-        <Button onClick={handleClickHoldingCustomers} className="me-3">
-          Beklemede Olan Müşteriler
-        </Button>
+            <Button onClick={handleClickCreateGroup} className="me-3">
+              Müşteri Grubu Oluştur
+            </Button>
+          </Col>
+        </Row>
       </Container>
       <Routes>
         <Route path="/" element={<ListCustomers />} />
