@@ -22,7 +22,7 @@ function CallLists() {
 
   return (
     <PageWrapper title={'Call Lists'}>
-      <Container className="p-3 px-0 my-3">
+      {/*<Container className="p-3 px-0 my-3">
         <Button onClick={handleClickListToday} className="me-3">
           Bugüne Planlanan
         </Button>
@@ -33,7 +33,7 @@ function CallLists() {
         <Button onClick={handleClickListCallHistory} className="me-3">
           Arama Geçmişi
         </Button>
-      </Container>
+      </Container>*/}
       <Routes>
         <Route path="/future" element={<PlannedForToday />} />
         <Route path="/today" element={<WillBeCalled />} />

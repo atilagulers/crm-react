@@ -19,7 +19,7 @@ function Customers() {
     navigate('create');
   };
   const handleClickCreateGroup = () => {
-    navigate('create-group');
+    navigate('customer-groups/create');
   };
 
   const handleClickListCustomers = () => {
@@ -34,7 +34,7 @@ function Customers() {
 
   return (
     <PageWrapper title={'Customers'}>
-      <Container>
+      {/*<Container>
         <Row className="p-0 px-0 my-3">
           <Col className="bg-light-dark p-3">
             <h3>Müşteri</h3>
@@ -61,14 +61,14 @@ function Customers() {
             </Button>
           </Col>
         </Row>
-      </Container>
+      </Container>*/}
       <Routes>
         <Route path="/" element={<ListCustomers />} />
         <Route path="/hold" element={<HoldingCustomers />} />
 
         <Route path="/create" element={<CreateCustomer />} />
         <Route
-          path="/create-group"
+          path="/customer-groups/create"
           element={<CreateCustomerGroup title={'Yeni Müşteri Grubu'} />}
         />
         <Route path="/customer-groups" element={<ListCustomerGroups />} />

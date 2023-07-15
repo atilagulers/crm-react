@@ -18,12 +18,12 @@ function Airlines() {
   };
   return (
     <PageWrapper title={'Airlines | Management'}>
-      <Container className="p-3 px-0 my-3">
+      {/*<Container className="p-3 px-0 my-3">
         <Button onClick={handleClickList} className="me-3">
           Havayollarını Listele
         </Button>
         <Button onClick={handleClickCreate}>Havayolu Oluştur</Button>
-      </Container>
+      </Container>*/}
       <Routes>
         <Route path="/" element={<ListAirlines />} />
         <Route path="/create" element={<CreateAirline />} />

@@ -39,14 +39,24 @@
 
 .sidebar .sub-menu {
   display: none;
+  width: 220px;
   position: absolute;
   padding: 0;
   margin-top: 0;
-  top: 0;
+  top: -1px;
   left: 100%;
   list-style: none;
   border: 1px solid black;
   /*border-radius: 6px;*/
+}
+
+.sidebar .sub-menu li {
+  /* Diğer stiller */
+  width: 100%; /* Öğelerin genişliğini %100 olarak ayarlar */
+}
+
+.sub-menu-title {
+  background-color: var(--bs-light-dark);
 }
 
 /*.sidebar .sub-menu::before {

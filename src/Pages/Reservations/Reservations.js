@@ -1,3 +1,4 @@
+import React, {useEffect} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
 import {Container, Button} from 'react-bootstrap';
 import {Routes, Route, useNavigate} from 'react-router-dom';
@@ -32,7 +33,7 @@ function Reservations() {
 
   return (
     <PageWrapper title="Reservations">
-      <Container className="p-3 px-0 my-3">
+      {/*<Container className="p-3 px-0 my-3">
         <Button onClick={handleClickPlannedToday} className="me-3">
           Bugüne Planlanan
         </Button>
@@ -52,7 +53,7 @@ function Reservations() {
         <Button onClick={handleClickHoldingCustomers} className="me-3">
           Rezervasyon Bekleyen Müşteriler
         </Button>
-      </Container>
+      </Container>*/}
       <Routes>
         {/*<Route path="/" element={<ListCustomers />} />*/}
         <Route path="/hold" element={<HoldingCustomers />} />

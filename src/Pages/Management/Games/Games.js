@@ -18,12 +18,12 @@ function Games() {
 
   return (
     <PageWrapper title={'Games | Management'}>
-      <Container className="p-3 px-0 my-3">
+      {/*<Container className="p-3 px-0 my-3">
         <Button onClick={handleClickList} className="me-3">
           Oyunları Listele
         </Button>
         <Button onClick={handleClickCreate}>Oyun Oluştur</Button>
-      </Container>
+      </Container>*/}
       <Routes>
         <Route path="/" element={<ListGames />} />
         <Route path="/create" element={<CreateGame />} />

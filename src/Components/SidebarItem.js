@@ -9,8 +9,9 @@ function SidebarItem(props) {
     handleClickItem,
     handleHoverItem,
     activeSubMenu,
-    listItems,
+    list,
     itemIndex,
+    hasSubmenu = true,
   } = props;
 
   return (
@@ -21,18 +22,32 @@ function SidebarItem(props) {
       onMouseLeave={() => handleHoverItem(null)}
     >
       <FontAwesomeIcon icon={icon} size="xl" className="sidebar-item-icon" />
+
       <span className={`text-center`}>{name}</span>
-      <ul
-        className={`sub-menu bg-light-dark ${
-          activeSubMenu === itemIndex && 'active'
-        }`}
-      >
-        {listItems?.map((item, index) => (
-          <li key={index} onClick={() => navigate(item.path)}>
-            {item.label}
-          </li>
-        ))}
-      </ul>
+      {activeSubMenu === itemIndex && hasSubmenu && (
+        <div className={`sub-menu active `}>
+          {list?.map((subMenu, index) => (
+            <div key={index}>
+              <h6 className="sub-menu-title bg-dark ps-2 py-3  p-0 m-0">
+                {subMenu.title}
+              </h6>
+              <ul
+                key={index}
+                className={`p-0 bg-light-dark m-0 ${
+                  activeSubMenu === itemIndex && 'active'
+                }`}
+                style={{listStyle: 'none'}}
+              >
+                {subMenu?.itemsList?.map((item, index) => (
+                  <li key={index} onClick={() => navigate(item.path)}>
+                    {item.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

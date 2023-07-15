@@ -21,12 +21,12 @@ function Users() {
 
   return (
     <PageWrapper title={'Users | Management'}>
-      <Container className="p-3 px-0 my-3">
+      {/*<Container className="p-3 px-0 my-3">
         <Button onClick={handleClickList} className="me-3">
           Kullanıcıları Listele
         </Button>
         <Button onClick={handleClickCreate}>Kullanıcı Oluştur</Button>
-      </Container>
+      </Container>*/}
       <Routes>
         <Route path="/" element={<ListUsers />} />
         <Route path="/create" element={<CreateUser />} />

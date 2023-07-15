@@ -19,12 +19,12 @@ function Hotels() {
   };
   return (
     <PageWrapper title={'Hotels | Management'}>
-      <Container className="p-3 px-0 my-3">
+      {/*<Container className="p-3 px-0 my-3">
         <Button onClick={handleClickList} className="me-3">
           Otelleri Listele
         </Button>
         <Button onClick={handleClickCreate}>Otel Oluştur</Button>
-      </Container>
+      </Container>*/}
       <Routes>
         <Route path="/" element={<ListHotels />} />
         <Route path="/create" element={<CreateHotel />} />

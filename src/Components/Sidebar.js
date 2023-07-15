@@ -65,16 +65,15 @@ function Sidebar(props) {
         />
         <span className={`text-center`}>Menu</span>
       </div>
-
       <SidebarItem
         name={'Ana Sayfa'}
         icon={faHouse}
         handleClickItem={handleClickHome}
         handleHoverItem={handleHoverItem}
+        hasSubmenu={false}
         activeSubMenu={activeSubMenu}
         itemIndex={2}
       />
-
       <SidebarItem
         name={'Yönetim'}
         icon={faLock}
@@ -82,38 +81,108 @@ function Sidebar(props) {
         handleHoverItem={handleHoverItem}
         activeSubMenu={activeSubMenu}
         itemIndex={3}
-        listItems={[
-          {label: 'Kullanıcılar', path: '/management/users'},
-          {label: 'Oteller', path: '/management/hotels'},
-          {label: 'Oyunlar', path: '/management/games'},
-          {label: 'Havayolları', path: '/management/airlines'},
+        list={[
+          {
+            title: 'Kullanıcılar',
+            itemsList: [
+              {label: 'Listele', path: '/management/users'},
+              {label: 'Oluştur', path: 'management/users/create'},
+            ],
+          },
+          {
+            title: 'Oteller',
+            itemsList: [
+              {label: 'Listele', path: '/management/hotels'},
+              {label: 'Oluştur', path: 'management/hotels/create'},
+            ],
+          },
+          {
+            title: 'Oyunlar',
+            itemsList: [
+              {label: 'Listele', path: '/management/games'},
+              {label: 'Oluştur', path: 'management/games/create'},
+            ],
+          },
+
+          {
+            title: 'Havayolları',
+            itemsList: [
+              {label: 'Listele', path: '/management/airlines'},
+              {label: 'Oluştur', path: 'management/airlines/create'},
+            ],
+          },
         ]}
       />
 
-      <div className="sidebar-item" onClick={handleClickCustomers}>
-        <FontAwesomeIcon
-          icon={faUsers}
-          size="xl"
-          className="sidebar-item-icon"
-        />
-        <span className={`text-center`}>Müşteriler</span>
-      </div>
-      <div className="sidebar-item" onClick={handleClickCallLists}>
-        <FontAwesomeIcon
-          icon={faPhone}
-          size="xl"
-          className="sidebar-item-icon"
-        />
-        <span className={`text-center`}>Arama Listeleri</span>
-      </div>
-      <div className="sidebar-item" onClick={handleClickReservations}>
-        <FontAwesomeIcon
-          icon={faCalendarDays}
-          size="xl"
-          className="sidebar-item-icon"
-        />
-        <span className={`text-center`}>Rezervasyonlar</span>
-      </div>
+      <SidebarItem
+        name={'Müşteriler'}
+        icon={faUsers}
+        handleClickItem={handleClickManagement}
+        handleHoverItem={handleHoverItem}
+        activeSubMenu={activeSubMenu}
+        itemIndex={4}
+        list={[
+          {
+            title: 'Müşteriler',
+            itemsList: [
+              {label: 'Listele', path: '/customers'},
+              {label: 'Oluştur', path: '/customers/create'},
+              {label: 'Beklemede Olanlar', path: '/customers/hold'},
+            ],
+          },
+          {
+            title: 'Müşteri Grupları',
+            itemsList: [
+              {label: 'Listele', path: '/customers/customer-groups'},
+              {label: 'Oluştur', path: '/customers/customer-groups/create'},
+            ],
+          },
+        ]}
+      />
+
+      <SidebarItem
+        name={'Arama Listeleri'}
+        icon={faPhone}
+        handleClickItem={handleClickManagement}
+        handleHoverItem={handleHoverItem}
+        activeSubMenu={activeSubMenu}
+        itemIndex={5}
+        list={[
+          {
+            title: 'Arama Listeleri',
+            itemsList: [
+              {label: 'Bugüne Planlanan', path: '/call-lists/today'},
+              {label: 'Aranacaklar', path: '/call-lists/future'},
+              {label: 'Arama Geçmişi', path: '/call-lists/history'},
+            ],
+          },
+        ]}
+      />
+
+      <SidebarItem
+        name={'Rezervasyonlar'}
+        icon={faCalendarDays}
+        handleClickItem={handleClickManagement}
+        handleHoverItem={handleHoverItem}
+        activeSubMenu={activeSubMenu}
+        itemIndex={6}
+        list={[
+          {
+            title: 'Arama Listeleri',
+            itemsList: [
+              {label: 'Bugüne Planlanan', path: '/reservations/today'},
+              {label: 'Gelecek Rezervasyonlar', path: '/reservations/future'},
+              {label: 'Rezervasyon Geçmişi', path: '/reservations/history'},
+              {label: 'Rezervasyon Oluştur', path: '/reservations/create'},
+              {
+                label: 'Beklemede Olanlar',
+                path: '/reservations/hold',
+              },
+            ],
+          },
+        ]}
+      />
+
       <div className="sidebar-item" onClick={handleClickCredits}>
         <FontAwesomeIcon
           icon={faMoneyBill1Wave}
