@@ -22,11 +22,12 @@ export const getIsValid = (field, value) => {
     return value !== undefined && value !== null && value !== '';
   }
 
-  if (field === 'departureDestination' || field === 'arrivalDestination') {
-    return value.length > 1;
-  }
-
-  if (field === 'departurePNR' || field === 'arrivalPNR') {
+  if (
+    field === 'departureDestination' ||
+    field === 'arrivalDestination' ||
+    field === 'departurePNR' ||
+    field === 'arrivalPNR'
+  ) {
     return value.length > 1;
   }
 

@@ -1,25 +1,35 @@
-import {useMemo} from 'react';
+import {useMemo, useState} from 'react';
 import {useTable, useSortBy, useGlobalFilter, useFilters} from 'react-table';
-import {Table, Form, Button} from 'react-bootstrap';
+import {Table} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faArrowUpAZ,
   faArrowDownAZ,
   faCircleInfo,
+  faPhoneVolume,
 } from '@fortawesome/free-solid-svg-icons';
 import '../index.css';
 import GlobalFilter from './GlobalFilter';
+import CallEntryModal from '../Pages/CallLists/CallEntryModal';
 
-function HoldingCustomerTable({
+function CallListTable({
   columns,
   data,
   handleClickDetails,
   hasColumnFilter = false,
-  handleClickSave,
-  setCallDate,
 }) {
   const columnsMemo = useMemo(() => columns, []);
   const dataMemo = useMemo(() => data, []);
+
+  const [showEntryModal, setShowEntryModal] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState();
+
+  const handleClickCallEntry = (customerId) => {
+    const customer = data.find((c) => c._id === customerId);
+
+    setSelectedCustomer(customer);
+    setShowEntryModal(true);
+  };
 
   const tableInstance = useTable(
     {
@@ -29,7 +39,21 @@ function HoldingCustomerTable({
         alphanumeric: (rowA, rowB, columnId) => {
           const valueA = rowA.values[columnId];
           const valueB = rowB.values[columnId];
-          return valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+
+          if (typeof valueA === 'object' && typeof valueB === 'object') {
+            const firstNameA = valueA.firstName.toLowerCase();
+            const firstNameB = valueB.firstName.toLowerCase();
+            const lastNameA = valueA.lastName.toLowerCase();
+            const lastNameB = valueB.lastName.toLowerCase();
+
+            if (firstNameA === firstNameB) {
+              return lastNameA.localeCompare(lastNameB);
+            } else {
+              return firstNameA.localeCompare(firstNameB);
+            }
+          } else {
+            return String(valueA).localeCompare(String(valueB));
+          }
         },
       },
     },
@@ -62,10 +86,19 @@ function HoldingCustomerTable({
         variant="dark"
         {...getTableProps()}
       >
+        {/*Modal of entity form*/}
+        {showEntryModal && (
+          <CallEntryModal
+            show={showEntryModal}
+            setShow={setShowEntryModal}
+            customer={selectedCustomer}
+          />
+        )}
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
               {handleClickDetails && <th style={{width: '5%'}}>Detay</th>}
+              <th>Arama Giriş</th>
               {headerGroup.headers.map((column) => (
                 <th
                   key={column.id}
@@ -106,6 +139,16 @@ function HoldingCustomerTable({
                     <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
                   </td>
                 )}
+                <td
+                  onClick={(e) => handleClickCallEntry(id)}
+                  className="center-td"
+                >
+                  <FontAwesomeIcon
+                    className="p-2"
+                    icon={faPhoneVolume}
+                    style={{height: '20px'}}
+                  />
+                </td>
 
                 {row.cells.map((cell) => {
                   return (
@@ -114,27 +157,6 @@ function HoldingCustomerTable({
                     </td>
                   );
                 })}
-                <td className="col-3" style={{maxWidth: '100px'}}>
-                  <Form>
-                    <Form.Group
-                      className="d-flex gap-5"
-                      controlId="exampleForm.ControlInput1"
-                    >
-                      <Form.Control
-                        name="date"
-                        type="date"
-                        onChange={(e) => setCallDate(e.target.value)}
-                        max="9999-12-31"
-                      />
-                      <Button
-                        onClick={(e) => handleClickSave(e, id)}
-                        className="py-0"
-                      >
-                        Kaydet
-                      </Button>
-                    </Form.Group>
-                  </Form>
-                </td>
               </tr>
             );
           })}
@@ -155,4 +177,4 @@ function HoldingCustomerTable({
   );
 }
 
-export default HoldingCustomerTable;
+export default CallListTable;

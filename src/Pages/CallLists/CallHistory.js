@@ -5,14 +5,15 @@ import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import {formatDate} from '../../Helpers';
 import Pagination from '../../Components/Pagination';
-import BasicTable from '../../Components/BasicTable';
+import FilteringTable from '../../Components/FilteringTable';
+import ColumnFilter from '../../Components/ColumnFilter';
 
 function CallHistory() {
   const {state, dispatch} = useContext(AppContext);
 
   const calls = state.calls.past;
   const [isFetching, setIsFetching] = useState(true);
-  const limit = 20;
+  const limit = 50;
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -79,6 +80,7 @@ function CallHistory() {
         const {firstName, lastName} = value;
         return <span>{`${firstName} ${lastName}`}</span>;
       },
+      Filter: ColumnFilter,
     },
     {
       Header: 'Telefon 1',
@@ -110,7 +112,7 @@ function CallHistory() {
 
   return (
     <Container className="px-0">
-      <BasicTable
+      <FilteringTable
         columns={COLUMNS}
         data={calls.list}
         //handleClickDetails={handleClickDetails}

@@ -129,6 +129,7 @@ function CustomerTable({
                   </span>
                 </th>
               ))}
+              <th>Agent</th>
             </tr>
           ))}
         </thead>

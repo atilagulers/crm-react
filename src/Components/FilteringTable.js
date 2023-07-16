@@ -27,7 +27,21 @@ function FilteringTable({
         alphanumeric: (rowA, rowB, columnId) => {
           const valueA = rowA.values[columnId];
           const valueB = rowB.values[columnId];
-          return valueA.toLowerCase().localeCompare(valueB.toLowerCase());
+
+          if (typeof valueA === 'object' && typeof valueB === 'object') {
+            const firstNameA = valueA.firstName.toLowerCase();
+            const firstNameB = valueB.firstName.toLowerCase();
+            const lastNameA = valueA.lastName.toLowerCase();
+            const lastNameB = valueB.lastName.toLowerCase();
+
+            if (firstNameA === firstNameB) {
+              return lastNameA.localeCompare(lastNameB);
+            } else {
+              return firstNameA.localeCompare(firstNameB);
+            }
+          } else {
+            return String(valueA).localeCompare(String(valueB));
+          }
         },
       },
     },

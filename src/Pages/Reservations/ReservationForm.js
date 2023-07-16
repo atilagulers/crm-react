@@ -366,7 +366,7 @@ function ReservationForm({
                   isInvalid={!formValues.departureDate.isValid}
                   value={formValues.departureDate.value}
                   disabled={disabled}
-                  max="2023-12-31"
+                  max="9999-12-31"
                 />
                 <Form.Control.Feedback type="invalid">
                   {formValues.departureDate.validationMessage}
@@ -479,7 +479,7 @@ function ReservationForm({
                   isInvalid={!formValues.arrivalDate.isValid}
                   value={formValues.arrivalDate.value}
                   disabled={disabled}
-                  max="2023-12-31"
+                  max="9999-12-31"
                 />
                 <Form.Control.Feedback type="invalid">
                   {formValues.arrivalDate.validationMessage}

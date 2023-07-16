@@ -35,8 +35,8 @@ function CallLists() {
         </Button>
       </Container>*/}
       <Routes>
-        <Route path="/future" element={<PlannedForToday />} />
-        <Route path="/today" element={<WillBeCalled />} />
+        <Route path="/today" element={<PlannedForToday />} />
+        <Route path="/future" element={<WillBeCalled />} />
         <Route path="/history" element={<CallHistory />} />
 
         {/*<Route path="/:id" element={<AirlineDetails />} />*/}

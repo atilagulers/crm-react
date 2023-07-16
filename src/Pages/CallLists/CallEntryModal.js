@@ -38,7 +38,6 @@ function CallEntryModal({show, setShow, customer}) {
             cancelToken: source.token,
           }
         );
-
         setCalls(data.calls);
       } catch (error) {
         console.log(error);
@@ -105,6 +104,16 @@ function CallEntryModal({show, setShow, customer}) {
   const handleClickSubmit = async () => {
     if (willBeCalled && !callDate)
       return toast.error('Lütfen geçerli bir tarih giriniz.');
+
+    const selectedDate = new Date(callDate);
+    const today = new Date();
+
+    selectedDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      return toast.error('Arama tarihi geçmiş olamaz.');
+    }
 
     await createCall();
     await updateCustomer();
@@ -174,7 +183,7 @@ function CallEntryModal({show, setShow, customer}) {
               label="Tekrar Aranacak"
               className="ms-3"
               style={{maxWidth: '300px', display: willBeCalled ? '' : 'none'}}
-              max="2023-12-31"
+              max="9999-12-31"
             />
           </Form.Group>
           <FormGroup className="mb-3" controlId="isReservedCheckbox">
