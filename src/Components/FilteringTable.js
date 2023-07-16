@@ -120,7 +120,14 @@ function FilteringTable({
             return (
               <tr key={row.id} {...row.getRowProps()}>
                 {handleClickDetails && (
-                  <td onClick={(e) => handleClickDetails(id)}>
+                  <td
+                    onClick={(e) => handleClickDetails(id)}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
                     <FontAwesomeIcon
                       className="p-2"
                       icon={icon ? faFilePen : faCircleInfo}

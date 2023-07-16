@@ -26,6 +26,7 @@ function ReservationForm({
   submitButtonText = 'Kaydet',
   selectedCustomer,
   setSelectedCustomer,
+  phoneFormHidden = false,
 }) {
   const {state} = useContext(AppContext);
   const [phone, setPhone] = useState('');
@@ -217,6 +218,7 @@ function ReservationForm({
         noValidate
         //validated={validated}
         className="p-5"
+        hidden={phoneFormHidden}
         //controlId="exampleForm.ControlInput1"
         onSubmit={(e) => handleSubmitPhone(e)}
       >

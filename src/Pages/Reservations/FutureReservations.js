@@ -187,7 +187,6 @@ function FutureReservations() {
             cancelToken: source.token,
           }
         );
-        console.log(data);
         dispatch({type: 'UPDATE_FUTURE_RESERVATIONS', data});
       } catch (error) {
         console.log(error);
@@ -224,7 +223,7 @@ function FutureReservations() {
   };
 
   const handleClickDetails = (reservationId) => {
-    navigate(`/reservations/${reservationId}`);
+    navigate(`/reservations/${reservationId}/edit`);
   };
 
   if (isFetching) return <LoadingSpinner />;

@@ -187,7 +187,6 @@ function TodayReservations() {
             cancelToken: source.token,
           }
         );
-        console.log(data);
         dispatch({type: 'UPDATE_TODAY_RESERVATIONS', data});
       } catch (error) {
         console.log(error);
@@ -224,7 +223,7 @@ function TodayReservations() {
   };
 
   const handleClickDetails = (reservationId) => {
-    navigate(`/reservations/${reservationId}`);
+    navigate(`/reservations/${reservationId}/edit`);
   };
 
   if (isFetching) return <LoadingSpinner />;
