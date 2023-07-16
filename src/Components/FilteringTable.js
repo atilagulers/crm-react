@@ -66,6 +66,7 @@ function FilteringTable({
   return (
     <>
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+
       <Table
         className="table table-striped table-dark table-hover"
         striped

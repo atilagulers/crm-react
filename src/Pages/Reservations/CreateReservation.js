@@ -115,14 +115,14 @@ function CreateReservation() {
       arrivalDate.setHours(0, 0, 0, 0);
       currentDate.setHours(0, 0, 0, 0);
 
-      if (departureDate <= currentDate) {
+      if (departureDate < currentDate) {
         toast.error(
           'Geçersiz gidiş tarihi. Gidiş tarihi bugünden önce olamaz.'
         );
         return;
       }
 
-      if (arrivalDate <= currentDate) {
+      if (arrivalDate < currentDate) {
         toast.error(
           'Geçersiz dönüş tarihi. Dönüş tarihi bugünden önce olamaz.'
         );
