@@ -235,6 +235,8 @@ function TodayReservations() {
         columns={COLUMNS}
         data={reservations.list}
         handleClickDetails={handleClickDetails}
+        firstColumnText="Güncelle"
+        icon="edit"
       />
       <Pagination
         handleClickPage={handleClickPage}

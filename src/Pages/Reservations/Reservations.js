@@ -7,6 +7,7 @@ import CreateReservation from './CreateReservation';
 import TodayReservations from './TodayReservations';
 import FutureReservations from './FutureReservations';
 import ReservationHistory from './ReservationHistory';
+import ReservationDetails from './ReservationDetails';
 
 function Reservations() {
   const navigate = useNavigate();
@@ -62,8 +63,9 @@ function Reservations() {
         <Route path="/history" element={<ReservationHistory />} />
         <Route path="/today" element={<TodayReservations />} />
         <Route path="/future" element={<FutureReservations />} />
+        <Route path="/:id" element={<ReservationDetails />} />
         {/*<Route path="/customer-groups" element={<ListCustomerGroups />} />
-        <Route path="/customer-groups/:id" element={<CustomerGroupDetails />} />
+
         <Route
           path="/customer-groups/:id/edit"
           element={<EditCustomerGroup />}

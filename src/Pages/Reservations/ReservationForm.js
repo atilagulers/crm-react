@@ -171,6 +171,9 @@ function ReservationForm({
         config
       );
 
+      if (data.customers[0].isReserved)
+        return toast.error('Bu kullanıcının zaten aktif bir rezervasyonu var.');
+
       const customerEvent = {
         target: {name: 'customer', value: data.customers[0]._id},
       };
@@ -184,12 +187,15 @@ function ReservationForm({
 
       setSelectedCustomer(data.customers[0]);
     } catch (error) {
-      toast.error(`Müşteri bulunamadı. ${error}`);
+      toast.error(`Müşteri bulunamadı.`);
     }
   };
 
   const handleSubmitPhone = (e) => {
     e.preventDefault();
+
+    if (!phone)
+      return toast.error('Lütfen geçerli bir telefon numarası giriniz.');
 
     fetchSelectedCustomer();
   };

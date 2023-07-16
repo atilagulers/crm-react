@@ -5,13 +5,173 @@ import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import Pagination from '../../Components/Pagination';
 import {Container} from 'react-bootstrap';
+import FilteringTable from '../../Components/FilteringTable';
+import {useNavigate} from 'react-router-dom';
+import {formatDate} from '../../Helpers';
 
 function FutureReservations() {
   const {state, dispatch} = useContext(AppContext);
   const reservations = state.reservations.future;
-  const limit = 20;
+  const navigate = useNavigate();
+  const limit = 50;
   const [isFetching, setIsFetching] = useState(true);
 
+  //const COLUMNS = [
+  //  {
+  //    Header: 'Müşteri Bilgileri',
+  //    Footer: 'Müşteri Bilgileri',
+  //    columns: [
+  //      {
+  //        Header: 'Müşteri',
+  //        accessor: 'customer[0]',
+  //        Cell: ({value}) => {
+  //          const {firstName, lastName} = value;
+  //          return <span>{`${firstName} ${lastName}`}</span>;
+  //        },
+  //      },
+  //      {
+  //        Header: 'Otel',
+  //        accessor: 'hotel[0]',
+  //        Cell: ({value}) => {
+  //          return value.name;
+  //        },
+  //      },
+  //    ],
+  //  },
+  //  {
+  //    Header: 'Kalkış Bilgileri',
+  //    Footer: 'Kalkış Bilgileri',
+  //    columns: [
+  //      {
+  //        Header: 'Havayolu',
+  //        accessor: 'departureAirline[0]',
+  //        Cell: ({value}) => {
+  //          return value.name;
+  //        },
+  //      },
+  //      {
+  //        Header: 'Tarih',
+  //        accessor: 'departureDate',
+  //        Cell: ({value}) => {
+  //          return formatDate(value);
+  //        },
+  //      },
+  //      {
+  //        Header: 'Saat',
+  //        accessor: 'departureTime',
+  //      },
+  //      {
+  //        Header: 'Yer',
+  //        accessor: 'departureDestination',
+  //      },
+  //      {
+  //        Header: 'PNR',
+  //        accessor: 'departurePNR',
+  //      },
+  //    ],
+  //  },
+  //  {
+  //    Header: 'Varış Bilgileri',
+  //    Footer: 'Varış Bilgileri',
+  //    columns: [
+  //      {
+  //        Header: 'Havayolu',
+  //        accessor: 'arrivalAirline[0]',
+  //        Cell: ({value}) => {
+  //          return value.name;
+  //        },
+  //      },
+  //      {
+  //        Header: 'Tarih',
+  //        accessor: 'arrivalDate',
+  //        Cell: ({value}) => {
+  //          return formatDate(value);
+  //        },
+  //      },
+  //      {
+  //        Header: 'Saat',
+  //        accessor: 'arrivalTime',
+  //      },
+  //      {
+  //        Header: 'Yer',
+  //        accessor: 'arrivalDestination',
+  //      },
+  //      {
+  //        Header: 'PNR',
+  //        accessor: 'arrivalPNR',
+  //      },
+  //    ],
+  //  },
+  //];
+  const COLUMNS = [
+    {
+      Header: 'Müşteri',
+      accessor: 'customer[0]',
+      Cell: ({value}) => {
+        const {firstName, lastName} = value;
+        return <span>{`${firstName} ${lastName}`}</span>;
+      },
+    },
+    {
+      Header: 'Otel',
+      accessor: 'hotel[0]',
+      Cell: ({value}) => {
+        return value.name;
+      },
+    },
+    {
+      Header: 'Havayolu',
+      accessor: 'departureAirline[0]',
+      Cell: ({value}) => {
+        return value.name;
+      },
+    },
+    {
+      Header: 'Tarih',
+      accessor: 'departureDate',
+      Cell: ({value}) => {
+        return formatDate(value);
+      },
+    },
+    {
+      Header: 'Saat',
+      accessor: 'departureTime',
+    },
+    {
+      Header: 'Yer',
+      accessor: 'departureDestination',
+    },
+    {
+      Header: 'PNR',
+      accessor: 'departurePNR',
+    },
+    {
+      Header: 'Havayolu',
+      accessor: 'arrivalAirline[0]',
+      Cell: ({value}) => {
+        return value.name;
+      },
+    },
+    {
+      Header: 'Tarih',
+      accessor: 'arrivalDate',
+      Cell: ({value}) => {
+        return formatDate(value);
+      },
+    },
+    {
+      Header: 'Saat',
+      accessor: 'arrivalTime',
+    },
+    {
+      Header: 'Yer',
+      accessor: 'arrivalDestination',
+    },
+    {
+      Header: 'PNR',
+      accessor: 'arrivalPNR',
+    },
+  ];
   useEffect(() => {
     const source = axios.CancelToken.source();
 
@@ -19,7 +179,7 @@ function FutureReservations() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/reservation?page=1&limit=30&sortBy=createdAt&sortOrder=1&time=future`,
+          `${process.env.REACT_APP_API}/reservation?page=1&limit=${limit}&sortBy=createdAt&sortOrder=1&time=future`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -27,7 +187,7 @@ function FutureReservations() {
             cancelToken: source.token,
           }
         );
-
+        console.log(data);
         dispatch({type: 'UPDATE_FUTURE_RESERVATIONS', data});
       } catch (error) {
         console.log(error);
@@ -63,11 +223,21 @@ function FutureReservations() {
     }
   };
 
+  const handleClickDetails = (reservationId) => {
+    navigate(`/reservations/${reservationId}`);
+  };
+
   if (isFetching) return <LoadingSpinner />;
 
   return (
     <Container className="p-0">
-      <ReservationTable reservations={reservations.list} />
+      <FilteringTable
+        columns={COLUMNS}
+        data={reservations.list}
+        handleClickDetails={handleClickDetails}
+        firstColumnText="Güncelle"
+        icon="edit"
+      />
       <Pagination
         handleClickPage={handleClickPage}
         totalPages={reservations.totalPages}

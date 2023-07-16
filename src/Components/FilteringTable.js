@@ -6,6 +6,7 @@ import {
   faArrowUpAZ,
   faArrowDownAZ,
   faCircleInfo,
+  faFilePen,
 } from '@fortawesome/free-solid-svg-icons';
 import '../index.css';
 import GlobalFilter from './GlobalFilter';
@@ -15,6 +16,8 @@ function FilteringTable({
   data,
   handleClickDetails,
   hasColumnFilter = false,
+  firstColumnText = 'Detay',
+  icon = '',
 }) {
   const columnsMemo = useMemo(() => columns, []);
   const dataMemo = useMemo(() => data, []);
@@ -78,7 +81,9 @@ function FilteringTable({
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr key={headerGroup.id} {...headerGroup.getHeaderGroupProps()}>
-              {handleClickDetails && <th style={{width: '5%'}}>Detay</th>}
+              {handleClickDetails && (
+                <th style={{width: '5%'}}>{firstColumnText}</th>
+              )}
               {headerGroup.headers.map((column) => (
                 <th
                   key={column.id}
@@ -116,7 +121,10 @@ function FilteringTable({
               <tr key={row.id} {...row.getRowProps()}>
                 {handleClickDetails && (
                   <td onClick={(e) => handleClickDetails(id)}>
-                    <FontAwesomeIcon className="p-2" icon={faCircleInfo} />
+                    <FontAwesomeIcon
+                      className="p-2"
+                      icon={icon ? faFilePen : faCircleInfo}
+                    />
                   </td>
                 )}
 
@@ -134,7 +142,9 @@ function FilteringTable({
         <tfoot>
           {headerGroups.map((headerGroup) => (
             <tr key={`${headerGroup.id}-footer`}>
-              {handleClickDetails && <td style={{width: '5%'}}>Detay</td>}
+              {handleClickDetails && (
+                <td style={{width: '5%'}}>{firstColumnText}</td>
+              )}
 
               {headerGroup.headers.map((column) => (
                 <td key={column.id}>{column.render('Header')}</td>
