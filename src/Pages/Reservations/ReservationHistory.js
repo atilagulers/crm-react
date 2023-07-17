@@ -1,5 +1,4 @@
 import React, {useEffect, useState, useContext} from 'react';
-import ReservationTable from './ReservationTable';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';

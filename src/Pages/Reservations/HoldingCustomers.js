@@ -1,11 +1,9 @@
 import React, {useEffect, useContext, useState} from 'react';
-import {Table, Container, Button} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import {AppContext} from '../../Contexts/AppContext';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import LoadingSpinner from '../../Components/LoadingSpinner';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../Components/Pagination';
 import HoldingReservationsTable from '../../Components/HoldingReservationsTable';
 

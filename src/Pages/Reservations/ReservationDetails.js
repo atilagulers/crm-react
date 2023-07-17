@@ -19,7 +19,6 @@ import LoadingSpinner from '../../Components/LoadingSpinner';
 function ResrvationDetails() {
   const {state} = useContext(AppContext);
   const navigate = useNavigate();
-  const [isCreating, setIsCreating] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState();
   const {id: reservationId} = useParams();
@@ -214,7 +213,7 @@ function ResrvationDetails() {
       }
     };
     fetchReservationById();
-  }, []);
+  }, [reservationId, state.token]);
 
   const handleClickEdit = async (e) => {
     navigate('edit');
@@ -241,7 +240,6 @@ function ResrvationDetails() {
         handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}
-        isCreating={isCreating}
         selectedCustomer={selectedCustomer}
         setSelectedCustomer={setSelectedCustomer}
         phoneFormHidden={true}

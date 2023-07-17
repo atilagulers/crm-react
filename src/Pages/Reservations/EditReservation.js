@@ -208,7 +208,7 @@ function EditReservation() {
       }
     };
     fetchReservationById();
-  }, []);
+  }, [reservationId, state.token]);
 
   const updateReservation = async () => {
     try {

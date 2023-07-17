@@ -10,6 +10,7 @@ function LogIn() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
 
   if (state.loggedIn) {
     window.location.href = '/';
@@ -27,7 +28,7 @@ function LogIn() {
         }
       );
 
-      dispatch({type: 'LOG_IN', data});
+      dispatch({type: 'LOG_IN', data: {...data, rememberMe}});
       navigate('/');
     } catch (error) {
       console.log(error);
@@ -52,35 +53,40 @@ function LogIn() {
             <Image src="/images/logo.png" style={{width: '256px'}} />
           </Container>
           <Form.Group className="mb-3" controlId="formBasicUsername">
-            <Form.Label>Username</Form.Label>
+            <Form.Label>Kullanıcı Adı:</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter username"
+              placeholder="Kullanıcı adı"
               onChange={(e) => setUsername(e.target.value)}
             />
           </Form.Group>
 
           <Form.Group className="mb-4" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Şifre:</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="Şifre"
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
 
           <Col className="d-grid">
             <Button variant="primary" className="mb-3" type="submit">
-              Log In
+              Giriş Yap
             </Button>
           </Col>
           <Form.Group
             className="d-flex justify-content-between"
             controlId="formBasicCheckbox"
           >
-            <Form.Check type="checkbox" label="Remember me" />
+            <Form.Check
+              onChange={(e) => setRememberMe(e.target.checked)}
+              type="checkbox"
+              label="Beni hatırla"
+              checked={rememberMe}
+            />
             <Button variant="link" className="p-0">
-              Forgot Password?
+              Şifremi unuttum
             </Button>
           </Form.Group>
         </Form>

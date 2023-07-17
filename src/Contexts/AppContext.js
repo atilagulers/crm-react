@@ -1,9 +1,11 @@
 import React, {createContext} from 'react';
 import {useImmerReducer} from 'use-immer';
+import Cookies from 'js-cookie';
 
 const initialState = {
-  loggedIn: Boolean(localStorage.getItem('token')),
-  token: localStorage.getItem('token'),
+  loggedIn: Boolean(Cookies.get('token')),
+  token: Cookies.get('token'),
+  rememberMe: false,
   user: {
     _id: localStorage.getItem('id'),
     username: localStorage.getItem('username'),
@@ -105,9 +107,19 @@ const reducer = (draft, action) => {
       draft.token = action.data.token;
       draft.user = action.data.user;
 
+      if (action.data.rememberMe) {
+        const expirationDate = new Date();
+        expirationDate.setMonth(expirationDate.getMonth() + 1);
+        Cookies.set('token', action.data.token, {expires: expirationDate});
+      } else {
+        Cookies.set('token', action.data.token);
+      }
+
       return;
     case 'LOG_OUT':
+      Cookies.remove('token');
       draft.loggedIn = false;
+      draft.token = null;
       window.location.href = '/login';
       return;
     case 'UPDATE_USERS':

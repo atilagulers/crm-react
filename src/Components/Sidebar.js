@@ -29,25 +29,24 @@ function Sidebar(props) {
     e.preventDefault();
     //navigate('/management');
   };
-  const handleClickCustomers = (e) => {
-    e.preventDefault();
-    navigate('/customers');
-  };
-  const handleClickCallLists = (e) => {
-    e.preventDefault();
-    navigate('/call-lists/today');
-  };
-  const handleClickReservations = (e) => {
-    e.preventDefault();
-    navigate('/reservations/today');
-  };
+  //const handleClickCustomers = (e) => {
+  //  e.preventDefault();
+  //  navigate('/customers');
+  //};
+  //const handleClickCallLists = (e) => {
+  //  e.preventDefault();
+  //  navigate('/call-lists/today');
+  //};
+  //const handleClickReservations = (e) => {
+  //  e.preventDefault();
+  //  navigate('/reservations/today');
+  //};
   const handleClickCredits = (e) => {
     e.preventDefault();
     navigate('/credits');
   };
 
   const handleClickLogOut = (e) => {
-    e.preventDefault();
     dispatch({type: 'LOG_OUT'});
   };
 

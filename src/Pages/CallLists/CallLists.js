@@ -1,24 +1,23 @@
 import PageWrapper from '../../Components/PageWrapper';
-import {Container, Button} from 'react-bootstrap';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import PlannedForToday from './PlannedForToday';
 import WillBeCalled from './WillBeCalled';
 import CallHistory from './CallHistory';
 
 function CallLists() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  const handleClickListToday = () => {
-    navigate('today');
-  };
+  //const handleClickListToday = () => {
+  //  navigate('today');
+  //};
 
-  const handleClickListToBeCalled = () => {
-    navigate('future');
-  };
+  //const handleClickListToBeCalled = () => {
+  //  navigate('future');
+  //};
 
-  const handleClickListCallHistory = () => {
-    navigate('history');
-  };
+  //const handleClickListCallHistory = () => {
+  //  navigate('history');
+  //};
 
   return (
     <PageWrapper title={'Call Lists'}>

@@ -11,6 +11,7 @@ import '../index.css';
 import GlobalFilter from './GlobalFilter';
 import axios from 'axios';
 import {AppContext} from '../Contexts/AppContext';
+import LoadingSpinner from './LoadingSpinner';
 
 function CustomerTable({
   columns,
@@ -21,15 +22,15 @@ function CustomerTable({
 }) {
   const {state: appState} = useContext(AppContext);
   const [users, setUsers] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetchingUsers, setIsFetchingUsers] = useState(false);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchUsers = async () => {
-      //if (customers.length > 0) return setIsFetching(false);
+      //if (customers.length > 0) return setIsFetchingUsers(false);
 
-      setIsFetching(true);
+      setIsFetchingUsers(true);
       try {
         const {data} = await axios.get(
           `${process.env.REACT_APP_API}/user/?page=1&limit=9999`,
@@ -45,7 +46,7 @@ function CustomerTable({
       } catch (error) {
         console.log(error);
       } finally {
-        setIsFetching(false);
+        setIsFetchingUsers(false);
       }
     };
     fetchUsers();
@@ -55,8 +56,8 @@ function CustomerTable({
     };
   }, [appState.token]);
 
-  const columnsMemo = useMemo(() => columns, []);
-  const dataMemo = useMemo(() => data, []);
+  const columnsMemo = useMemo(() => columns, [columns]);
+  const dataMemo = useMemo(() => data, [data]);
 
   const tableInstance = useTable(
     {
@@ -79,7 +80,7 @@ function CustomerTable({
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
+    //footerGroups,
     rows,
     prepareRow,
     state,
@@ -154,27 +155,33 @@ function CustomerTable({
                   );
                 })}
 
-                <td>
-                  <Dropdown onSelect={(userId) => handleSelectUser(userId, id)}>
-                    <Dropdown.Toggle
-                      variant="primary"
-                      id={`user-dropdown-${id}`}
-                      style={{width: '100%'}}
+                {isFetchingUsers ? (
+                  <LoadingSpinner />
+                ) : (
+                  <td>
+                    <Dropdown
+                      onSelect={(userId) => handleSelectUser(userId, id)}
                     >
-                      {`${row.original.user[0]?.firstName} ${row.original.user[0]?.lastName}`}
-                    </Dropdown.Toggle>
+                      <Dropdown.Toggle
+                        variant="primary"
+                        id={`user-dropdown-${id}`}
+                        style={{width: '100%'}}
+                      >
+                        {`${row.original.user[0]?.firstName} ${row.original.user[0]?.lastName}`}
+                      </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      {users?.map((user) => {
-                        return (
-                          <Dropdown.Item key={user._id} eventKey={user._id}>
-                            {`${user.firstName} ${user.lastName}`}
-                          </Dropdown.Item>
-                        );
-                      })}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </td>
+                      <Dropdown.Menu>
+                        {users?.map((user) => {
+                          return (
+                            <Dropdown.Item key={user._id} eventKey={user._id}>
+                              {`${user.firstName} ${user.lastName}`}
+                            </Dropdown.Item>
+                          );
+                        })}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </td>
+                )}
               </tr>
             );
           })}
