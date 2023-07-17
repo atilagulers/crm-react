@@ -13,6 +13,7 @@ import {
   isFormValid,
   validationMessages,
 } from './ReservationValidation';
+import {formatDate} from '../../Helpers';
 
 function EditReservation() {
   const {state} = useContext(AppContext);
@@ -104,6 +105,17 @@ function EditReservation() {
     }));
   };
 
+  function convertDateFormat(date) {
+    const dateString = formatDate(date);
+    const parts = dateString.split('.');
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  }
+
   useEffect(() => {
     const fetchReservationById = async () => {
       try {
@@ -113,33 +125,92 @@ function EditReservation() {
           },
         };
 
-        const {data} = await axios.get(
+        const {data: reservation} = await axios.get(
           `${process.env.REACT_APP_API}/reservation/${reservationId}`,
           config
         );
 
-        //const customerEvent = {
-        //  target: {name: 'customer', value: data.customers[0]._id},
-        //};
-        //handleChangeInput(customerEvent);
+        const updatedFormValues = {
+          customer: {
+            value: reservation.customer._id || '',
+            isValid: true,
+            validationMessage: validationMessages.customer,
+          },
+          hotel: {
+            value: reservation.hotel._id || '',
+            isValid: true,
+            validationMessage: validationMessages.hotel,
+          },
+          departureAirline: {
+            value: reservation.departureAirline._id || '',
+            isValid: true,
+            validationMessage: validationMessages.departureAirline,
+          },
+          departureDate: {
+            value: convertDateFormat(reservation.departureDate) || '',
+            isValid: true,
+            validationMessage: validationMessages.departureDate,
+          },
+          departureTime: {
+            value: reservation.departureTime || '',
+            isValid: true,
+            validationMessage: validationMessages.departureTime,
+          },
+          departureDestination: {
+            value: reservation.departureDestination || '',
+            isValid: true,
+            validationMessage: validationMessages.departureDestination,
+          },
+          departurePNR: {
+            value: reservation.departurePNR || '',
+            isValid: true,
+            validationMessage: validationMessages.departurePNR,
+          },
+          arrivalAirline: {
+            value: reservation.arrivalAirline._id || '',
+            isValid: true,
+            validationMessage: validationMessages.arrivalAirline,
+          },
+          arrivalDate: {
+            value: convertDateFormat(reservation.arrivalDate) || '',
+            isValid: true,
+            validationMessage: validationMessages.arrivalDate,
+          },
+          arrivalTime: {
+            value: reservation.arrivalTime || '',
+            isValid: true,
+            validationMessage: validationMessages.arrivalTime,
+          },
+          arrivalDestination: {
+            value: reservation.arrivalDestination || '',
+            isValid: true,
+            validationMessage: validationMessages.arrivalDestination,
+          },
+          arrivalPNR: {
+            value: reservation.arrivalPNR || '',
+            isValid: true,
+            validationMessage: validationMessages.arrivalPNR,
+          },
+          user: {
+            value: reservation.user._id || '',
+            isValid: true,
+            validationMessage: validationMessages.user,
+          },
+        };
 
-        //const userEvent = {
-        //  target: {name: 'user', value: data.customers[0].user[0]._id},
-        //};
+        reservation.customer.user = [reservation.user];
 
-        //handleChangeInput(userEvent);
-
-        data.customer.user = [data.user];
-
-        setSelectedCustomer(data.customer);
+        setFormValues(updatedFormValues);
+        setSelectedCustomer(reservation.customer);
       } catch (error) {
+        console.log(error);
         toast.error(`Rezervasyon bulunamadı.`);
       }
     };
     fetchReservationById();
   }, []);
 
-  const createReservation = async () => {
+  const updateReservation = async () => {
     try {
       setIsCreating(true);
 
@@ -153,21 +224,21 @@ function EditReservation() {
 
       if (departureDate < currentDate) {
         toast.error(
-          'Geçersiz gidiş tarihi. Gidiş tarihi bugünden önce olamaz.'
+          'Geçersiz kalkış tarihi. Kalkış tarihi bugünden önce olamaz.'
         );
         return;
       }
 
       if (arrivalDate < currentDate) {
         toast.error(
-          'Geçersiz dönüş tarihi. Dönüş tarihi bugünden önce olamaz.'
+          'Geçersiz varış tarihi. Varış tarihi bugünden önce olamaz.'
         );
         return;
       }
 
       if (arrivalDate < departureDate) {
         toast.error(
-          'Geçersiz dönüş tarihi. Dönüş tarihi gidiş tarihinden önce olamaz.'
+          'Geçersiz varış tarihi. Varış tarihi gidiş tarihinden önce olamaz.'
         );
         return;
       }
@@ -194,8 +265,8 @@ function EditReservation() {
         },
       };
 
-      const {data} = await axios.post(
-        `${process.env.REACT_APP_API}/reservation`,
+      const {data} = await axios.patch(
+        `${process.env.REACT_APP_API}/reservation/${reservationId}`,
         body,
         config
       );
@@ -204,12 +275,13 @@ function EditReservation() {
 
       navigate(`/reservations/${data._id}`);
 
-      toast.success(`Rezervasyon başarıyla oluşturuldu.`);
+      toast.success(`Rezervasyon başarıyla Güncellendi.`);
     } catch (error) {
+      console.log(error);
       if (error.response.status === 409) {
         toast.error('Bu rezervasyon adı zaten kullanılıyor.');
       } else {
-        toast.error('Rezervasyon oluşturulamadı. ' + error);
+        toast.error('Rezervasyon güncellenemedi.');
       }
     } finally {
       setIsCreating(false);
@@ -246,12 +318,12 @@ function EditReservation() {
     }
   };
 
-  const handleSubmitCreate = async (e) => {
+  const handleSubmitEdit = async (e) => {
     e.preventDefault();
 
     if (!isFormValid(formValues)) return;
 
-    await createReservation();
+    await updateReservation();
 
     //setFormValues(initialFormValues);
   };
@@ -261,8 +333,8 @@ function EditReservation() {
       <BackButton />
 
       <ReservationForm
-        title={'Yeni Rezervasyon'}
-        handleSubmit={handleSubmitCreate}
+        title={'Rezervasyon Güncelle'}
+        handleSubmit={handleSubmitEdit}
         handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}
@@ -270,6 +342,7 @@ function EditReservation() {
         selectedCustomer={selectedCustomer}
         setSelectedCustomer={setSelectedCustomer}
         phoneFormHidden={true}
+        submitButtonText="Güncelle"
       />
     </PageWrapper>
   );

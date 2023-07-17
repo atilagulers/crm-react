@@ -5,12 +5,84 @@ import axios from 'axios';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import Pagination from '../../Components/Pagination';
 import {Container} from 'react-bootstrap';
+import FilteringTable from '../../Components/FilteringTable';
+import {formatDate} from '../../Helpers';
 
 function ReservationHistory() {
   const {state, dispatch} = useContext(AppContext);
   const reservations = state.reservations.past;
-  const limit = 20;
+  const limit = 50;
   const [isFetching, setIsFetching] = useState(true);
+
+  const COLUMNS = [
+    {
+      Header: 'Müşteri',
+      accessor: 'customer[0]',
+      Cell: ({value}) => {
+        const {firstName, lastName} = value;
+        return <span>{`${firstName} ${lastName}`}</span>;
+      },
+    },
+    {
+      Header: 'Otel',
+      accessor: 'hotel[0]',
+      Cell: ({value}) => {
+        return value.name;
+      },
+    },
+    {
+      Header: 'Havayolu',
+      accessor: 'departureAirline[0]',
+      Cell: ({value}) => {
+        return value.name;
+      },
+    },
+    {
+      Header: 'Tarih',
+      accessor: 'departureDate',
+      Cell: ({value}) => {
+        return formatDate(value);
+      },
+    },
+    {
+      Header: 'Saat',
+      accessor: 'departureTime',
+    },
+    {
+      Header: 'Yer',
+      accessor: 'departureDestination',
+    },
+    {
+      Header: 'PNR',
+      accessor: 'departurePNR',
+    },
+    {
+      Header: 'Havayolu',
+      accessor: 'arrivalAirline[0]',
+      Cell: ({value}) => {
+        return value.name;
+      },
+    },
+    {
+      Header: 'Tarih',
+      accessor: 'arrivalDate',
+      Cell: ({value}) => {
+        return formatDate(value);
+      },
+    },
+    {
+      Header: 'Saat',
+      accessor: 'arrivalTime',
+    },
+    {
+      Header: 'Yer',
+      accessor: 'arrivalDestination',
+    },
+    {
+      Header: 'PNR',
+      accessor: 'arrivalPNR',
+    },
+  ];
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -67,7 +139,7 @@ function ReservationHistory() {
 
   return (
     <Container className="p-0">
-      <ReservationTable reservations={reservations.list} />
+      <FilteringTable columns={COLUMNS} data={reservations.list} />
       <Pagination
         handleClickPage={handleClickPage}
         totalPages={reservations.totalPages}

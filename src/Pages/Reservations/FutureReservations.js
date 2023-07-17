@@ -223,7 +223,7 @@ function FutureReservations() {
   };
 
   const handleClickDetails = (reservationId) => {
-    navigate(`/reservations/${reservationId}/edit`);
+    navigate(`/reservations/${reservationId}`);
   };
 
   if (isFetching) return <LoadingSpinner />;

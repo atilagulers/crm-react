@@ -321,10 +321,15 @@ function ReservationForm({
                   onChange={(selectedOption) =>
                     handleChangeHotel(selectedOption)
                   }
-                  defaultValue={{
-                    value: hotels[0].value,
-                    label: hotels[0].label,
-                  }}
+                  defaultValue={
+                    {
+                      value: formValues.hotel.value,
+                      label: formValues.hotel.name,
+                    } && {
+                      value: hotels[0].value,
+                      label: hotels[0].label,
+                    }
+                  }
                 />
               </Form.Group>
             </Col>
@@ -350,10 +355,15 @@ function ReservationForm({
                   onChange={(selectedOption) =>
                     handleChangeDepartureAirline(selectedOption)
                   }
-                  defaultValue={{
-                    value: airlines[0].value,
-                    label: airlines[0].label,
-                  }}
+                  defaultValue={
+                    {
+                      value: formValues.departureAirline.value,
+                      label: formValues.departureAirline.name,
+                    } && {
+                      value: airlines[0].value,
+                      label: airlines[0].label,
+                    }
+                  }
                 />
               </Form.Group>
             </Col>
@@ -464,10 +474,15 @@ function ReservationForm({
                   onChange={(selectedOption) =>
                     handleChangeArrivalAirline(selectedOption)
                   }
-                  defaultValue={{
-                    value: airlines[0].value,
-                    label: airlines[0].label,
-                  }}
+                  defaultValue={
+                    {
+                      value: formValues.arrivalAirline.value,
+                      label: formValues.arrivalAirline.name,
+                    } && {
+                      value: airlines[0].value,
+                      label: airlines[0].label,
+                    }
+                  }
                 />
               </Form.Group>
             </Col>
