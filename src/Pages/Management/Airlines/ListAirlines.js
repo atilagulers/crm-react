@@ -1,6 +1,5 @@
 import {useEffect, useState, useContext} from 'react';
 import {Container} from 'react-bootstrap';
-import AirlineTable from './AirlineTable';
 import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../../Components/LoadingSpinner';

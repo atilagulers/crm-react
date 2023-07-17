@@ -1,6 +1,5 @@
 import PageWrapper from '../../../Components/PageWrapper';
-import {Routes, Route, useNavigate} from 'react-router-dom';
-import {Button, Container} from 'react-bootstrap';
+import {Routes, Route} from 'react-router-dom';
 
 import './Style/Users.css';
 import ListUsers from './ListUsers';
@@ -9,16 +8,6 @@ import UserDetails from './UserDetails';
 import EditUser from './EditUser';
 
 function Users() {
-  const navigate = useNavigate();
-
-  const handleClickCreate = () => {
-    navigate('create');
-  };
-
-  const handleClickList = () => {
-    navigate('/management/users');
-  };
-
   return (
     <PageWrapper title={'Users | Management'}>
       {/*<Container className="p-3 px-0 my-3">

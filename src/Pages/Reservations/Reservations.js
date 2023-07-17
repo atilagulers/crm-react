@@ -1,7 +1,5 @@
-import React, {useEffect} from 'react';
 import PageWrapper from '../../Components/PageWrapper';
-import {Container, Button} from 'react-bootstrap';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import HoldingCustomers from './HoldingCustomers';
 import CreateReservation from './CreateReservation';
 import TodayReservations from './TodayReservations';
@@ -11,27 +9,25 @@ import ReservationDetails from './ReservationDetails';
 import EditReservation from './EditReservation';
 
 function Reservations() {
-  const navigate = useNavigate();
+  //const handleClickPlannedToday = () => {
+  //  navigate('today');
+  //};
 
-  const handleClickPlannedToday = () => {
-    navigate('today');
-  };
+  //const handleClickWillCome = () => {
+  //  navigate('future');
+  //};
 
-  const handleClickWillCome = () => {
-    navigate('future');
-  };
+  //const handleClickReservationHistory = () => {
+  //  navigate('history');
+  //};
 
-  const handleClickReservationHistory = () => {
-    navigate('history');
-  };
+  //const handleClickCreateReservation = () => {
+  //  navigate('create');
+  //};
 
-  const handleClickCreateReservation = () => {
-    navigate('create');
-  };
-
-  const handleClickHoldingCustomers = () => {
-    navigate('hold');
-  };
+  //const handleClickHoldingCustomers = () => {
+  //  navigate('hold');
+  //};
 
   return (
     <PageWrapper title="Reservations">

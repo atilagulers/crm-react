@@ -18,8 +18,8 @@ function CallListTable({
   handleClickDetails,
   hasColumnFilter = false,
 }) {
-  const columnsMemo = useMemo(() => columns, []);
-  const dataMemo = useMemo(() => data, []);
+  const columnsMemo = useMemo(() => columns, [columns]);
+  const dataMemo = useMemo(() => data, [data]);
 
   const [showEntryModal, setShowEntryModal] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState();
@@ -66,7 +66,7 @@ function CallListTable({
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
+    //footerGroups,
     rows,
     prepareRow,
     state,

@@ -17,8 +17,8 @@ function HoldingReservationsTable({
   hasColumnFilter = false,
   handleClickCreate,
 }) {
-  const columnsMemo = useMemo(() => columns, []);
-  const dataMemo = useMemo(() => data, []);
+  const columnsMemo = useMemo(() => columns, [columns]);
+  const dataMemo = useMemo(() => data, [data]);
 
   const tableInstance = useTable(
     {
@@ -41,7 +41,7 @@ function HoldingReservationsTable({
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    footerGroups,
+    //footerGroups,
     rows,
     prepareRow,
     state,

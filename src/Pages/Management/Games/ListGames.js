@@ -1,6 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
 import {Container} from 'react-bootstrap';
-import GameTable from './GameTable';
 import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../../Components/LoadingSpinner';

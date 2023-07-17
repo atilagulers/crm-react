@@ -1,5 +1,4 @@
 import React, {useEffect, useState, useContext} from 'react';
-import CustomerGroupTable from './CustomerGroupTable';
 import axios from 'axios';
 import {AppContext} from '../../Contexts/AppContext';
 import LoadingSpinner from '../../Components/LoadingSpinner';

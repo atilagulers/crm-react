@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Container} from 'react-bootstrap';
-import HotelTable from './HotelTable';
 import {AppContext} from '../../../Contexts/AppContext';
 import axios from 'axios';
 import LoadingSpinner from '../../../Components/LoadingSpinner';

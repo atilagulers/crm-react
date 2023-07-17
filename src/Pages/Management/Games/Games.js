@@ -1,20 +1,17 @@
 import PageWrapper from '../../../Components/PageWrapper';
-import {Routes, Route, useNavigate} from 'react-router-dom';
-import {Container, Button} from 'react-bootstrap';
+import {Routes, Route} from 'react-router-dom';
 import ListGames from './ListGames';
 import CreateGame from './CreateGame';
 import GameDetails from './GameDetails';
 import EditGame from './EditGame';
 
 function Games() {
-  const navigate = useNavigate();
-
-  const handleClickCreate = () => {
-    navigate('create');
-  };
-  const handleClickList = () => {
-    navigate('/management/games');
-  };
+  //const handleClickCreate = () => {
+  //  navigate('create');
+  //};
+  //const handleClickList = () => {
+  //  navigate('/management/games');
+  //};
 
   return (
     <PageWrapper title={'Games | Management'}>

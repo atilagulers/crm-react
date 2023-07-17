@@ -1,6 +1,5 @@
 import PageWrapper from '../../../Components/PageWrapper';
-import {Button, Container} from 'react-bootstrap';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 
 import CreateHotel from './CreateHotel';
 import ListHotels from './ListHotels';
@@ -8,15 +7,13 @@ import HotelDetails from './HotelDetails';
 import EditHotel from './EditHotel';
 
 function Hotels() {
-  const navigate = useNavigate();
+  //const handleClickCreate = () => {
+  //  navigate('create');
+  //};
 
-  const handleClickCreate = () => {
-    navigate('create');
-  };
-
-  const handleClickList = () => {
-    navigate('/management/hotels');
-  };
+  //const handleClickList = () => {
+  //  navigate('/management/hotels');
+  //};
   return (
     <PageWrapper title={'Hotels | Management'}>
       {/*<Container className="p-3 px-0 my-3">

@@ -1,7 +1,6 @@
 import React from 'react';
 import PageWrapper from '../../Components/PageWrapper';
-import {Row, Col, Button, Container} from 'react-bootstrap';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import ListCustomers from './ListCustomers';
 import CustomerDetails from './CustomerDetails';
 import ListCustomerGroups from './ListCustomerGroups';
@@ -13,24 +12,24 @@ import EditCustomerGroup from './EditCustomerGroup';
 import HoldingCustomers from './HoldingCustomers';
 
 function Customers() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
-  const handleClickCreateCustomer = () => {
-    navigate('create');
-  };
-  const handleClickCreateGroup = () => {
-    navigate('customer-groups/create');
-  };
+  //const handleClickCreateCustomer = () => {
+  //  navigate('create');
+  //};
+  //const handleClickCreateGroup = () => {
+  //  navigate('customer-groups/create');
+  //};
 
-  const handleClickListCustomers = () => {
-    navigate('/customers');
-  };
-  const handleClickListGroups = () => {
-    navigate('customer-groups');
-  };
-  const handleClickHoldingCustomers = () => {
-    navigate('hold');
-  };
+  //const handleClickListCustomers = () => {
+  //  navigate('/customers');
+  //};
+  //const handleClickListGroups = () => {
+  //  navigate('customer-groups');
+  //};
+  //const handleClickHoldingCustomers = () => {
+  //  navigate('hold');
+  //};
 
   return (
     <PageWrapper title={'Customers'}>
