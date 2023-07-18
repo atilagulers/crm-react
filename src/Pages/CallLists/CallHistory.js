@@ -77,8 +77,8 @@ function CallHistory() {
       Header: 'Müşteri',
       accessor: 'customer[0]',
       Cell: ({value}) => {
-        const {firstName, lastName} = value;
-        return <span>{`${firstName} ${lastName}`}</span>;
+        const fullName = `${value.firstName} ${value.lastName}`;
+        return <span>{fullName}</span>;
       },
       Filter: ColumnFilter,
     },
