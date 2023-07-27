@@ -155,10 +155,10 @@ function CustomerTable({
                   );
                 })}
 
-                {isFetchingUsers ? (
-                  <LoadingSpinner />
-                ) : (
-                  <td>
+                <td>
+                  {isFetchingUsers ? (
+                    <LoadingSpinner />
+                  ) : (
                     <Dropdown
                       onSelect={(userId) => handleSelectUser(userId, id)}
                     >
@@ -166,6 +166,7 @@ function CustomerTable({
                         variant="primary"
                         id={`user-dropdown-${id}`}
                         style={{width: '100%'}}
+                        disabled={appState.user.role === 'admin' ? false : true}
                       >
                         {`${row.original.user[0]?.firstName} ${row.original.user[0]?.lastName}`}
                       </Dropdown.Toggle>
@@ -180,8 +181,8 @@ function CustomerTable({
                         })}
                       </Dropdown.Menu>
                     </Dropdown>
-                  </td>
-                )}
+                  )}
+                </td>
               </tr>
             );
           })}

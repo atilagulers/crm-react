@@ -7,6 +7,7 @@ import {formatDate} from '../../Helpers';
 import Pagination from '../../Components/Pagination';
 import FilteringTable from '../../Components/FilteringTable';
 import ColumnFilter from '../../Components/ColumnFilter';
+import {toast} from 'react-toastify';
 
 function CallHistory() {
   const {state, dispatch} = useContext(AppContext);
@@ -34,6 +35,7 @@ function CallHistory() {
         dispatch({type: 'UPDATE_PAST_CALLS', data});
       } catch (error) {
         console.log(error);
+        toast.error('Kullanıcı adı');
       } finally {
         setIsFetching(false);
       }

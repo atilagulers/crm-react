@@ -178,7 +178,7 @@ function TodayReservations() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/reservation?page=1&limit=${limit}&sortBy=createdAt&sortOrder=1&time=today`,
+          `${process.env.REACT_APP_API}/reservation?page=1&limit=${limit}&sortBy=createdAt&sortOrder=1&time=today&userId=${state.user._id}`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -198,14 +198,14 @@ function TodayReservations() {
     return () => {
       source.cancel();
     };
-  }, [dispatch, state.token]);
+  }, [dispatch, state.token, state.user._id]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;
     setIsFetching(true);
     try {
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&time=today`,
+        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&time=today&userId=${state.user._id}`,
         {
           headers: {
             Authorization: `Bearer ${state.token}`,
@@ -233,8 +233,8 @@ function TodayReservations() {
         columns={COLUMNS}
         data={reservations.list}
         handleClickDetails={handleClickDetails}
-        firstColumnText="Güncelle"
-        icon="edit"
+        //firstColumnText="Güncelle"
+        //icon="edit"
       />
       <Pagination
         handleClickPage={handleClickPage}

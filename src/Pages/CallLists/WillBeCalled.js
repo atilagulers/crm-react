@@ -68,7 +68,7 @@ function WillBeCalled() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer?page=1&limit=30&sortBy=firstName&sortOrder=1&willBeCalled=true&time=future`,
+          `${process.env.REACT_APP_API}/customer?page=1&limit=30&sortBy=firstName&sortOrder=1&willBeCalled=true&time=future&userId=${state.user._id}`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -89,14 +89,14 @@ function WillBeCalled() {
     return () => {
       source.cancel();
     };
-  }, [dispatch, state.token]);
+  }, [dispatch, state.token, state.user._id]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;
     setIsFetching(true);
     try {
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&time=future`,
+        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&time=future&userId=${state.user._id}`,
         {
           headers: {
             Authorization: `Bearer ${state.token}`,

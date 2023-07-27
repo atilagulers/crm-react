@@ -39,7 +39,11 @@ function SidebarItem(props) {
                 style={{listStyle: 'none'}}
               >
                 {subMenu?.itemsList?.map((item, index) => (
-                  <li key={index} onClick={() => navigate(item.path)}>
+                  <li
+                    key={index}
+                    onClick={() => navigate(item.path)}
+                    style={{display: `${item.disabled ? 'none' : ''}`}}
+                  >
                     {item.label}
                   </li>
                 ))}

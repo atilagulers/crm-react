@@ -6,7 +6,6 @@ import BackButton from '../../Components/BackButton';
 import {toast} from 'react-toastify';
 import axios from 'axios';
 import {AppContext} from '../../Contexts/AppContext';
-import LoadingSpinner from '../../Components/LoadingSpinner';
 
 function CreateCustomerGroup({title}) {
   const {state} = useContext(AppContext);
@@ -48,7 +47,7 @@ function CreateCustomerGroup({title}) {
         config
       );
       console.log(data);
-      navigate(`/customer-group/${data._id}`);
+      navigate(`/customers/customer-group/${data._id}`);
 
       toast.success(`${data.name} grubu başarıyla oluşturuldu.`);
     } catch (error) {
@@ -70,8 +69,6 @@ function CreateCustomerGroup({title}) {
     setFormValues(initialFormValues);
   };
 
-  if (isCreating) return <LoadingSpinner />;
-
   return (
     <PageWrapper title="Create Customer Group">
       <BackButton />
@@ -81,6 +78,7 @@ function CreateCustomerGroup({title}) {
         formValues={formValues}
         handleSubmit={handleSubmitCreate}
         handleChange={handleChangeInput}
+        isSaving={isCreating}
       />
     </PageWrapper>
   );

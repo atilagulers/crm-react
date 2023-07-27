@@ -94,7 +94,7 @@ function CreateAirline() {
         handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}
-        isCreating={isCreating}
+        isSaving={isCreating}
       />
     </PageWrapper>
   );

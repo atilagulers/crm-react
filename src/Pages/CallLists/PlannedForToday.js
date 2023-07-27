@@ -68,7 +68,7 @@ function PlannedForToday() {
       setIsFetching(true);
       try {
         const {data} = await axios.get(
-          `${process.env.REACT_APP_API}/customer?page=${calls.currentPage}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&time=today`,
+          `${process.env.REACT_APP_API}/customer?page=${calls.currentPage}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&time=today&userId=${state.user._id}`,
           {
             headers: {
               Authorization: `Bearer ${state.token}`,
@@ -89,14 +89,14 @@ function PlannedForToday() {
     return () => {
       source.cancel();
     };
-  }, [calls.currentPage, dispatch, state.token]);
+  }, [calls.currentPage, dispatch, state.token, state.user._id]);
 
   const handleClickPage = async ({selected}) => {
     const page = selected + 1;
     setIsFetching(true);
     try {
       const {data} = await axios.get(
-        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&time=today`,
+        `${process.env.REACT_APP_API}/customer?page=${page}&limit=${limit}&sortBy=firstName&sortOrder=1&willBeCalled=true&time=today&userId=${state.user._id}`,
         {
           headers: {
             Authorization: `Bearer ${state.token}`,

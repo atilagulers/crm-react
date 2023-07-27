@@ -212,7 +212,7 @@ function CustomerDetails() {
         showPasswordInput={false}
         handleClickEdit={handleClickEdit}
         showSubmitButton={false}
-        showEditButton={true}
+        showEditButton={state.user.role === 'admin' ? true : false}
         disabled={true}
       />
     </PageWrapper>

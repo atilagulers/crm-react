@@ -17,7 +17,7 @@ import SidebarItem from './SidebarItem';
 import {AppContext} from '../Contexts/AppContext';
 
 function Sidebar(props) {
-  const {dispatch} = useContext(AppContext);
+  const {state, dispatch} = useContext(AppContext);
   const navigate = useNavigate();
   const [activeSubMenu, setActiveSubMenu] = useState(null);
 
@@ -53,7 +53,6 @@ function Sidebar(props) {
   const handleHoverItem = (id) => {
     setActiveSubMenu(id);
   };
-
   return (
     <Col>
       <div className="sidebar-item" onClick={props.handleClickSidebarToggle}>
@@ -73,45 +72,47 @@ function Sidebar(props) {
         activeSubMenu={activeSubMenu}
         itemIndex={2}
       />
-      <SidebarItem
-        name={'Yönetim'}
-        icon={faLock}
-        handleClickItem={handleClickManagement}
-        handleHoverItem={handleHoverItem}
-        activeSubMenu={activeSubMenu}
-        itemIndex={3}
-        list={[
-          {
-            title: 'Kullanıcılar',
-            itemsList: [
-              {label: 'Listele', path: '/management/users'},
-              {label: 'Oluştur', path: 'management/users/create'},
-            ],
-          },
-          {
-            title: 'Oteller',
-            itemsList: [
-              {label: 'Listele', path: '/management/hotels'},
-              {label: 'Oluştur', path: 'management/hotels/create'},
-            ],
-          },
-          {
-            title: 'Oyunlar',
-            itemsList: [
-              {label: 'Listele', path: '/management/games'},
-              {label: 'Oluştur', path: 'management/games/create'},
-            ],
-          },
+      {state.user.role === 'admin' && (
+        <SidebarItem
+          name={'Yönetim'}
+          icon={faLock}
+          handleClickItem={handleClickManagement}
+          handleHoverItem={handleHoverItem}
+          activeSubMenu={activeSubMenu}
+          itemIndex={3}
+          list={[
+            {
+              title: 'Kullanıcılar',
+              itemsList: [
+                {label: 'Listele', path: '/management/users'},
+                {label: 'Oluştur', path: 'management/users/create'},
+              ],
+            },
+            {
+              title: 'Oteller',
+              itemsList: [
+                {label: 'Listele', path: '/management/hotels'},
+                {label: 'Oluştur', path: 'management/hotels/create'},
+              ],
+            },
+            {
+              title: 'Oyunlar',
+              itemsList: [
+                {label: 'Listele', path: '/management/games'},
+                {label: 'Oluştur', path: 'management/games/create'},
+              ],
+            },
 
-          {
-            title: 'Havayolları',
-            itemsList: [
-              {label: 'Listele', path: '/management/airlines'},
-              {label: 'Oluştur', path: 'management/airlines/create'},
-            ],
-          },
-        ]}
-      />
+            {
+              title: 'Havayolları',
+              itemsList: [
+                {label: 'Listele', path: '/management/airlines'},
+                {label: 'Oluştur', path: 'management/airlines/create'},
+              ],
+            },
+          ]}
+        />
+      )}
 
       <SidebarItem
         name={'Müşteriler'}
@@ -125,15 +126,26 @@ function Sidebar(props) {
             title: 'Müşteriler',
             itemsList: [
               {label: 'Listele', path: '/customers'},
-              {label: 'Oluştur', path: '/customers/create'},
+              {
+                label: 'Oluştur',
+                path: '/customers/create',
+                disabled: state.user.role !== ' admin',
+              },
               {label: 'Beklemede Olanlar', path: '/customers/hold'},
             ],
           },
           {
             title: 'Müşteri Grupları',
             itemsList: [
-              {label: 'Listele', path: '/customers/customer-groups'},
-              {label: 'Oluştur', path: '/customers/customer-groups/create'},
+              {
+                label: 'Listele',
+                path: '/customers/customer-groups',
+              },
+              {
+                label: 'Oluştur',
+                path: '/customers/customer-groups/create',
+                disabled: state.user.role !== ' admin',
+              },
             ],
           },
         ]}

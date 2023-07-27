@@ -39,7 +39,9 @@ function ListCustomers() {
     },
     {
       Header: 'Grup',
-      accessor: 'customerGroup[0].name',
+      accessor: (row) => {
+        return row.customerGroup?.[0]?.name ?? '';
+      },
     },
   ];
 

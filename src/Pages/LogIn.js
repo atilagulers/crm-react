@@ -4,6 +4,7 @@ import {Form, Button, Col, Image, Container} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import {AppContext} from '../Contexts/AppContext';
+import {toast} from 'react-toastify';
 
 function LogIn() {
   const {state, dispatch} = useContext(AppContext);
@@ -11,6 +12,7 @@ function LogIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (state.loggedIn) {
     window.location.href = '/';
@@ -18,7 +20,7 @@ function LogIn() {
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
       const {data} = await axios.post(
         `${process.env.REACT_APP_API}/auth/login`,
@@ -31,9 +33,16 @@ function LogIn() {
       dispatch({type: 'LOG_IN', data: {...data, rememberMe}});
       navigate('/');
     } catch (error) {
-      console.log(error);
+      if (error.response.status === 401) {
+        return toast.error('Giriş bilgileri uyuşmuyor.');
+      }
+      return toast.error('Bir sorun oluştu.');
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  //if (isLoading) return <LoadingSpinner />;
 
   return (
     <PageWrapper title="Login">
@@ -71,7 +80,12 @@ function LogIn() {
           </Form.Group>
 
           <Col className="d-grid">
-            <Button variant="primary" className="mb-3" type="submit">
+            <Button
+              variant="primary"
+              className="mb-3"
+              type="submit"
+              disabled={isLoading}
+            >
               Giriş Yap
             </Button>
           </Col>

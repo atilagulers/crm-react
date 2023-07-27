@@ -230,7 +230,7 @@ function CreateReservation() {
         handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}
-        isCreating={isCreating}
+        isSaving={isCreating}
         selectedCustomer={selectedCustomer}
         setSelectedCustomer={setSelectedCustomer}
       />

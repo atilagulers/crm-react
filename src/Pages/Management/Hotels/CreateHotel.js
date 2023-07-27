@@ -113,7 +113,7 @@ function CreateHotel() {
         handleChange={handleChangeInput}
         formValues={formValues}
         isFormValid={isFormValid}
-        isCreating={isCreating}
+        isSaving={isCreating}
       />
     </PageWrapper>
   );

@@ -22,6 +22,7 @@ function CallEntryModal({show, setShow, customer}) {
   const [callDate, setCallDate] = useState();
   const [calls, setCalls] = useState([]);
   const [isFetchingCalls, setIsFetchingCalls] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -115,8 +116,15 @@ function CallEntryModal({show, setShow, customer}) {
       return toast.error('Arama tarihi geçmiş olamaz.');
     }
 
-    await createCall();
-    await updateCustomer();
+    try {
+      setIsSaving(true);
+      await createCall();
+      await updateCustomer();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSaving(false);
+    }
     setShow(false);
     window.location.reload();
   };
@@ -202,7 +210,9 @@ function CallEntryModal({show, setShow, customer}) {
             <Button variant="secondary" onClick={() => setShow(false)}>
               İptal
             </Button>
-            <Button onClick={handleClickSubmit}>Kaydet</Button>
+            <Button onClick={handleClickSubmit} disabled={isSaving}>
+              Kaydet
+            </Button>
           </Container>
         </Form>
       </Modal.Body>
